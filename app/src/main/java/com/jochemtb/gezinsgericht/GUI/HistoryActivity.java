@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.jochemtb.gezinsgericht.R;
 
-public class HistoryAcvitiy extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
