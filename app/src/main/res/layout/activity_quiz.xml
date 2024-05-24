@@ -87,11 +87,12 @@
     <Button
         android:id="@+id/BT_quiz_prev"
         android:layout_width="150dp"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:layout_marginStart="25dp"
         android:layout_marginBottom="20dp"
+        android:background="@drawable/greyed_button_background"
         android:text="@string/quiz_button_previous"
-        android:backgroundTint="@color/backgroundColor"
+        android:textColor="@color/grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
