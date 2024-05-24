@@ -14,4 +14,9 @@
     <string name="quiz_button_previous">VORIGE</string>
     <string name="quiz_button_next">VOLGENDE</string>
 
+    //Activation
+    <string name="activation_title">Maak uw account aan</string>
+    <string name="activation_input_password_repeat">Herhaal wachtwoord</string>
+    <string name="activation_input_password">Nieuw wachtwoord</string>
+    <string name="activation_button">Bevestigen</string>
 </resources>

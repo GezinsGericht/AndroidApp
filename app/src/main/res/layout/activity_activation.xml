@@ -5,17 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:visibility="visible"
-    android:background="@drawable/inlog">
+    android:background="@drawable/account_geactiveerd">
 
     <TextView
         android:id="@+id/TV_activation_title"
-        android:layout_width="188dp"
-        android:layout_height="186dp"
+        android:layout_width="252dp"
+        android:layout_height="150dp"
         android:layout_marginStart="48dp"
         android:layout_marginTop="84dp"
         android:fontFamily="@font/sofia_sans_extra_condensed_bold"
-        android:text="@string/app_name"
-        android:textSize="80sp"
+        android:text="@string/activation_title"
+        android:textSize="60sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,7 +26,7 @@
         android:layout_marginBottom="50dp"
         android:backgroundTint="@color/black"
         android:fontFamily="@font/sofia_sans_extra_condensed_bold"
-        android:text="@string/login_button"
+        android:text="@string/activation_button"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,11 +36,12 @@
         android:id="@+id/ET_activation_password_repeat"
         android:layout_width="311dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="120dp"
         android:ems="10"
         android:fontFamily="@font/sofia_sans_extra_condensed_bold"
-        android:hint="@string/input_password"
+        android:hint="@string/activation_input_password_repeat"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/BT_login_forgotPassword"
+        app:layout_constraintBottom_toTopOf="@+id/BT_activation_submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -51,23 +52,10 @@
         android:layout_marginBottom="15dp"
         android:ems="10"
         android:fontFamily="@font/sofia_sans_extra_condensed_bold"
-        android:hint="@string/input_email"
-        android:inputType="textEmailAddress"
+        android:hint="@string/activation_input_password"
+        android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/ET_activation_password_repeat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/BT_login_forgotPassword"
-        android:layout_width="198dp"
-        android:layout_height="49dp"
-        android:layout_marginBottom="60dp"
-        android:backgroundTint="@color/backgroundColor"
-        android:fontFamily="@font/sofia_sans_extra_condensed_bold"
-        android:text="@string/password_forgot_button"
-        android:textColor="@color/grey"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/BT_activation_submit"
-        app:layout_constraintEnd_toEndOf="@+id/ET_activation_password_repeat" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

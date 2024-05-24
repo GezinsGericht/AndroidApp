@@ -25,6 +25,7 @@
         <activity android:name=".GUI.HistoryAcvitiy" />
         <activity android:name=".GUI.QuizActivity" />
         <activity android:name=".GUI.ResultsActivity" />
+        <activity android:name=".GUI.ActivationActivity" />
     </application>
 
 </manifest>
