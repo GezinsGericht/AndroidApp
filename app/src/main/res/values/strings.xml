@@ -19,4 +19,8 @@
     <string name="activation_input_password_repeat">Herhaal wachtwoord</string>
     <string name="activation_input_password">Nieuw wachtwoord</string>
     <string name="activation_button">Bevestigen</string>
+    //Results
+    <string name="results_title">Resultaten</string>
+    <string name="results_text">De vragenlijst die u zojuist heeft ingevuld is gebaseerd op de zeven leefgebieden. Per leefgebied is een gemiddelde berekend en dit is gevisualiseerd per gezinslid</string>
+    <string name="gezinslid_1">Gezinslid 1</string>
 </resources>
