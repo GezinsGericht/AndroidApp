@@ -1,6 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor">
+
+    <ProgressBar
+        android:id="@+id/PB_quiz_quizProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="353dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="20dp"
+        android:indeterminate="false"
+        android:progressDrawable="@drawable/progress_bar_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/TV_quiz_questionText"
+        android:layout_width="219dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="PlaceHolder Question"
+        android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+        android:textSize="45dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PB_quiz_quizProgress" />
+
+    <RadioGroup
+        android:id="@+id/RG_quiz_answersGroup"
+        android:layout_width="279dp"
+        android:layout_height="246dp"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/TV_quiz_questionNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RadioButton
+            android:id="@+id/RB_quiz_radio1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Placeholder Answer" />
+
+        <RadioButton
+            android:id="@+id/RB_quiz_radio2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Placeholder Answer" />
+
+        <RadioButton
+            android:id="@+id/RB_quiz_radio3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Placeholder Answer" />
+
+        <RadioButton
+            android:id="@+id/RB_quiz_radio4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Placeholder Answer" />
+
+        <RadioButton
+            android:id="@+id/RB_quiz_radio5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Placeholder Answer" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/BT_quiz_next"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/quiz_button_next"
+        android:backgroundTint="@color/aqua"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/BT_quiz_prev"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/quiz_button_previous"
+        android:backgroundTint="@color/backgroundColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/TV_quiz_questionNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="54"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/BT_quiz_prev"
+        app:layout_constraintEnd_toStartOf="@+id/BT_quiz_next"
+        app:layout_constraintStart_toEndOf="@+id/BT_quiz_prev"
+        app:layout_constraintTop_toTopOf="@+id/BT_quiz_prev" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
