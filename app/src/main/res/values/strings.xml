@@ -1,0 +1,13 @@
+<resources>
+    //Login
+    <string name="app_name">GezinsGericht</string>
+    <string name="login_button">Login</string>
+    <string name="password_forgot_button">Wachtwoord vergeten?</string>
+    <string name="input_email">Email</string>
+    <string name="input_password">Wachtwoord</string>
+
+    //Main
+    <string name="title_main">Homescreen</string>
+
+
+</resources>
