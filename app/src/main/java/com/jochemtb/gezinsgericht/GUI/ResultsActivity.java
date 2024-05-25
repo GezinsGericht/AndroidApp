@@ -1,7 +1,10 @@
 package com.jochemtb.gezinsgericht.GUI;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +36,7 @@ public class ResultsActivity extends AppCompatActivity {
         CheckBox g4 = findViewById(R.id.g_4);
         CheckBox g5 = findViewById(R.id.g_5);
         CheckBox g6 = findViewById(R.id.g_6);
+        Button afsluiten = findViewById(R.id.results_close);
 
         // Dummy data for gezinslid 1
         List<RadarEntry> entry1 = new ArrayList<>();
@@ -246,6 +250,12 @@ public class ResultsActivity extends AppCompatActivity {
             }
             resultsChart.notifyDataSetChanged();
             resultsChart.invalidate();
+        });
+        afsluiten.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ResultsActivity.this, MainActivity.class));
+            }
         });
     }
 }
