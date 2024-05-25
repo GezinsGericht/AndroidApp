@@ -22,5 +22,19 @@
     //Results
     <string name="results_title">Resultaten</string>
     <string name="results_text">De vragenlijst die u zojuist heeft ingevuld is gebaseerd op de zeven leefgebieden. Per leefgebied is een gemiddelde berekend en dit is gevisualiseerd per gezinslid</string>
+    <string name="my_answers">Mijn antwoorden</string>
+    <string name="close_results">Afsluiten</string>
     <string name="gezinslid_1">Gezinslid 1</string>
+    <string name="gezinslid_2">Gezinslid 2</string>
+    <string name="gezinslid_3">Gezinslid 3</string>
+    <string name="gezinslid_4">Gezinslid 4</string>
+    <string name="gezinslid_5">Gezinslid 5</string>
+    <string name="gezinslid_6">Gezinslid 6</string>
+    <string name="habitat_1">Financiën</string>
+    <string name="habitat_2">Lichamelijke gezondheid</string>
+    <string name="habitat_3">Psychische gezondheid</string>
+    <string name="habitat_4">Sociale relaties</string>
+    <string name="habitat_5">Werk en activiteiten</string>
+    <string name="habitat_6">Wonen</string>
+    <string name="habitat_7">Zingeving</string>
 </resources>

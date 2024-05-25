@@ -7,37 +7,136 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/results_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/sofia_sans_extra_condensed_bold"
         android:text="@string/results_title"
         android:textSize="60sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintHorizontal_bias="0.039"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="308dp"
-        android:layout_height="103dp"
-        android:layout_marginTop="24dp"
+        android:id="@+id/results_text"
+        android:layout_width="351dp"
+        android:layout_height="91dp"
+        android:layout_marginTop="4dp"
         android:fontFamily="@font/hanken_grotesk_bold"
+        android:padding="1dp"
         android:text="@string/results_text"
+        android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.31"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/results_title" />
 
     <com.github.mikephil.charting.charts.RadarChart
         android:id="@+id/Radarchart"
+        android:layout_width="382dp"
+        android:layout_height="343dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.432"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/results_text" />
+
+    <CheckBox
+        android:id="@+id/g_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.459"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/hanken_grotesk_bold"
+        android:text="@string/gezinslid_1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/Radarchart" />
+
+    <CheckBox
+        android:id="@+id/g_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="@font/hanken_grotesk_bold"
+        android:text="@string/gezinslid_2"
+        app:layout_constraintEnd_toStartOf="@+id/g_3"
+        app:layout_constraintHorizontal_bias="0.033"
+        app:layout_constraintStart_toEndOf="@+id/g_1"
+        app:layout_constraintTop_toBottomOf="@+id/Radarchart" />
+
+    <CheckBox
+        android:id="@+id/g_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/hanken_grotesk_bold"
+        android:text="@string/gezinslid_3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Radarchart" />
+
+    <CheckBox
+        android:id="@+id/g_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/hanken_grotesk_bold"
+        android:text="@string/gezinslid_4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/g_1" />
+
+    <CheckBox
+        android:id="@+id/g_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/hanken_grotesk_bold"
+        android:text="@string/gezinslid_5"
+        app:layout_constraintEnd_toStartOf="@+id/g_6"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/g_4"
+        app:layout_constraintTop_toBottomOf="@+id/g_2" />
+
+    <CheckBox
+        android:id="@+id/g_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/hanken_grotesk_bold"
+        android:text="@string/gezinslid_6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/g_3" />
+
+    <Button
+        android:id="@+id/results_show"
+        android:layout_width="162dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="#31AFAFAF"
+        android:text="@string/my_answers"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/results_close"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/results_close"
+        android:layout_width="173dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="#000000"
+        android:text="@string/close_results"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
