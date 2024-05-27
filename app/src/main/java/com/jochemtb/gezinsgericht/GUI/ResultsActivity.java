@@ -24,121 +24,69 @@ import java.util.List;
 
 public class ResultsActivity extends AppCompatActivity {
 
+    private RadarChart resultsChart;
+    private RadarDataSet set1, set2, set3, set4, set5, set6;
+    private CheckBox g1, g2, g3, g4, g5, g6;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
-        RadarChart resultsChart = findViewById(R.id.Radarchart);
-        CheckBox g1 = findViewById(R.id.g_1);
-        CheckBox g2 = findViewById(R.id.g_2);
-        CheckBox g3 = findViewById(R.id.g_3);
-        CheckBox g4 = findViewById(R.id.g_4);
-        CheckBox g5 = findViewById(R.id.g_5);
-        CheckBox g6 = findViewById(R.id.g_6);
-        Button afsluiten = findViewById(R.id.results_close);
+        initViewComponents();
+        initRadarChart();
+        initDataSets();
+        setupCheckBoxListeners();
+        setupCloseButton();
+    }
 
-        // Dummy data for gezinslid 1
-        List<RadarEntry> entry1 = new ArrayList<>();
-        entry1.add(new RadarEntry(3));
-        entry1.add(new RadarEntry(10));
-        entry1.add(new RadarEntry(8));
-        entry1.add(new RadarEntry(3));
-        entry1.add(new RadarEntry(12));
-        entry1.add(new RadarEntry(5));
-        entry1.add(new RadarEntry(9));
+    private void initViewComponents() {
+        resultsChart = findViewById(R.id.Radarchart);
+        g1 = findViewById(R.id.g_1);
+        g2 = findViewById(R.id.g_2);
+        g3 = findViewById(R.id.g_3);
+        g4 = findViewById(R.id.g_4);
+        g5 = findViewById(R.id.g_5);
+        g6 = findViewById(R.id.g_6);
+    }
 
-        // Dummy data for gezinslid 2
-        List<RadarEntry> entry2 = new ArrayList<>();
-        entry2.add(new RadarEntry(4));
-        entry2.add(new RadarEntry(7));
-        entry2.add(new RadarEntry(7));
-        entry2.add(new RadarEntry(15));
-        entry2.add(new RadarEntry(5));
-        entry2.add(new RadarEntry(8));
-        entry2.add(new RadarEntry(7));
+    private void initRadarChart() {
+        String[] labels = {"Financiën", "Werk en activiteiten", "Sociale relaties", "Wonen", "Psychische gezondheid", "Zingeving", "Lichamelijke gezondheid"};
 
-        // Dummy data for gezinslid 3
-        List<RadarEntry> entry3 = new ArrayList<>();
-        entry3.add(new RadarEntry(6));
-        entry3.add(new RadarEntry(13));
-        entry3.add(new RadarEntry(7));
-        entry3.add(new RadarEntry(4));
-        entry3.add(new RadarEntry(14));
-        entry3.add(new RadarEntry(13));
-        entry3.add(new RadarEntry(7));
+        YAxis axis = resultsChart.getYAxis();
+        axis.setTextSize(10F);
+        axis.setAxisMaximum(15F);  // Set a fixed maximum
+        axis.setAxisMinimum(0F);   // Set a fixed minimum
+        axis.setLabelCount(6, true); // Set the number of labels
 
-        // Dummy data for gezinslid 4
-        List<RadarEntry> entry4 = new ArrayList<>();
-        entry4.add(new RadarEntry(15));
-        entry4.add(new RadarEntry(3));
-        entry4.add(new RadarEntry(5));
-        entry4.add(new RadarEntry(8));
-        entry4.add(new RadarEntry(12));
-        entry4.add(new RadarEntry(11));
-        entry4.add(new RadarEntry(4));
+        XAxis xAxis = resultsChart.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setTextSize(14F);
+        xAxis.setSpaceMin(38F);
 
-        // Dummy data for gezinslid 5
-        List<RadarEntry> entry5 = new ArrayList<>();
-        entry5.add(new RadarEntry(12));
-        entry5.add(new RadarEntry(11));
-        entry5.add(new RadarEntry(3));
-        entry5.add(new RadarEntry(9));
-        entry5.add(new RadarEntry(13));
-        entry5.add(new RadarEntry(5));
-        entry5.add(new RadarEntry(8));
+        resultsChart.getLegend().setEnabled(false);
+        resultsChart.setWebLineWidthInner(1.2F);
+        resultsChart.setScaleX(1F);
+        resultsChart.setScaleY(1F);
+        resultsChart.setClickable(true);
+        resultsChart.setFocusable(true);
+        resultsChart.setRotationEnabled(false);
+    }
 
-        // Dummy data for gezinslid 6
-        List<RadarEntry> entry6 = new ArrayList<>();
-        entry6.add(new RadarEntry(8));
-        entry6.add(new RadarEntry(9));
-        entry6.add(new RadarEntry(6));
-        entry6.add(new RadarEntry(7));
-        entry6.add(new RadarEntry(8));
-        entry6.add(new RadarEntry(6));
-        entry6.add(new RadarEntry(5));
+    private void initDataSets() {
+        List<RadarEntry> entry1 = createDummyDataSet(3, 10, 8, 3, 12, 5, 9);
+        List<RadarEntry> entry2 = createDummyDataSet(4, 7, 7, 15, 5, 8, 7);
+        List<RadarEntry> entry3 = createDummyDataSet(6, 13, 7, 4, 14, 13, 7);
+        List<RadarEntry> entry4 = createDummyDataSet(15, 3, 5, 8, 12, 11, 4);
+        List<RadarEntry> entry5 = createDummyDataSet(12, 11, 3, 9, 13, 5, 8);
+        List<RadarEntry> entry6 = createDummyDataSet(8, 9, 6, 7, 8, 6, 5);
 
-        RadarDataSet set1 = new RadarDataSet(entry1, "Gezinslid 1");
-        set1.setDrawHighlightCircleEnabled(true);
-        set1.setDrawFilled(true);
-        set1.setColor(Color.RED);
-        set1.setFillColor(Color.RED);
-        set1.setVisible(false);
-
-        RadarDataSet set2 = new RadarDataSet(entry2, "Gezinslid 2");
-        set2.setDrawHighlightCircleEnabled(true);
-        set2.setDrawFilled(true);
-        set2.setColor(Color.BLUE);
-        set2.setFillColor(Color.BLUE);
-        set2.setVisible(false);
-
-        RadarDataSet set3 = new RadarDataSet(entry3, "Gezinslid 3");
-        set3.setDrawHighlightCircleEnabled(true);
-        set3.setDrawFilled(true);
-        set3.setColor(Color.GREEN);
-        set3.setFillColor(Color.GREEN);
-        set3.setVisible(false);
-
-        RadarDataSet set4 = new RadarDataSet(entry4 ,"Gezinslid 4");
-        set4.setDrawHighlightCircleEnabled(true);
-        set4.setDrawFilled(true);
-        set4.setColor(Color.DKGRAY);
-        set4.setFillColor(Color.DKGRAY);
-        set4.setVisible(false);
-
-        RadarDataSet set5 = new RadarDataSet(entry5 ,"Gezinslid 5");
-        set5.setDrawHighlightCircleEnabled(true);
-        set5.setDrawFilled(true);
-        set5.setColor(Color.YELLOW);
-        set5.setFillColor(Color.YELLOW);
-        set5.setVisible(false);
-
-        RadarDataSet set6 = new RadarDataSet(entry6 ,"Gezinslid 6");
-        set6.setDrawHighlightCircleEnabled(true);
-        set6.setDrawFilled(true);
-        set6.setColor(Color.MAGENTA);
-        set6.setFillColor(Color.MAGENTA);
-        set6.setVisible(false);
+        set1 = createRadarDataSet(entry1, "Gezinslid 1", Color.RED);
+        set2 = createRadarDataSet(entry2, "Gezinslid 2", Color.BLUE);
+        set3 = createRadarDataSet(entry3, "Gezinslid 3", Color.GREEN);
+        set4 = createRadarDataSet(entry4, "Gezinslid 4", Color.DKGRAY);
+        set5 = createRadarDataSet(entry5, "Gezinslid 5", Color.YELLOW);
+        set6 = createRadarDataSet(entry6, "Gezinslid 6", Color.MAGENTA);
 
         List<IRadarDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);
@@ -148,114 +96,54 @@ public class ResultsActivity extends AppCompatActivity {
         dataSets.add(set5);
         dataSets.add(set6);
 
-        String[] label = {"Financiën",
-                "Werk en activiteiten",
-                "Sociale relaties",
-                "Wonen",
-                "Psychische gezondheid",
-                "Zingeving",
-                "Lichamelijke gezondheid"};
-
-
         RadarData data = new RadarData(dataSets);
         data.setDrawValues(false);
-
-        YAxis axis = resultsChart.getYAxis();
-        axis.setTextSize(10F);
-        axis.setAxisMaximum(15F);  // Set a fixed maximum
-        axis.setAxisMinimum(0F);   // Set a fixed minimum
-        axis.setLabelCount(6, true); // Set the number of labels
-
-        XAxis habitats = resultsChart.getXAxis();
-        habitats.setValueFormatter(new IndexAxisValueFormatter(label));
-        habitats.setTextSize(14F);
-        habitats.setSpaceMin(38F);
-
-        resultsChart.getLegend().setEnabled(false);
-        resultsChart.setWebLineWidthInner(1.2F);
-        resultsChart.setScaleX(1F);
-        resultsChart.setScaleY(1F);
         resultsChart.setData(data);
-        resultsChart.setClickable(true);
-        resultsChart.setFocusable(true);
-        resultsChart.setRotationEnabled(false);
+    }
 
-        g1.setOnClickListener(v -> {
-            if (g1.isChecked()) {
-                g1.setTextColor(Color.RED);
-                set1.setVisible(true);
+    private List<RadarEntry> createDummyDataSet(int... values) {
+        List<RadarEntry> entries = new ArrayList<>();
+        for (int value : values) {
+            entries.add(new RadarEntry(value));
+        }
+        return entries;
+    }
+
+    private RadarDataSet createRadarDataSet(List<RadarEntry> entries, String label, int color) {
+        RadarDataSet dataSet = new RadarDataSet(entries, label);
+        dataSet.setDrawHighlightCircleEnabled(true);
+        dataSet.setDrawFilled(true);
+        dataSet.setColor(color);
+        dataSet.setFillColor(color);
+        dataSet.setVisible(false);
+        return dataSet;
+    }
+
+    private void setupCheckBoxListeners() {
+        setupCheckBoxListener(g1, set1, Color.RED);
+        setupCheckBoxListener(g2, set2, Color.BLUE);
+        setupCheckBoxListener(g3, set3, Color.GREEN);
+        setupCheckBoxListener(g4, set4, Color.DKGRAY);
+        setupCheckBoxListener(g5, set5, Color.YELLOW);
+        setupCheckBoxListener(g6, set6, Color.MAGENTA);
+    }
+
+    private void setupCheckBoxListener(CheckBox checkBox, RadarDataSet dataSet, int color) {
+        checkBox.setOnClickListener(v -> {
+            if (checkBox.isChecked()) {
+                checkBox.setTextColor(color);
+                dataSet.setVisible(true);
             } else {
-                g1.setTextColor(Color.BLACK);
-                set1.setVisible(false);
+                checkBox.setTextColor(Color.BLACK);
+                dataSet.setVisible(false);
             }
             resultsChart.notifyDataSetChanged(); // Notify the chart that the data has changed
             resultsChart.invalidate(); // Refresh the chart
         });
+    }
 
-        g2.setOnClickListener(v -> {
-            if (g2.isChecked()) {
-                g2.setTextColor(Color.BLUE);
-                set2.setVisible(true);
-            } else {
-                g2.setTextColor(Color.BLACK);
-                set2.setVisible(false);
-            }
-            resultsChart.notifyDataSetChanged(); // Notify the chart that the data has changed
-            resultsChart.invalidate(); // Refresh the chart
-        });
-
-        g3.setOnClickListener(v -> {
-            if (g3.isChecked()) {
-                g3.setTextColor(Color.GREEN);
-                set3.setVisible(true);
-            } else {
-                g3.setTextColor(Color.BLACK);
-                set3.setVisible(false);
-            }
-            resultsChart.notifyDataSetChanged(); // Notify the chart that the data has changed
-            resultsChart.invalidate(); // Refresh the chart
-        });
-
-        g4.setOnClickListener(v -> {
-            if (g4.isChecked()) {
-                g4.setTextColor(Color.DKGRAY);
-                set4.setVisible(true);
-            } else {
-                g4.setTextColor(Color.BLACK);
-                set4.setVisible(false);
-            }
-            resultsChart.notifyDataSetChanged();
-            resultsChart.invalidate();
-        });
-
-        g5.setOnClickListener(v -> {
-            if (g5.isChecked()) {
-                g5.setTextColor(Color.YELLOW);
-                set5.setVisible(true);
-            } else {
-                g5.setTextColor(Color.BLACK);
-                set5.setVisible(false);
-            }
-            resultsChart.notifyDataSetChanged();
-            resultsChart.invalidate();
-        });
-
-        g6.setOnClickListener(v -> {
-            if (g6.isChecked()) {
-                g6.setTextColor(Color.MAGENTA);
-                set6.setVisible(true);
-            } else {
-                g6.setTextColor(Color.BLACK);
-                set6.setVisible(false);
-            }
-            resultsChart.notifyDataSetChanged();
-            resultsChart.invalidate();
-        });
-        afsluiten.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ResultsActivity.this, MainActivity.class));
-            }
-        });
+    private void setupCloseButton() {
+        Button afsluiten = findViewById(R.id.results_close);
+        afsluiten.setOnClickListener(v -> startActivity(new Intent(ResultsActivity.this, MainActivity.class)));
     }
 }
