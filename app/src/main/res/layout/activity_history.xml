@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/TV_main_title"
+        android:id="@+id/TV_history_title"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:fontFamily="@font/sofia_sans_extra_condensed_bold"
-        android:text="Geschiedenis"
+        android:text="@string/geschiedenis"
         android:textAlignment="center"
         android:textSize="34sp" />
 
@@ -19,6 +19,12 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider" />
-    
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RV_history_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="5dp"
+        android:paddingVertical="10dp" />
 
 </LinearLayout>
