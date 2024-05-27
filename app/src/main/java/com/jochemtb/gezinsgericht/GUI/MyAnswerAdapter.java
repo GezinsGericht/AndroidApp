@@ -47,7 +47,7 @@ public class MyAnswerAdapter extends RecyclerView.Adapter<MyAnswerAdapter.MyAnsw
 
         public MyAnswerViewHolder(@NonNull View itemView) {
             super(itemView);
-            container = itemView.findViewById(R.id.container);
+            container = itemView.findViewById(R.id.container);  // Correctly reference the container LinearLayout
         }
 
         public void bind(String[] questions, String[] answers) {

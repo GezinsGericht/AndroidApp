@@ -55,17 +55,6 @@ public class MyAnswerActivity extends AppCompatActivity {
 
     private void setupBackButton(){
         ImageButton back = findViewById(R.id.back_to_results);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MyAnswerActivity.this, ResultsActivity.class));
-            }
-        });
+        back.setOnClickListener(v -> startActivity(new Intent(MyAnswerActivity.this, ResultsActivity.class)));
     }
-
-
-
-
-
-
 }
