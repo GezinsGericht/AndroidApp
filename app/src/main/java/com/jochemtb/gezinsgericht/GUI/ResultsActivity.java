@@ -117,7 +117,7 @@ public class ResultsActivity extends AppCompatActivity {
         dataSet.setColor(color);
         dataSet.setFillColor(color);
         dataSet.setVisible(false);
-        return dataSet;
+         return dataSet;
     }
 
     private void setupCheckBoxListeners() {

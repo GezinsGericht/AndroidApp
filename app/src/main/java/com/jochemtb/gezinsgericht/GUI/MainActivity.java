@@ -2,7 +2,9 @@ package com.jochemtb.gezinsgericht.GUI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViewComponents();
+        navToSession();
 
         usernameTv.setText("Sietse 't Hooft");
     }
@@ -38,5 +41,14 @@ public class MainActivity extends AppCompatActivity {
         navbar_2 = findViewById(R.id.BTN_navbar2);
         navbar_3 = findViewById(R.id.BTN_navbar3);
 
+    }
+
+    private void navToSession(){
+        navbar_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ResultsActivity.class));
+            }
+        });
     }
 }

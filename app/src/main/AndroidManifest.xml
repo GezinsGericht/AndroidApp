@@ -25,6 +25,7 @@
         <activity android:name=".GUI.HistoryActivity" />
         <activity android:name=".GUI.QuizActivity" />
         <activity android:name=".GUI.ResultsActivity" />
+        <activity android:name=".GUI.MyAnswerActivity" />
         <activity android:name=".GUI.ActivationActivity"
             android:exported="true">
                 <intent-filter>
