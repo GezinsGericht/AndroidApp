@@ -64,5 +64,7 @@ public class MyAnswerAdapter extends RecyclerView.Adapter<MyAnswerAdapter.MyAnsw
                 container.addView(view);
             }
         }
+
     }
-}
+    }
+

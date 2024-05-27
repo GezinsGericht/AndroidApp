@@ -1,30 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- question_item.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/q_and_a_item"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/question_answered"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:fontFamily="@font/hanken_grotesk_bold"
-        android:text="@string/question"
+        android:text="Question"
         android:textSize="24sp" />
 
     <Button
         android:id="@+id/answer_given"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:backgroundTint="#140099FF"
-        android:text="@string/answer"
-        android:textAlignment="textStart"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="#1C0099FF"
+        android:text="Answer"
         android:textColor="#0099FF"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:icon="@drawable/radiobtn"
         app:iconTint="#0099FF"
         app:strokeColor="#0099FF"
