@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/q_and_a_item"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -8,11 +10,18 @@
         android:id="@+id/question_answered"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/question" />
+        android:fontFamily="@font/hanken_grotesk_bold"
+        android:text="@string/question"
+        android:textSize="24sp" />
 
-    <TextView
+    <Button
         android:id="@+id/answer_given"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/answer" />
+        android:backgroundTint="#260099FF"
+        android:text="@string/answer"
+        android:textAlignment="textStart"
+        android:textColor="#0099FF"
+        app:strokeColor="#0099FF"
+        app:strokeWidth="3dp" />
 </LinearLayout>
