@@ -10,6 +10,7 @@
         android:id="@+id/question_answered"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:fontFamily="@font/hanken_grotesk_bold"
         android:text="@string/question"
         android:textSize="24sp" />
@@ -18,10 +19,15 @@
         android:id="@+id/answer_given"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#260099FF"
+        android:layout_margin="10dp"
+        android:backgroundTint="#140099FF"
         android:text="@string/answer"
         android:textAlignment="textStart"
         android:textColor="#0099FF"
+        android:textSize="16sp"
+        app:icon="@drawable/radiobtn"
+        app:iconTint="#0099FF"
         app:strokeColor="#0099FF"
-        app:strokeWidth="3dp" />
+        app:strokeWidth="1dp" />
+
 </LinearLayout>
