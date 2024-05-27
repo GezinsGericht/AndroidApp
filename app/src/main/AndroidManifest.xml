@@ -13,7 +13,7 @@
         android:theme="@style/Theme.GezinsGericht"
         tools:targetApi="31">
         <activity
-            android:name=".GUI.ResultsActivity"
+            android:name=".GUI.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,8 +24,16 @@
         <activity android:name=".GUI.MainActivity" />
         <activity android:name=".GUI.HistoryActivity" />
         <activity android:name=".GUI.QuizActivity" />
-        <activity android:name=".GUI.LoginActivity" />
-        <activity android:name=".GUI.ActivationActivity" />
+        <activity android:name=".GUI.ResultsActivity" />
+        <activity android:name=".GUI.ActivationActivity"
+            android:exported="true">
+                <intent-filter>
+                    <action android:name="android.intent.action.VIEW" />
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="android.intent.category.BROWSABLE" />
+                    <data android:scheme="gezinsgericht" />
+                 </intent-filter>
+    </activity>
     </application>
 
 </manifest>
