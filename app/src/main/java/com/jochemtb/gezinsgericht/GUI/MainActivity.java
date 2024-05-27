@@ -30,8 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView usernameTv;
     private CheckBox checkbox_1, checkbox_2, checkbox_3, checkbox_4, checkbox_5, checkbox_6, checkbox_7;
-    private Button navbar_1,navbar_2, navbar_3;
-
+    private Button navbar_2, navbar_3;
     private LineChart progressionChart;
 
     private final String LOG_TAG = "HomepageActivity";
@@ -44,6 +43,20 @@ public class MainActivity extends AppCompatActivity {
         buildChart();
 
         usernameTv.setText("Sietse 't Hooft"); // Dummie data
+
+        navbar_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, HistoryActivity.class));
+            }
+        });
+
+        navbar_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, QuizActivity.class));
+            }
+        });
     }
 
     private void initViewComponents() {
@@ -59,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
 
         progressionChart = findViewById(R.id.chart_homepage);
 
-        navbar_1 = findViewById(R.id.BTN_navbar1);
         navbar_2 = findViewById(R.id.BTN_navbar2);
         navbar_3 = findViewById(R.id.BTN_navbar3);
         Log.d(LOG_TAG, "InitViewCompents done");
