@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jochemtb.gezinsgericht.R;
 
-import java.util.ArrayList;
-
 public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.HistoryListViewHolder> {
 
     private final String LOG_TAG = "HistoryListAdapter";

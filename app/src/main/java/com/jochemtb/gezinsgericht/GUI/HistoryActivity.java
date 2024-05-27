@@ -22,7 +22,7 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history);
 
         rvHistoryList = findViewById(R.id.RV_history_list);
-        rvHistoryList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        rvHistoryList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mAdapter = new HistoryListAdapter(this);
         rvHistoryList.setAdapter(mAdapter);
 
