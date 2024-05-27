@@ -38,6 +38,7 @@ public class ResultsActivity extends AppCompatActivity {
         initDataSets();
         setupCheckBoxListeners();
         setupCloseButton();
+        setupMyanswerButton();
     }
 
     private void initViewComponents() {
@@ -141,7 +142,10 @@ public class ResultsActivity extends AppCompatActivity {
             resultsChart.invalidate(); // Refresh the chart
         });
     }
-
+    private void setupMyanswerButton() {
+        Button myanswer = findViewById(R.id.results_show);
+        myanswer.setOnClickListener(v -> startActivity(new Intent(ResultsActivity.this, MyAnswerActivity.class)));
+    }
     private void setupCloseButton() {
         Button afsluiten = findViewById(R.id.results_close);
         afsluiten.setOnClickListener(v -> startActivity(new Intent(ResultsActivity.this, MainActivity.class)));
