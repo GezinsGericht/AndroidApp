@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,33 +7,131 @@
     android:orientation="vertical"
     tools:context=".GUI.MainActivity">
 
-    <TextView
-        android:id="@+id/TV_main_title"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:fontFamily="@font/sofia_sans_extra_condensed_bold"
-        android:text="@string/title_main"
-        android:textAlignment="center"
-        android:textSize="34sp" />
+    <!-- Top bar with name and logo -->
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#f0f0f0"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider" />
+        <TextView
+            android:id="@+id/TV_name_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@android:drawable/ic_menu_gallery" />
+    </RelativeLayout>
+
+    <!-- Checkboxes -->
+
+    <!-- Placeholder for the graph -->
+
+    <GridLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="4"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
+
+        <CheckBox
+            android:id="@+id/checkbox_zingeving"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zingeving" />
+
+        <CheckBox
+            android:id="@+id/checkbox_wonen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wonen" />
+
+        <CheckBox
+            android:id="@+id/checkbox_financien"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Financiën" />
+
+        <CheckBox
+            android:id="@+id/checkbox_sociale_relaties"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sociale relaties" />
+
+        <CheckBox
+            android:id="@+id/checkbox_lichamelijke_gezondheid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lichamelijke gezondheid" />
+
+        <CheckBox
+            android:id="@+id/checkbox_werk_activiteiten"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Werk &amp; activiteiten" />
+
+        <CheckBox
+            android:id="@+id/checkbox_psychische_gezondheid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Psychische gezondheid" />
+
+    </GridLayout>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@android:drawable/ic_menu_gallery"
+        android:contentDescription="Graph placeholder"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/navbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Navigation bar -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="135dp"
-        android:orientation="horizontal"></LinearLayout>
+        android:id="@+id/navbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:layout_width="match_parent"
-        android:layout_height="369dp"></com.github.mikephil.charting.charts.LineChart>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Overzicht" />
 
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="History" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/BNV_main"
-        android:layout_width="409dp"
-        android:layout_height="729dp" />
-</LinearLayout>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sessie" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
