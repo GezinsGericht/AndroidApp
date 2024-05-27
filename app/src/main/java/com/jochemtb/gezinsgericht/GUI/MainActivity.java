@@ -62,10 +62,11 @@ public class MainActivity extends AppCompatActivity {
         navbar_1 = findViewById(R.id.BTN_navbar1);
         navbar_2 = findViewById(R.id.BTN_navbar2);
         navbar_3 = findViewById(R.id.BTN_navbar3);
-        Log.d(LOG_TAG, "InitViewCompents done ");
+        Log.d(LOG_TAG, "InitViewCompents done");
     }
 
     private void buildChart(){
+        //Makes description that is visible above the chart
         Description description = new Description();
         description.setText("Vooruitgang patiënt");
         description.setPosition(250f, 15f);
@@ -73,12 +74,14 @@ public class MainActivity extends AppCompatActivity {
         progressionChart.setDescription(description);
         progressionChart.getAxisRight().setDrawLabels(false);
 
+        //Makes the x-as
         XAxis xAxis = progressionChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setValueFormatter(new IndexAxisValueFormatter());
         xAxis.setLabelCount(4);
         xAxis.setGranularity(1f);
 
+        //Makes the y-as
         YAxis yAxis = progressionChart.getAxisLeft();
         yAxis.setAxisMinimum(0f);
         yAxis.setAxisMaximum(15f);
@@ -86,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         yAxis.setAxisLineColor(Color.BLACK);
         yAxis.setLabelCount(10);
 
-        Log.d(LOG_TAG, "Added XAxis/YAxis");
+        //Makes the entries (points)
         List<Entry> entries = new ArrayList<>();
         entries.add(new Entry(0, 0f));
         entries.add(new Entry(1, 3f));
@@ -94,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         entries.add(new Entry(3, 7f));
         entries.add(new Entry(4, 13f));
 
-        Log.d(LOG_TAG, "Entries added ");
+        //Makes the line(s)
         LineDataSet dataSet = new LineDataSet(entries, "vooruitgang");
         dataSet.setColor(Color.BLUE);
         dataSet.setLineWidth(5f);
