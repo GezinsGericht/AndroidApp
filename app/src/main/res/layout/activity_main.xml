@@ -54,43 +54,43 @@
             android:id="@+id/checkbox_zingeving"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Zingeving" />
+            android:text="@string/homepage_checkbox1" />
 
         <CheckBox
             android:id="@+id/checkbox_wonen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Wonen" />
+            android:text="@string/homepage_checkbox2" />
 
         <CheckBox
             android:id="@+id/checkbox_financien"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Financiën" />
+            android:text="@string/homepage_checkbox3" />
 
         <CheckBox
             android:id="@+id/checkbox_sociale_relaties"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sociale relaties" />
+            android:text="@string/homepage_checkbox4" />
 
         <CheckBox
             android:id="@+id/checkbox_lichamelijke_gezondheid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lichamelijke gezondheid" />
+            android:text="@string/homepage_checkbox5" />
 
         <CheckBox
             android:id="@+id/checkbox_werk_activiteiten"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Werk &amp; activiteiten" />
+            android:text="@string/homepage_checkbox6" />
 
         <CheckBox
             android:id="@+id/checkbox_psychische_gezondheid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Psychische gezondheid" />
+            android:text="@string/homepage_checkbox7" />
 
     </GridLayout>
 
@@ -119,19 +119,19 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Overzicht" />
+            android:text="@string/navbar_1" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="History" />
+            android:text="@string/navbar_2" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Sessie" />
+            android:text="@string/navbar_3" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
