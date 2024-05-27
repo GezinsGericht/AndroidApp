@@ -12,9 +12,7 @@
         android:id="@+id/header_homepage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#f0f0f0"
         android:padding="16dp"
-        android:backgroundTint="@color/grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -39,11 +37,13 @@
 
     <!-- Divider -->
 
-    <com.google.android.material.divider.MaterialDivider
+    <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        app:layout_constraintTop_toBottomOf="@+id/header_homepage"/>
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="@+id/header_homepage"
+        app:layout_constraintTop_toBottomOf="@+id/header_homepage" />
 
     <!-- Checkboxes -->
 
@@ -61,43 +61,43 @@
         <CheckBox
             android:id="@+id/CB_homepage_1"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:text="@string/habitat_1" />
 
         <CheckBox
             android:id="@+id/CB_homepage_2"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:text="@string/habitat_6" />
 
         <CheckBox
             android:id="@+id/CB_homepage_3"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:text="@string/habitat_3" />
 
         <CheckBox
             android:id="@+id/CB_homepage_4"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:text="@string/habitat_7" />
 
         <CheckBox
             android:id="@+id/CB_homepage_5"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:text="@string/habitat_2" />
 
         <CheckBox
             android:id="@+id/CB_homepage_6"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:text="@string/habitat_5" />
 
         <CheckBox
             android:id="@+id/CB_homepage_7"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_marginEnd="25dp"
             android:text="@string/habitat_4" />
 
@@ -108,7 +108,7 @@
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart_homepage"
         android:layout_width="match_parent"
-        android:layout_height="420dp"
+        android:layout_height="480dp"
         android:layout_margin="5dp"
         android:layout_marginTop="0dp"
         app:layout_constraintBottom_toTopOf="@+id/navbar"
