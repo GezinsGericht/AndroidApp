@@ -51,46 +51,46 @@
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
 
         <CheckBox
-            android:id="@+id/checkbox_zingeving"
+            android:id="@+id/CB_homepage_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/homepage_checkbox1" />
+            android:text="@string/habitat_1" />
 
         <CheckBox
-            android:id="@+id/checkbox_wonen"
+            android:id="@+id/CB_homepage_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/homepage_checkbox2" />
+            android:text="@string/habitat_2" />
 
         <CheckBox
-            android:id="@+id/checkbox_financien"
+            android:id="@+id/CB_homepage_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/homepage_checkbox3" />
+            android:text="@string/habitat_3" />
 
         <CheckBox
-            android:id="@+id/checkbox_sociale_relaties"
+            android:id="@+id/CB_homepage_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/homepage_checkbox4" />
+            android:text="@string/habitat_4" />
 
         <CheckBox
-            android:id="@+id/checkbox_lichamelijke_gezondheid"
+            android:id="@+id/CB_homepage_5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/homepage_checkbox5" />
+            android:text="@string/habitat_5" />
 
         <CheckBox
-            android:id="@+id/checkbox_werk_activiteiten"
+            android:id="@+id/CB_homepage_6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/homepage_checkbox6" />
+            android:text="@string/habitat_6" />
 
         <CheckBox
-            android:id="@+id/checkbox_psychische_gezondheid"
+            android:id="@+id/CB_homepage_7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/homepage_checkbox7" />
+            android:text="@string/habitat_7" />
 
     </GridLayout>
 
