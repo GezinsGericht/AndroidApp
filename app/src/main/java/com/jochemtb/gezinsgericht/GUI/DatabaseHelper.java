@@ -35,4 +35,27 @@ public class DatabaseHelper {
         }
         return answers;
     }
+
+    public List<String[]> getQuestions() {
+        List<String[]> questions = new ArrayList<>();
+        try {
+            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            Statement statement = connection.createStatement();
+            String query = "SELECT question, answer FROM your_table_name";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                String question = resultSet.getString("question");
+                String answer = resultSet.getString("answer");
+                questions.add(new String[]{question, answer});
+            }
+
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return questions;
+    }
 }
