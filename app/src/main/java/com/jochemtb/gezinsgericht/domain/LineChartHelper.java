@@ -43,7 +43,7 @@ public class LineChartHelper {
 
     // This method makes the description
     private void makeDiscription(){
-        description.setText("Vooruitgangsgrafiek"); // Perhaps make this the string which checkbox is used? (Arraylist or hashmap?)
+        description.setText("Vooruitgangsgrafiek");
         description.setPosition(250f, 15f);
         description.setTextSize(10f);
     }
