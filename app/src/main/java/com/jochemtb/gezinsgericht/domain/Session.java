@@ -7,9 +7,12 @@ public class Session {
     private LocalDate date;
     private Professional prof;
 
-    public Session(LocalDate date, Professional prof) {
+    private FamilyResults results;
+
+    public Session(LocalDate date, Professional prof, FamilyResults results) {
         this.date = date;
         this.prof = prof;
+        this.results = results;
     }
 
     public LocalDate getDate() {
@@ -26,6 +29,14 @@ public class Session {
 
     public void setProf(Professional prof) {
         this.prof = prof;
+    }
+
+    public FamilyResults getResults() {
+        return results;
+    }
+
+    public void setResults(FamilyResults results) {
+        this.results = results;
     }
 
 }

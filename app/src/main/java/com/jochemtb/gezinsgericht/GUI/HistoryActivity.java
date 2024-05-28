@@ -37,6 +37,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         //TEMP Profs aanmaken
         Professional Prof1 = new Professional(1, "John Doe", "JohnDoe@gmail.com");
+
         Session Session1 = new Session(today, Prof1);
         Session Session2 = new Session(LocalDate.of(2024, 5, 16), Prof1);
         Session Session3 = new Session(LocalDate.of(2024, 5, 25), Prof1);
@@ -49,14 +50,6 @@ public class HistoryActivity extends AppCompatActivity {
         rvHistoryList = findViewById(R.id.RV_history_list);
         rvHistoryList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mAdapter = new HistoryListAdapter(this, Sessions);
-        //TEMP Set onClickListener
-//        mAdapter.setOnItemClickListener(new HistoryListAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(int position) {
-//                startActivity(new Intent(HistoryActivity.this, ResultsActivity.class));
-//                Log.i(LOG_TAG, "onItemClick: " + position);
-//            }
-//        });
         rvHistoryList.setAdapter(mAdapter);
 
 
