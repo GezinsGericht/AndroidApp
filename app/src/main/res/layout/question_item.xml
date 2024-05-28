@@ -9,6 +9,7 @@
         android:id="@+id/question_answered"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:fontFamily="@font/hanken_grotesk_bold"
         android:text="Question"
         android:textSize="24sp" />
