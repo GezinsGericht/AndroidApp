@@ -5,6 +5,9 @@ package com.jochemtb.gezinsgericht.domain;
 import java.util.ArrayList;
 
 public class Quiz {
+    public Quiz() {
+    }
+
     private ArrayList<Question> questionList;
     private int totalQuestions;
 

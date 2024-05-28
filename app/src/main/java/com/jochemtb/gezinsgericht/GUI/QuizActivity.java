@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.jochemtb.gezinsgericht.R;
 import com.jochemtb.gezinsgericht.domain.Question;
 import com.jochemtb.gezinsgericht.domain.Quiz;
+import com.jochemtb.gezinsgericht.domain.QuizManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,12 +30,8 @@ public class QuizActivity extends AppCompatActivity {
     private TextView questionNumber;
     private ProgressBar progressBar;
 
-    private List<String> questions;
-    private List<String[]> possibleAnswers;
     private List<String> selectedAnswers;
-    private ArrayList<String> questionstring;
     private int currentQuestionIndex = 0;
-    private ArrayList<Question> qs = new ArrayList<>();
     private Quiz quiz;
 
     @Override
@@ -50,22 +47,11 @@ public class QuizActivity extends AppCompatActivity {
         questionNumber = findViewById(R.id.TV_quiz_questionNumber);
         progressBar = findViewById(R.id.PB_quiz_quizProgress);
 
-        // Initialize the question strings
-        questionstring = new ArrayList<>();
-        questionstring.add("Hoeveel aandacht besteed u aan gezonde voeding en lichaamsbeweging?");
-        questionstring.add("Hoe actief bent u betrokken bij sociale activiteiten en evenementen?");
-        questionstring.add("Hoe tevreden bent u over de plek waar u woont?");
+        QuizManager qm = new QuizManager();
+        quiz = new Quiz();  // Instantiate quiz before passing it to generateQuiz
+        qm.generateQuiz(quiz);
 
-        possibleAnswers = new ArrayList<>();
-        possibleAnswers.add(new String[]{"Helemaal geen aandacht", "Weinig aandacht", "Neutraal", "Redelijk veel aandacht", "Zeer veel aandacht"});
-        possibleAnswers.add(new String[]{"Helemaal geen aandacht", "Weinig aandacht", "Neutraal", "Redelijk veel aandacht", "Zeer veel aandacht"});
-        possibleAnswers.add(new String[]{"Helemaal geen aandacht", "Weinig aandacht", "Neutraal", "Redelijk veel aandacht", "Zeer veel aandacht"});
-
-        selectedAnswers = new ArrayList<>(Arrays.asList(new String[questionstring.size()]));
-
-        // Create the quiz and questions
-        createQuestion();
-        createQuiz();
+        selectedAnswers = new ArrayList<>(Arrays.asList(new String[quiz.getTotalQuestions()]));
 
         // Set up the initial question and answers
         displayQuestion(currentQuestionIndex);
@@ -82,9 +68,11 @@ public class QuizActivity extends AppCompatActivity {
             }
 
             currentQuestionIndex++;
-            if (currentQuestionIndex < questionstring.size()) {
+            if (currentQuestionIndex < quiz.getTotalQuestions()) {
                 displayQuestion(currentQuestionIndex);
             } else {
+                answersGroup.setVisibility(View.INVISIBLE);
+                questionText.setVisibility(View.INVISIBLE);
                 nextButton.setVisibility(View.INVISIBLE);
                 confirmButton.setVisibility(View.VISIBLE);
             }
@@ -98,9 +86,7 @@ public class QuizActivity extends AppCompatActivity {
                 currentQuestionIndex--;
                 displayQuestion(currentQuestionIndex);
             }
-            if (currentQuestionIndex >= questionstring.size()) {
-                displayQuestion(currentQuestionIndex);
-            } else {
+            if (currentQuestionIndex < quiz.getTotalQuestions()) {
                 nextButton.setVisibility(View.VISIBLE);
                 confirmButton.setVisibility(View.INVISIBLE);
             }
@@ -108,34 +94,17 @@ public class QuizActivity extends AppCompatActivity {
 
         confirmButton.setOnClickListener(v -> {
             // Handle the submission of answers
-            for (int i = 0; i < questionstring.size(); i++) {
-                Toast.makeText(QuizActivity.this, questionstring.get(i) + ": " + selectedAnswers.get(i), Toast.LENGTH_SHORT).show();
+            for (int i = 0; i < quiz.getTotalQuestions(); i++) {
+                Toast.makeText(QuizActivity.this, quiz.getQuestionList().get(i).getQuestion() + ": " + selectedAnswers.get(i), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    public void createQuiz() {
-        quiz = new Quiz(qs, qs.size());
-    }
-
-    public void createQuestion() {
-        for (int i = 0; i < questionstring.size(); i++) {
-            qs.add(new Question(i + 1,
-                    questionstring.get(i),
-                    1,
-                    possibleAnswers.get(i)[0],
-                    possibleAnswers.get(i)[1],
-                    possibleAnswers.get(i)[2],
-                    possibleAnswers.get(i)[3],
-                    possibleAnswers.get(i)[4]));
-        }
-    }
-
     private void displayQuestion(int index) {
         String selectedAnswer = selectedAnswers.get(index); // Preload the previously selected answer
-        questionText.setText(quiz.getQuestionList().get(index).getQuestion());
         answersGroup.removeAllViews();
 
+        questionText.setText(quiz.getQuestionList().get(index).getQuestion());
         String[] answers = {quiz.getQuestionList().get(index).getAnswer1(),
                 quiz.getQuestionList().get(index).getAnswer2(),
                 quiz.getQuestionList().get(index).getAnswer3(),
@@ -159,13 +128,13 @@ public class QuizActivity extends AppCompatActivity {
 
         // Update the question number and progress bar
         questionNumber.setText(String.format("%d", index + 1));
-        progressBar.setProgress((index) * 100 / questionstring.size());
+        progressBar.setProgress((index) * 100 / quiz.getTotalQuestions());
 
         // Update the visibility of the previous button
         previousButton.setVisibility(index == 0 ? View.INVISIBLE : View.VISIBLE);
     }
 
     private void updateProgressBar() {
-        progressBar.setProgress((currentQuestionIndex) * 100 / questionstring.size());
+        progressBar.setProgress((currentQuestionIndex) * 100 / quiz.getTotalQuestions());
     }
 }
