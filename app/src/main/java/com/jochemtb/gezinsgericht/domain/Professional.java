@@ -1,6 +1,8 @@
 package com.jochemtb.gezinsgericht.domain;
 
-public class Professional {
+import java.io.Serializable;
+
+public class Professional implements Serializable {
 
     private int id;
     private String name;

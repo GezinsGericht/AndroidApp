@@ -1,17 +1,17 @@
 package com.jochemtb.gezinsgericht.domain;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class Score {
+public class Score implements Serializable {
 
     private User familyMember;
-    private Map<String, Integer> scores;
+    private Map<Integer, Integer> scores;
 
-    public Score(User familyMember, Map<String, Integer> scores) {
+    public Score(User familyMember, Map<Integer, Integer> scores) {
         this.familyMember = familyMember;
         this.scores = scores;
     }
-
     public User getFamilyMember() {
         return familyMember;
     }
@@ -20,12 +20,16 @@ public class Score {
         this.familyMember = familyMember;
     }
 
-    public Map<String, Integer> getScores() {
+    public Map<Integer, Integer> getScores() {
         return scores;
     }
 
-    public void setScores(Map<String, Integer> scores) {
+    public void setScores(Map<Integer, Integer> scores) {
         this.scores = scores;
+    }
+
+    public Integer getResults(Integer key) {
+        return scores.get(key);
     }
 
 

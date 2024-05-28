@@ -1,8 +1,9 @@
 package com.jochemtb.gezinsgericht.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Habitat {
+public class Habitat implements Serializable {
 
     private ArrayList<String> habitat;
 

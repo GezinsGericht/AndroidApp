@@ -1,12 +1,13 @@
 package com.jochemtb.gezinsgericht.domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Set;
 
-public class Session {
+public class Session implements Serializable {
 
     private LocalDate date;
     private Professional prof;
-
     private FamilyResults results;
 
     public Session(LocalDate date, Professional prof, FamilyResults results) {
@@ -37,6 +38,10 @@ public class Session {
 
     public void setResults(FamilyResults results) {
         this.results = results;
+    }
+
+    public Set<User> getUsers() {
+        return this.results.getResultMap().keySet();
     }
 
 }
