@@ -53,6 +53,14 @@ public class HistoryActivity extends AppCompatActivity {
         rvHistoryList = findViewById(R.id.RV_history_list);
         rvHistoryList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mAdapter = new HistoryListAdapter(this);
+        //TEMP Set onClickListener
+        mAdapter.setOnItemClickListener(new HistoryListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                startActivity(new Intent(HistoryActivity.this, ResultsActivity.class));
+                Log.i(LOG_TAG, "onItemClick: " + position);
+            }
+        });
         rvHistoryList.setAdapter(mAdapter);
         Log.i(LOG_TAG, "initViewComponents");
     }
