@@ -13,7 +13,7 @@
         android:layout_height="25dp"
         android:layout_marginTop="20dp"
         android:indeterminate="false"
-        android:progressDrawable="@drawable/progress_bar_background"
+        android:progressDrawable="@drawable/my_progressbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
 
@@ -22,13 +22,13 @@
 
     <TextView
         android:id="@+id/TV_quiz_questionText"
-        android:layout_width="219dp"
+        android:layout_width="285dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="PlaceHolder Question"
         android:fontFamily="@font/sofia_sans_extra_condensed_bold"
-        android:textSize="45dp"
+        android:text="PlaceHolder Question"
         android:textAlignment="center"
+        android:textSize="45dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PB_quiz_quizProgress" />
@@ -81,6 +81,18 @@
         android:layout_marginBottom="20dp"
         android:text="@string/quiz_button_next"
         android:backgroundTint="@color/aqua"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/BT_quiz_confirm"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/aqua"
+        android:text="@string/quiz_button_confirm"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
