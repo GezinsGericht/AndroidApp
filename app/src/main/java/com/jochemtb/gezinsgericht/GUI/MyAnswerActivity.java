@@ -26,34 +26,37 @@ public class MyAnswerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
         setContentView(R.layout.activity_myanswers);
-        setupBackButton();
+
+        setupBackButton(); //Sets up the "<--" button
 
         //DatabaseHelper dbHelper = new DatabaseHelper();
         //List<int[]> answers = dbHelper.getAnswers();
         //List<String[]> questions = dbHelper.getQuestions();
+
         List<String[]> answers = new ArrayList<>();
         List<String[]> questions = new ArrayList<>();
-        String[] answeredquestions = {
+
+        String[] answeredquestions = { //This is dummydata for the loaded questions
                 "Hoeveel aandacht besteed u aan gezonde voeding en lichaamsbeweging?",
                 "Hoe actief bent u betrokken bij sociale activiteiten en evenementen?",
                 "Hoe tevreden bent u over de plek waar u woont?"
         };
-        String[] answersgiven = {
+        String[] answersgiven = { //This is dummydata for the loaded answers
                 "Weinig aandacht",
                 "Neutraal",
                 "Zeer tevreden"
         };
 
-        questions.add(answeredquestions);
+        questions.add(answeredquestions); //Adds the questions and answers to separate Arraylists
         answers.add(answersgiven);
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view); //Sets the data from MyAnswerAdapter to the recyclerview
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         MyAnswerAdapter adapter = new MyAnswerAdapter(answers, questions);
         recyclerView.setAdapter(adapter);
     }
 
-    private void setupBackButton(){
+    private void setupBackButton(){ //Navigates you back to ResultsActivity
         ImageButton back = findViewById(R.id.back_to_results);
         back.setOnClickListener(v -> startActivity(new Intent(MyAnswerActivity.this, ResultsActivity.class)));
     }
