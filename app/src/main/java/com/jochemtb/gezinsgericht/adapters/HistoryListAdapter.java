@@ -1,4 +1,4 @@
-package adapters;
+package com.jochemtb.gezinsgericht.adapters;
 
 import android.content.Context;
 import android.util.Log;
