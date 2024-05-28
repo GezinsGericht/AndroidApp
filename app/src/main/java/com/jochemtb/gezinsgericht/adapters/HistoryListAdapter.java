@@ -40,7 +40,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         return new HistoryListViewHolder(itemView);
     }
 
-    //Zet date in itemview
+    //Zet data in itemview
     @Override
     public void onBindViewHolder(@NonNull HistoryListAdapter.HistoryListViewHolder holder, int position) {
 
@@ -61,7 +61,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         }
     }
 
-    //Maakt item
+    //Koppeld itemview aan recyclerview
     public class HistoryListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView tvHistoryDate;
