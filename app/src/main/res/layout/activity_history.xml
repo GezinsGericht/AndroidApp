@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/TV_history_title"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="40dp"
         android:fontFamily="@font/sofia_sans_extra_condensed_bold"
         android:text="@string/geschiedenis"
         android:textAlignment="center"
@@ -24,8 +24,41 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RV_history_list"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingHorizontal="5dp" />
+
+    <!-- Navigation bar -->
+    <LinearLayout
+        android:id="@+id/navbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="5dp"
-        android:paddingVertical="10dp" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/BTN_navbar1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/navbar_1" />
+
+        <Button
+            android:id="@+id/BTN_navbar2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/aqua"
+            android:theme="@style/Button.Aqua"
+            android:text="@string/navbar_2" />
+
+        <Button
+            android:id="@+id/BTN_navbar3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="@string/navbar_3" />
+    </LinearLayout>
 
 </LinearLayout>
