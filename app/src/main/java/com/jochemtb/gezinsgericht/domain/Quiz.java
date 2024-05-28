@@ -1,5 +1,7 @@
 package com.jochemtb.gezinsgericht.domain;
 
+
+
 import java.util.ArrayList;
 
 public class Quiz {
@@ -26,4 +28,5 @@ public class Quiz {
         this.questionList = questionList;
         this.totalQuestions = totalQuestions;
     }
+
 }

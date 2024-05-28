@@ -1,6 +1,7 @@
 package com.jochemtb.gezinsgericht.domain;
 
 public class Question {
+    private int questionid;
     private String question;
     private int weight;
 //    private Habitat habitat;
@@ -9,6 +10,25 @@ public class Question {
     private String answer3;
     private String answer4;
     private String answer5;
+
+    public Question(int questionid, String question, int weight, String answer1, String answer2, String answer3, String answer4, String answer5) {
+        this.questionid = questionid;
+        this.question = question;
+        this.weight = weight;
+        this.answer1 = answer1;
+        this.answer2 = answer2;
+        this.answer3 = answer3;
+        this.answer4 = answer4;
+        this.answer5 = answer5;
+    }
+
+    public int getQuestionid() {
+        return questionid;
+    }
+
+    public void setQuestionid(int questionid) {
+        this.questionid = questionid;
+    }
 
     public String getQuestion() {
         return question;
