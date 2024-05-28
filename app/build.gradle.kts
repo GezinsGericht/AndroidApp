@@ -43,4 +43,6 @@ dependencies {
     implementation("com.github.pires:obd-java-api:1.0")
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
+    implementation ("com.squareup.okhttp3:okhttp:4.9.1")
+
 }

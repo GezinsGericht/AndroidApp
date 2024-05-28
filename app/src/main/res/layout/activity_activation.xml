@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/ET_activation_password_repeat"
+        android:id="@+id/ET_login_password"
         android:layout_width="311dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="120dp"
@@ -54,7 +54,7 @@
         android:fontFamily="@font/sofia_sans_extra_condensed_bold"
         android:hint="@string/activation_input_password"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/ET_activation_password_repeat"
+        app:layout_constraintBottom_toTopOf="@+id/ET_login_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
