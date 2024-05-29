@@ -1,23 +1,20 @@
 package com.jochemtb.gezinsgericht.domain;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class QuizManager {
-    private ArrayList<String> questionstring;
+    private List<String> questionstring;
     private List<String[]> possibleAnswers;
-    private ArrayList<Question> qs = new ArrayList<>();
+    private List<Question> qs;
 
     public QuizManager() {
-        questionstring = new ArrayList<>(); // Initialize the questionstring list
-        possibleAnswers = new ArrayList<>(); // Initialize the possibleAnswers list
+        questionstring = new ArrayList<>();
+        possibleAnswers = new ArrayList<>();
+        qs = new ArrayList<>();
     }
 
-    public Quiz generateQuiz(Quiz q) {
+    public Quiz generateQuiz() {
         questionstring.add("Hoeveel aandacht besteed u aan gezonde voeding en lichaamsbeweging?");
         questionstring.add("Hoe actief bent u betrokken bij sociale activiteiten en evenementen?");
         questionstring.add("Hoe tevreden bent u over de plek waar u woont?");
@@ -36,8 +33,14 @@ public class QuizManager {
                     possibleAnswers.get(i)[3],
                     possibleAnswers.get(i)[4]));
         }
-        q.setQuestionList(qs);
-        q.setTotalQuestions(qs.size());
-        return q;
+
+        Quiz quiz = new Quiz();
+        quiz.setQuestionList((ArrayList<Question>) qs);
+        quiz.setTotalQuestions(qs.size());
+        return quiz;
+    }
+
+    public List<Question> getQuestions() {
+        return qs;
     }
 }
