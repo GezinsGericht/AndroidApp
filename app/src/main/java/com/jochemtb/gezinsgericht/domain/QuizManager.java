@@ -21,7 +21,6 @@ public class QuizManager {
         questionstring.add("Hoeveel aandacht besteed u aan gezonde voeding en lichaamsbeweging?");
         questionstring.add("Hoe actief bent u betrokken bij sociale activiteiten en evenementen?");
         questionstring.add("Hoe tevreden bent u over de plek waar u woont?");
-        Log.d(TAG, "hier");
 
         possibleAnswers.add(new String[]{"Helemaal geen aandacht", "Weinig aandacht", "Neutraal", "Redelijk veel aandacht", "Zeer veel aandacht"});
         possibleAnswers.add(new String[]{"Helemaal geen aandacht", "Weinig aandacht", "Neutraal", "Redelijk veel aandacht", "Zeer veel aandacht"});

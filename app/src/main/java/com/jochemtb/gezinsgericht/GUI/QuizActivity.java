@@ -1,5 +1,6 @@
 package com.jochemtb.gezinsgericht.GUI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,7 @@ import java.util.List;
 public class QuizActivity extends AppCompatActivity {
 
     private TextView questionText;
+    private TextView confirmText;
     private RadioGroup answersGroup;
     private Button nextButton;
     private Button previousButton;
@@ -33,108 +35,136 @@ public class QuizActivity extends AppCompatActivity {
     private List<String> selectedAnswers;
     private int currentQuestionIndex = 0;
     private Quiz quiz;
+    private QuizManager quizManager;
+    private QuestionView questionView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+        initViews();
+        initQuiz();
+
+        nextButton.setOnClickListener(v -> handleNextButtonClick());
+        previousButton.setOnClickListener(v -> handlePreviousButtonClick());
+        confirmButton.setOnClickListener(v -> handleConfirmButtonClick());
+
+        // Set up the initial question and answers
+        questionView.displayQuestion(currentQuestionIndex);
+        confirmText.setText("Dit is het aflsuitscherm van de vragenlijst. Enige onbeantwoorde vragen zullen worden weergegeven op het scherm. U kunt ernaartoe navigeren door op de knop met het vraagnummer te klikken");
+    }
+
+    private void initViews() {
         questionText = findViewById(R.id.TV_quiz_questionText);
+        confirmText = findViewById(R.id.TV_quiz_confirm);
         answersGroup = findViewById(R.id.RG_quiz_answersGroup);
         nextButton = findViewById(R.id.BT_quiz_next);
         previousButton = findViewById(R.id.BT_quiz_prev);
         confirmButton = findViewById(R.id.BT_quiz_confirm);
         questionNumber = findViewById(R.id.TV_quiz_questionNumber);
         progressBar = findViewById(R.id.PB_quiz_quizProgress);
-
-        QuizManager qm = new QuizManager();
-        quiz = new Quiz();  // Instantiate quiz before passing it to generateQuiz
-        qm.generateQuiz(quiz);
-
-        selectedAnswers = new ArrayList<>(Arrays.asList(new String[quiz.getTotalQuestions()]));
-
-        // Set up the initial question and answers
-        displayQuestion(currentQuestionIndex);
-
-        nextButton.setOnClickListener(v -> {
-            int selectedId = answersGroup.getCheckedRadioButtonId();
-            if (selectedId == -1) {
-                Toast.makeText(QuizActivity.this, "Please select an answer", Toast.LENGTH_SHORT).show();
-                return;
-            } else {
-                RadioButton selectedRadioButton = findViewById(selectedId);
-                selectedAnswers.set(currentQuestionIndex, selectedRadioButton.getText().toString());
-                answersGroup.clearCheck();
-            }
-
-            currentQuestionIndex++;
-            if (currentQuestionIndex < quiz.getTotalQuestions()) {
-                displayQuestion(currentQuestionIndex);
-            } else {
-                answersGroup.setVisibility(View.INVISIBLE);
-                questionText.setVisibility(View.INVISIBLE);
-                nextButton.setVisibility(View.INVISIBLE);
-                confirmButton.setVisibility(View.VISIBLE);
-            }
-
-            // Update progress bar
-            updateProgressBar();
-        });
-
-        previousButton.setOnClickListener(v -> {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                displayQuestion(currentQuestionIndex);
-            }
-            if (currentQuestionIndex < quiz.getTotalQuestions()) {
-                nextButton.setVisibility(View.VISIBLE);
-                confirmButton.setVisibility(View.INVISIBLE);
-            }
-        });
-
-        confirmButton.setOnClickListener(v -> {
-            // Handle the submission of answers
-            for (int i = 0; i < quiz.getTotalQuestions(); i++) {
-                Toast.makeText(QuizActivity.this, quiz.getQuestionList().get(i).getQuestion() + ": " + selectedAnswers.get(i), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
-    private void displayQuestion(int index) {
-        String selectedAnswer = selectedAnswers.get(index); // Preload the previously selected answer
-        answersGroup.removeAllViews();
+    private void initQuiz() {
+        quizManager = new QuizManager();
+        quiz = new Quiz();  // Instantiate quiz before passing it to generateQuiz
+        quizManager.generateQuiz(quiz);
 
-        questionText.setText(quiz.getQuestionList().get(index).getQuestion());
-        String[] answers = {quiz.getQuestionList().get(index).getAnswer1(),
-                quiz.getQuestionList().get(index).getAnswer2(),
-                quiz.getQuestionList().get(index).getAnswer3(),
-                quiz.getQuestionList().get(index).getAnswer4(),
-                quiz.getQuestionList().get(index).getAnswer5()};
-        for (String answer : answers) {
-            RadioButton radioButton = new RadioButton(this);
-            radioButton.setText(answer);
-            answersGroup.addView(radioButton);
+        selectedAnswers = new ArrayList<>(Arrays.asList(new String[quiz.getTotalQuestions()]));
+        questionView = new QuestionView();
+    }
+
+    private void handleNextButtonClick() {
+        saveSelectedAnswer();
+
+        currentQuestionIndex++;
+        if (currentQuestionIndex < quiz.getTotalQuestions()) {
+            questionView.displayQuestion(currentQuestionIndex);
+        } else {
+            prepareForQuizSubmission();
         }
 
-        if (selectedAnswer != null) {
-            for (int i = 0; i < answersGroup.getChildCount(); i++) {
-                RadioButton radioButton = (RadioButton) answersGroup.getChildAt(i);
-                if (radioButton.getText().equals(selectedAnswer)) {
-                    radioButton.setChecked(true);
-                    break;
-                }
-            }
+        updateProgressBar();
+    }
+
+    private void handlePreviousButtonClick() {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            questionView.displayQuestion(currentQuestionIndex);
         }
+        if (currentQuestionIndex < quiz.getTotalQuestions()) {
+            nextButton.setVisibility(View.VISIBLE);
+            confirmButton.setVisibility(View.INVISIBLE);
+        }
+    }
 
-        // Update the question number and progress bar
-        questionNumber.setText(String.format("%d", index + 1));
-        progressBar.setProgress((index) * 100 / quiz.getTotalQuestions());
+    private void handleConfirmButtonClick() {
+        for (int i = 0; i < quiz.getTotalQuestions(); i++) {
+            String answer = selectedAnswers.get(i) == null ? "No answer selected" : selectedAnswers.get(i);
+            Toast.makeText(QuizActivity.this, quiz.getQuestionList().get(i).getQuestion() + ": " + answer, Toast.LENGTH_SHORT).show();
+        }
+        startActivity(new Intent(QuizActivity.this, ResultsActivity.class));
+    }
 
-        // Update the visibility of the previous button
-        previousButton.setVisibility(index == 0 ? View.INVISIBLE : View.VISIBLE);
+    private void saveSelectedAnswer() {
+        int selectedId = answersGroup.getCheckedRadioButtonId();
+        if (selectedId != -1) {
+            RadioButton selectedRadioButton = findViewById(selectedId);
+            selectedAnswers.set(currentQuestionIndex, selectedRadioButton.getText().toString());
+        } else {
+            selectedAnswers.set(currentQuestionIndex, null);
+        }
+        answersGroup.clearCheck();
+    }
+
+    private void prepareForQuizSubmission() {
+        answersGroup.setVisibility(View.INVISIBLE);
+        questionText.setVisibility(View.INVISIBLE);
+        confirmText.setVisibility(View.VISIBLE);
+        nextButton.setVisibility(View.INVISIBLE);
+        confirmButton.setVisibility(View.VISIBLE);
     }
 
     private void updateProgressBar() {
         progressBar.setProgress((currentQuestionIndex) * 100 / quiz.getTotalQuestions());
+    }
+
+    private class QuestionView {
+
+        void displayQuestion(int index) {
+            String selectedAnswer = selectedAnswers.get(index); // Preload the previously selected answer
+            answersGroup.removeAllViews();
+
+            Question currentQuestion = quiz.getQuestionList().get(index);
+            questionText.setText(currentQuestion.getQuestion());
+            String[] answers = {currentQuestion.getAnswer1(),
+                    currentQuestion.getAnswer2(),
+                    currentQuestion.getAnswer3(),
+                    currentQuestion.getAnswer4(),
+                    currentQuestion.getAnswer5()};
+            for (String answer : answers) {
+                RadioButton radioButton = new RadioButton(QuizActivity.this);
+                radioButton.setText(answer);
+                answersGroup.addView(radioButton);
+            }
+
+            if (selectedAnswer != null) {
+                for (int i = 0; i < answersGroup.getChildCount(); i++) {
+                    RadioButton radioButton = (RadioButton) answersGroup.getChildAt(i);
+                    if (radioButton.getText().equals(selectedAnswer)) {
+                        radioButton.setChecked(true);
+                        break;
+                    }
+                }
+            }
+
+            // Update the question number and progress bar
+            questionNumber.setText(String.format("%d", index + 1));
+            progressBar.setProgress((index) * 100 / quiz.getTotalQuestions());
+
+            // Update the visibility of the previous button
+            previousButton.setVisibility(index == 0 ? View.INVISIBLE : View.VISIBLE);
+        }
     }
 }

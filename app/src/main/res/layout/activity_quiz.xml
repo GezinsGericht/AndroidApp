@@ -33,6 +33,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PB_quiz_quizProgress" />
 
+    <TextView
+        android:id="@+id/TV_quiz_confirm"
+        android:layout_width="345dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+        android:text="PlaceHolder Question"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PB_quiz_quizProgress" />
+
     <RadioGroup
         android:id="@+id/RG_quiz_answersGroup"
         android:layout_width="279dp"
