@@ -49,31 +49,31 @@ public class HistoryActivity extends AppCompatActivity {
         User user3 = new User(3, "PARENT", "Chantal de Vliering", "ch.devliereing@gmail.com", "Vliering1");
 
         HashMap<Integer, Integer> scores1 = new HashMap<>();
-        scores1.put(1, 1);
-        scores1.put(2, 3);
+        scores1.put(1, 15);
+        scores1.put(2, 8);
         scores1.put(3, 2);
-        scores1.put(4, 4);
+        scores1.put(4, 9);
         scores1.put(5, 5);
         scores1.put(6, 2);
-        scores1.put(7, 2);
+        scores1.put(7, 11);
 
         HashMap<Integer, Integer> scores2 = new HashMap<>();
-        scores1.put(1, 5);
-        scores1.put(2, 3);
-        scores1.put(3, 4);
-        scores1.put(4, 2);
-        scores1.put(5, 1);
-        scores1.put(6, 3);
-        scores1.put(7, 5);
+        scores2.put(1, 5);
+        scores2.put(2, 13);
+        scores2.put(3, 4);
+        scores2.put(4, 12);
+        scores2.put(5, 10);
+        scores2.put(6, 3);
+        scores2.put(7, 5);
 
         HashMap<Integer, Integer> scores3 = new HashMap<>();
-        scores1.put(1, 2);
-        scores1.put(2, 2);
-        scores1.put(3, 4);
-        scores1.put(4, 5);
-        scores1.put(5, 1);
-        scores1.put(6, 2);
-        scores1.put(7, 5);
+        scores3.put(1, 12);
+        scores3.put(2, 2);
+        scores3.put(3, 14);
+        scores3.put(4, 5);
+        scores3.put(5, 1);
+        scores3.put(6, 12);
+        scores3.put(7, 5);
 
         Score score1 = new Score(user1,scores1);
         Score score2 = new Score(user2, scores2);
