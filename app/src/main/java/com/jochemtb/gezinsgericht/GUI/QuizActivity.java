@@ -133,7 +133,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void prepareForQuizSubmission() {
-        answersGroup.setVisibility(View.INVISIBLE);
+        answersGroup.setVisibility(View.GONE);
         questionText.setVisibility(View.INVISIBLE);
         nextButton.setVisibility(View.INVISIBLE);
 
