@@ -19,6 +19,7 @@ import com.jochemtb.gezinsgericht.R;
 import com.jochemtb.gezinsgericht.domain.Question;
 import com.jochemtb.gezinsgericht.domain.Quiz;
 import com.jochemtb.gezinsgericht.domain.QuizManager;
+import com.jochemtb.gezinsgericht.domain.QuizResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,9 @@ public class QuizActivity extends AppCompatActivity {
     private Quiz quiz;
     private QuizManager quizManager;
     private QuestionView questionView;
+    private QuizResult quizResult;
+
+
     private int progressCounter = 0;
 
     @Override
@@ -74,8 +78,9 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void initQuiz() {
-        quizManager = new QuizManager();
+        quizManager = new QuizManager(this);
         quiz = quizManager.generateQuiz();
+        quizResult = new QuizResult( quiz.getQuestionList(), new ArrayList<>() );
 
         selectedAnswers = new ArrayList<>(quiz.getTotalQuestions());
         for (int i = 0; i < quiz.getTotalQuestions(); i++) {
@@ -85,16 +90,13 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void handleNextButtonClick() {
-        saveSelectedAnswer();
-
+        quizManager.saveSelectedAnswer(selectedAnswers, answersGroup, currentQuestionIndex, quizResult);
         currentQuestionIndex++;
-        if (currentQuestionIndex < quiz.getTotalQuestions()) {
-            questionView.displayQuestion(currentQuestionIndex);
-        } else {
+        quizManager.checkIfFinalQuestion(currentQuestionIndex, quiz, questionView);
+        if(currentQuestionIndex == quiz.getTotalQuestions()){
             prepareForQuizSubmission();
         }
-
-        updateProgressBar();
+        quizManager.updateProgressBar(selectedAnswers, progressBar, quiz);
     }
 
     private void handlePreviousButtonClick() {
@@ -113,32 +115,17 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void handleConfirmButtonClick() {
-        for (int i = 0; i < quiz.getTotalQuestions(); i++) {
-            String answer = selectedAnswers.get(i) == -1 ? "No answer selected" : Integer.toString(selectedAnswers.get(i));
-            Toast.makeText(QuizActivity.this, quiz.getQuestionList().get(i).getQuestion() + ": " + answer, Toast.LENGTH_SHORT).show();
-        }
+        quizManager.submitData(selectedAnswers, quiz);
         startActivity(new Intent(QuizActivity.this, ResultsActivity.class));
     }
 
-    private void saveSelectedAnswer() {
-        int selectedId = answersGroup.getCheckedRadioButtonId();
-        if (selectedId != -1) {
-            View radioButton = answersGroup.findViewById(selectedId);
-            int index = answersGroup.indexOfChild(radioButton);
-            selectedAnswers.set(currentQuestionIndex, index);
-        } else {
-            selectedAnswers.set(currentQuestionIndex, -1);
-        }
-        answersGroup.clearCheck();
-    }
-
-    private void prepareForQuizSubmission() {
-        answersGroup.setVisibility(View.INVISIBLE);
+    public void prepareForQuizSubmission() {
+        answersGroup.setVisibility(View.GONE);
         questionText.setVisibility(View.INVISIBLE);
+        questionNumber.setVisibility(View.INVISIBLE);
         nextButton.setVisibility(View.INVISIBLE);
 
-
-        List<Integer> unansweredQuestionIndices = getUnansweredQuestionIndices();
+        List<Integer> unansweredQuestionIndices = quizManager.getUnansweredQuestionIndices(selectedAnswers);
         if (unansweredQuestionIndices.isEmpty()) {
             confirmText.setText("U heeft alle vragen beantwoord. Klik op 'BEVESTIGEN' om door te gaan.");
             confirmButton.setVisibility(View.VISIBLE);
@@ -146,16 +133,6 @@ public class QuizActivity extends AppCompatActivity {
             displayUnansweredQuestions(unansweredQuestionIndices);
         }
         confirmText.setVisibility(View.VISIBLE);
-    }
-
-    private List<Integer> getUnansweredQuestionIndices() {
-        List<Integer> unansweredQuestions = new ArrayList<>();
-        for (int i = 0; i < selectedAnswers.size(); i++) {
-            if (selectedAnswers.get(i) == -1) {
-                unansweredQuestions.add(i);
-            }
-        }
-        return unansweredQuestions;
     }
 
     private void displayUnansweredQuestions(List<Integer> unansweredQuestions) {
@@ -182,19 +159,9 @@ public class QuizActivity extends AppCompatActivity {
         unansweredQuestionsLayout.setVisibility(View.INVISIBLE);
     }
 
-    private void updateProgressBar() {
-        int answeredQuestions = 0;
-        for (int answer : selectedAnswers) {
-            if (answer != -1) {
-                answeredQuestions++;
-            }
-        }
-        progressBar.setProgress((answeredQuestions) * 100 / quiz.getTotalQuestions());
-    }
+    public class QuestionView {
 
-    private class QuestionView {
-
-        void displayQuestion(int index) {
+        public void displayQuestion(int index) {
             Log.d("QuestionView", String.valueOf(index));
             int selectedAnswerIndex = selectedAnswers.get(index); // Preload the previously selected answer
             answersGroup.removeAllViews();
@@ -206,6 +173,7 @@ public class QuizActivity extends AppCompatActivity {
                     currentQuestion.getAnswer3(),
                     currentQuestion.getAnswer4(),
                     currentQuestion.getAnswer5()};
+            
             for (String answer : answers) {
                 if (answer != null && !answer.isEmpty()) {
                     RadioButton radioButton = new RadioButton(QuizActivity.this);
@@ -217,9 +185,8 @@ public class QuizActivity extends AppCompatActivity {
                 }
             }
 
-            // Force the RadioGroup to redraw itself and recalculate its layout
-            answersGroup.invalidate();
-            answersGroup.requestLayout();
+            answersGroup.invalidate(); // Force the RadioGroup to redraw itself and recalculate its layout
+            answersGroup.requestLayout(); // Request a layout pass to ensure the RadioGroup is properly laid out
 
             if (selectedAnswerIndex != -1) {
                 RadioButton selectedRadioButton = (RadioButton) answersGroup.getChildAt(selectedAnswerIndex);

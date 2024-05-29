@@ -49,9 +49,9 @@
 
     <RadioGroup
         android:id="@+id/RG_quiz_answersGroup"
-        android:layout_width="279dp"
-        android:layout_height="246dp"
-        android:layout_marginBottom="60dp"
+        android:layout_width="269dp"
+        android:layout_height="349dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/TV_quiz_questionNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -60,30 +60,35 @@
             android:id="@+id/RB_quiz_radio1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="Placeholder Answer" />
 
         <RadioButton
             android:id="@+id/RB_quiz_radio2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="Placeholder Answer" />
 
         <RadioButton
             android:id="@+id/RB_quiz_radio3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="Placeholder Answer" />
 
         <RadioButton
             android:id="@+id/RB_quiz_radio4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="Placeholder Answer" />
 
         <RadioButton
             android:id="@+id/RB_quiz_radio5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="Placeholder Answer" />
     </RadioGroup>
 
