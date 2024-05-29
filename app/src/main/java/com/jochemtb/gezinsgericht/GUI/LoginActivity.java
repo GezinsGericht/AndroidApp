@@ -57,7 +57,19 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
+        passwordForgot.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if(checkMandatoryFields(emailField)) {
+                    userRepository.forgotPassword(emailField.getText().toString());
+                    return true;
+                }
+                return false;
+            }
+        });
     }
+
 
     private boolean checkMandatoryFields(EditText field1){
         String text = field1.getText().toString();

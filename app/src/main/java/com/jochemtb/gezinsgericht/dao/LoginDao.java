@@ -8,6 +8,7 @@ public class LoginDao {
     private static final String LOG_TAG = "LoginDao";
     private static final String PREFS_NAME = "SharedPrefApp";
     private static final String TOKEN_KEY = "jwtToken";
+    private static final String DEVICE_KEY = "deviceKey";
     private SharedPreferences sharedPreferences;
 
     public LoginDao(Context context) {
@@ -18,6 +19,13 @@ public class LoginDao {
         Log.i(LOG_TAG, "saveToken");
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(TOKEN_KEY, token);
+        editor.apply();
+    }
+
+    private void saveDeviceToken(String deviceToken) {
+        Log.i(LOG_TAG, "saveDeviceToken");
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(DEVICE_KEY, deviceToken);
         editor.apply();
     }
 
