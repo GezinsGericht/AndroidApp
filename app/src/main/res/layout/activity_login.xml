@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/ET_activation_password_repeat"
+        android:id="@+id/ET_login_password"
         android:layout_width="311dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -45,7 +45,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/ET_activation_password"
+        android:id="@+id/ET_login_email"
         android:layout_width="311dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
@@ -53,7 +53,7 @@
         android:fontFamily="@font/sofia_sans_extra_condensed_bold"
         android:hint="@string/input_email"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/ET_activation_password_repeat"
+        app:layout_constraintBottom_toTopOf="@+id/ET_login_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -68,6 +68,6 @@
         android:textColor="@color/grey"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/BT_activation_submit"
-        app:layout_constraintEnd_toEndOf="@+id/ET_activation_password_repeat" />
+        app:layout_constraintEnd_toEndOf="@+id/ET_login_password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,9 @@
 package com.jochemtb.gezinsgericht.GUI;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,10 +14,18 @@ import com.jochemtb.gezinsgericht.R;
 public class ActivationActivity extends AppCompatActivity {
 
     Button confirmButton;
+    SharedPreferences sharefPref;
+    private static final String RESET_TOKEN = "resetToken";
+    private static final String LOG_TAG = "ActivationActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharefPref = getSharedPreferences("sharedPref", MODE_PRIVATE);
+        Log.d(LOG_TAG, "onCreate: resetToken="+sharefPref.getLong(RESET_TOKEN, 0)+", isFiveMinutesPassed="+isFiveMinutesPassed(sharefPref.getLong(RESET_TOKEN, 0)));
+        if(isFiveMinutesPassed(sharefPref.getLong(RESET_TOKEN, 0))){
+            startActivity(new Intent(ActivationActivity.this, LoginActivity.class));
+        }
         setContentView(R.layout.activity_activation);
         confirmButton = findViewById(R.id.BT_activation_submit);
         confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -24,5 +34,13 @@ public class ActivationActivity extends AppCompatActivity {
                 startActivity(new Intent(ActivationActivity.this, LoginActivity.class));
             }
         });
+    }
+
+    public static boolean isFiveMinutesPassed(long timestampInSeconds) {
+        long currentTimeInSeconds = System.currentTimeMillis() / 1000; // Current time in seconds
+        long fiveMinutesInSeconds = 5 * 60; // 5 minutes in seconds
+
+        // Check if the difference between current time and the provided timestamp is greater than 5 minutes
+        return (currentTimeInSeconds - timestampInSeconds) >= fiveMinutesInSeconds;
     }
 }
