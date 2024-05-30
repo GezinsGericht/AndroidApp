@@ -98,7 +98,11 @@ public class ResultsActivity extends AppCompatActivity {
 
     private void setupMyAnswerButton() {
         Button myAnswer = findViewById(R.id.results_show);
-        myAnswer.setOnClickListener(v -> startActivity(new Intent(ResultsActivity.this, MyAnswerActivity.class))); //Switches the page to MyAnswerActivity
+        myAnswer.setOnClickListener(v -> {
+            Intent intent = new Intent(ResultsActivity.this, MyAnswerActivity.class);
+            intent.putExtra("session", mSession);
+            startActivity(intent);
+        });
     }
 
     private void setupCloseButton() {

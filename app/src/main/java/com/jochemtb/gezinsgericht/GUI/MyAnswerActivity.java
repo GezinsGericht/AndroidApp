@@ -14,17 +14,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jochemtb.gezinsgericht.R;
 import com.jochemtb.gezinsgericht.adapters.MyAnswerAdapter;
+import com.jochemtb.gezinsgericht.domain.Session;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MyAnswerActivity extends AppCompatActivity {
 
+    private Session mSession;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
         setContentView(R.layout.activity_myanswers);
+
+        Intent intent = getIntent();
+        mSession = (Session) intent.getSerializableExtra("session");
 
         setupBackButton(); //Sets up the "<--" button
 
@@ -51,6 +57,10 @@ public class MyAnswerActivity extends AppCompatActivity {
 
     private void setupBackButton(){ //Navigates you back to ResultsActivity
         ImageButton back = findViewById(R.id.back_to_results);
-        back.setOnClickListener(v -> startActivity(new Intent(MyAnswerActivity.this, ResultsActivity.class)));
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(MyAnswerActivity.this, ResultsActivity.class);
+            intent.putExtra("session", mSession);
+            startActivity(intent);
+        });
     }
 }
