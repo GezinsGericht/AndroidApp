@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.type.DateTime;
 import com.jochemtb.gezinsgericht.API.ApiService;
 import com.jochemtb.gezinsgericht.API.Login.ForgotPasswordRequest;
 import com.jochemtb.gezinsgericht.API.Login.ForgotPasswordResponse;
@@ -14,9 +13,6 @@ import com.jochemtb.gezinsgericht.API.Login.LoginRequest;
 import com.jochemtb.gezinsgericht.API.Login.LoginResponse;
 import com.jochemtb.gezinsgericht.GUI.MainActivity;
 import com.jochemtb.gezinsgericht.dao.LoginDao;
-
-
-import java.time.Instant;
 
 import retrofit2.Call;
 import retrofit2.Callback;
