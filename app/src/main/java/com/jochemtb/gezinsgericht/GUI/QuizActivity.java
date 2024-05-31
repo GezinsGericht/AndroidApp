@@ -1,8 +1,11 @@
 package com.jochemtb.gezinsgericht.GUI;
 
+import static com.jochemtb.gezinsgericht.R.style.RadioButtonStyle;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -154,9 +157,9 @@ public class QuizActivity extends AppCompatActivity {
         answersGroup.setVisibility(View.VISIBLE);
         questionText.setVisibility(View.VISIBLE);
         questionNumber.setVisibility(View.VISIBLE);
-        confirmText.setVisibility(View.INVISIBLE);
         nextButton.setVisibility(View.VISIBLE);
         confirmButton.setVisibility(View.INVISIBLE);
+        confirmText.setVisibility(View.GONE);
         unansweredQuestionsLayout.setVisibility(View.GONE);
     }
 
@@ -178,6 +181,8 @@ public class QuizActivity extends AppCompatActivity {
             for (String answer : answers) {
                 if (answer != null && !answer.isEmpty()) {
                     RadioButton radioButton = new RadioButton(QuizActivity.this);
+                    radioButton.setTextSize(20);
+                    radioButton.setPadding(0, 20, 0, 20);
                     radioButton.setText(answer);
                     radioButton.setEnabled(true);
                     Log.d("QuestionView", String.valueOf(radioButton.isClickable()));
