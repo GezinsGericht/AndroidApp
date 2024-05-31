@@ -90,4 +90,10 @@ public class LineChartHelper {
         lineChart.invalidate();
         Log.d(LOG_TAG, "Dataline added");
     }
+
+    // This method clears the entries
+    public void clearEntries() {
+        entries.clear();
+    }
+
 }
