@@ -35,6 +35,7 @@ public class LineChartHelper {
         makeDiscription();
         lineChart.setDescription(description);
         lineChart.getAxisRight().setDrawLabels(false);
+        lineChart.getLegend().setEnabled(false);
 
         makeXaxis();
         makeYaxis();
