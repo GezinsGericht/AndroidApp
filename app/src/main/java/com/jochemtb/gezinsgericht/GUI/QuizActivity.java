@@ -181,7 +181,7 @@ public class QuizActivity extends AppCompatActivity {
                 String answer = answers[i];
                 if (answer != null && !answer.isEmpty()) {
                     RadioButton radioButton = new RadioButton(QuizActivity.this);
-                    setUpRadioButton(radioButton, answer, i, index);
+                    setUpRadioButton(radioButton, answer, i, index, answersGroup);
                     answersGroup.addView(radioButton);
                 }
             }
@@ -201,19 +201,26 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
-    private void setUpRadioButton(final RadioButton radioButton, String answer, int answerIndex, int questionIndex) {
+    private void setUpRadioButton(final RadioButton radioButton, String answer, int answerIndex, int questionIndex, RadioGroup answersGroup) {
         radioButton.setTextSize(20);
         radioButton.setPadding(0, 20, 0, 20);
         radioButton.setText(answer);
+
         radioButton.setOnClickListener(v -> {
-            if (radioButton.isChecked() && selectedAnswers.get(questionIndex) == answerIndex) {
-                radioButton.setChecked(false);
-                selectedAnswers.set(questionIndex, -1); // Update selectedAnswers list to reflect deselection
+            int currentSelection = selectedAnswers.get(questionIndex);
+
+            if (currentSelection == answerIndex) {
+                // If the same button is clicked again, deselect it
+                answersGroup.clearCheck();
+                selectedAnswers.set(questionIndex, -1);
             } else {
-                selectedAnswers.set(questionIndex, answerIndex); // Update selectedAnswers list with the new selection
+                // Update selectedAnswers with the new selection
+                selectedAnswers.set(questionIndex, answerIndex);
+
+                // Deselect all radio buttons in the group and select the new one
                 for (int i = 0; i < answersGroup.getChildCount(); i++) {
-                    RadioButton Button = (RadioButton) answersGroup.getChildAt(i);
-                    Button.setChecked(i == selectedAnswers.get(questionIndex)); //kunt niet selecteren wanneer gedeselecteerd totdat je een andere knop selecteerd
+                    RadioButton button = (RadioButton) answersGroup.getChildAt(i);
+                    button.setChecked(i == answerIndex);
                 }
             }
         });
