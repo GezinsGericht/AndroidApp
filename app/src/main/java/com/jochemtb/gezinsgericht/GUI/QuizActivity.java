@@ -47,7 +47,6 @@ public class QuizActivity extends AppCompatActivity {
     private QuestionView questionView;
     private QuizResult quizResult;
 
-
     private int progressCounter = 0;
 
     @Override
@@ -83,7 +82,7 @@ public class QuizActivity extends AppCompatActivity {
     private void initQuiz() {
         quizManager = new QuizManager(this);
         quiz = quizManager.generateQuiz();
-        quizResult = new QuizResult( quiz.getQuestionList(), new ArrayList<>() );
+        quizResult = new QuizResult(quiz.getQuestionList(), new ArrayList<>());
 
         selectedAnswers = new ArrayList<>(quiz.getTotalQuestions());
         for (int i = 0; i < quiz.getTotalQuestions(); i++) {
@@ -96,7 +95,7 @@ public class QuizActivity extends AppCompatActivity {
         quizManager.saveSelectedAnswer(selectedAnswers, answersGroup, currentQuestionIndex, quizResult);
         currentQuestionIndex++;
         quizManager.checkIfFinalQuestion(currentQuestionIndex, quiz, questionView);
-        if(currentQuestionIndex == quiz.getTotalQuestions()){
+        if (currentQuestionIndex == quiz.getTotalQuestions()) {
             prepareForQuizSubmission();
         }
         quizManager.updateProgressBar(selectedAnswers, progressBar, quiz);
@@ -177,16 +176,12 @@ public class QuizActivity extends AppCompatActivity {
                     currentQuestion.getAnswer3(),
                     currentQuestion.getAnswer4(),
                     currentQuestion.getAnswer5()};
-            
-            for (String answer : answers) {
+
+            for (int i = 0; i < answers.length; i++) {
+                String answer = answers[i];
                 if (answer != null && !answer.isEmpty()) {
                     RadioButton radioButton = new RadioButton(QuizActivity.this);
-                    radioButton.setTextSize(20);
-                    radioButton.setPadding(0, 20, 0, 20);
-                    radioButton.setText(answer);
-                    radioButton.setEnabled(true);
-                    Log.d("QuestionView", String.valueOf(radioButton.isClickable()));
-                    Log.d("QuestionView", String.valueOf(index));
+                    setUpRadioButton(radioButton, answer, i, index);
                     answersGroup.addView(radioButton);
                 }
             }
@@ -204,5 +199,23 @@ public class QuizActivity extends AppCompatActivity {
 
             previousButton.setVisibility(index == 0 ? View.INVISIBLE : View.VISIBLE); // Update the visibility of the previous button
         }
+    }
+
+    private void setUpRadioButton(final RadioButton radioButton, String answer, int answerIndex, int questionIndex) {
+        radioButton.setTextSize(20);
+        radioButton.setPadding(0, 20, 0, 20);
+        radioButton.setText(answer);
+        radioButton.setOnClickListener(v -> {
+            if (radioButton.isChecked() && selectedAnswers.get(questionIndex) == answerIndex) {
+                radioButton.setChecked(false);
+                selectedAnswers.set(questionIndex, -1); // Update selectedAnswers list to reflect deselection
+            } else {
+                selectedAnswers.set(questionIndex, answerIndex); // Update selectedAnswers list with the new selection
+                for (int i = 0; i < answersGroup.getChildCount(); i++) {
+                    RadioButton Button = (RadioButton) answersGroup.getChildAt(i);
+                    Button.setChecked(i == selectedAnswers.get(questionIndex)); //kunt niet selecteren wanneer gedeselecteerd totdat je een andere knop selecteerd
+                }
+            }
+        });
     }
 }
