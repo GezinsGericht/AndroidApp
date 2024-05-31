@@ -9,9 +9,10 @@
     <TextView
         android:id="@+id/TV_history_title"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:fontFamily="@font/sofia_sans_extra_condensed_bold"
-        android:text="@string/geschiedenis"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/hanken_grotesk_bold"
+        android:text="@string/navbar_2"
         android:textAlignment="center"
         android:textSize="34sp" />
 
