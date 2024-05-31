@@ -153,10 +153,11 @@ public class QuizActivity extends AppCompatActivity {
         questionView.displayQuestion(index);
         answersGroup.setVisibility(View.VISIBLE);
         questionText.setVisibility(View.VISIBLE);
+        questionNumber.setVisibility(View.VISIBLE);
         confirmText.setVisibility(View.INVISIBLE);
         nextButton.setVisibility(View.VISIBLE);
         confirmButton.setVisibility(View.INVISIBLE);
-        unansweredQuestionsLayout.setVisibility(View.INVISIBLE);
+        unansweredQuestionsLayout.setVisibility(View.GONE);
     }
 
     public class QuestionView {

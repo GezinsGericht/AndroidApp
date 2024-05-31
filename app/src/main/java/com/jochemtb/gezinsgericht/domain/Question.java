@@ -46,14 +46,6 @@ public class Question {
         this.weight = weight;
     }
 
-//    public Habitat getHabitat() {
-//        return habitat;
-//    }
-
-//    public void setHabitat(Habitat habitat) {
-//        this.habitat = habitat;
-//    }
-
     public String getAnswer1() {
         return answer1;
     }
