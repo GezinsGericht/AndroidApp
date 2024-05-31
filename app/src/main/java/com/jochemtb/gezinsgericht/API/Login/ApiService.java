@@ -1,4 +1,4 @@
-package com.jochemtb.gezinsgericht.API;
+package com.jochemtb.gezinsgericht.API.Login;
 
 
 import com.jochemtb.gezinsgericht.API.Login.ForgotPasswordRequest;
@@ -19,4 +19,8 @@ public interface ApiService {
     @Headers("Content-Type: application/json")
     @POST("login/reset")
     Call<ForgotPasswordResponse> forgotPassword(@Body ForgotPasswordRequest forgotPasswordRequest);
+
+    @Headers("Content-Type: application/json")
+    @POST("validate/renew")
+    Call<TokenResponse> checkPresentToken(@Body TokenRequest tokenRequest);
 }

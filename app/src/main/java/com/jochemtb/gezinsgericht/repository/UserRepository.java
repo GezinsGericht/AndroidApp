@@ -3,20 +3,22 @@ package com.jochemtb.gezinsgericht.repository;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.type.DateTime;
-import com.jochemtb.gezinsgericht.API.ApiService;
+import com.jochemtb.gezinsgericht.API.Login.ApiService;
 import com.jochemtb.gezinsgericht.API.Login.ForgotPasswordRequest;
 import com.jochemtb.gezinsgericht.API.Login.ForgotPasswordResponse;
 import com.jochemtb.gezinsgericht.API.Login.LoginRequest;
 import com.jochemtb.gezinsgericht.API.Login.LoginResponse;
+import com.jochemtb.gezinsgericht.API.Login.TokenRequest;
+import com.jochemtb.gezinsgericht.API.Login.TokenResponse;
 import com.jochemtb.gezinsgericht.GUI.MainActivity;
 import com.jochemtb.gezinsgericht.dao.LoginDao;
 
 
-import java.time.Instant;
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +33,9 @@ public class UserRepository {
     private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
     private static final String LOG_TAG = "UserRepository";
     private static final String RESET_TOKEN = "resetToken";
+
+    private int attemptsLeft;
+    private boolean returnBool;
 
     public UserRepository(Context context) {
         this.context = context;
@@ -111,5 +116,61 @@ public class UserRepository {
             }
         });
     }
+
+    public void checkPresentToken(String token, int attemptsInput, TokenCheckCallback callback) {
+        new TokenCheckTask(token, attemptsInput, callback).execute();
+    }
+
+    private static class TokenCheckTask extends AsyncTask<Void, Void, Boolean> {
+        private String token;
+        private int attemptsInput;
+        private TokenCheckCallback callback;
+
+        public TokenCheckTask(String token, int attemptsInput, TokenCheckCallback callback) {
+            this.token = token;
+            this.attemptsInput = attemptsInput;
+            this.callback = callback;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            // Perform API call in the background
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(API_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            ApiService apiService = retrofit.create(ApiService.class);
+            TokenRequest tokenRequest = new TokenRequest(token);
+
+            try {
+                Response<TokenResponse> response = apiService.checkPresentToken(tokenRequest).execute();
+                if (response.isSuccessful()) {
+                    TokenResponse tokenResponse = response.body();
+                    return tokenResponse != null && tokenResponse.getData() != null;
+                } else {
+                    // Handle the case where the token check failed
+                    return false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isValid) {
+            // Update UI based on the result
+            if (callback != null) {
+                callback.onTokenChecked(isValid);
+            }
+        }
+    }
+
+
+    public interface TokenCheckCallback {
+        void onTokenChecked(boolean isValid);
+    }
 }
+
 
