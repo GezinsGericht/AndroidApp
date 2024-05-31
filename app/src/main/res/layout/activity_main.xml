@@ -116,14 +116,14 @@
     </com.github.mikephil.charting.charts.LineChart>
 
     <!-- Navigation bar -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/navbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <Button
             android:id="@+id/BTN_navbar1"
@@ -131,14 +131,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/aqua"
-            android:text="@string/navbar_1"
             android:theme="@style/Button.Aqua"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/BTN_navbar2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp" />
+            android:text="@string/navbar_1" />
 
         <Button
             android:id="@+id/BTN_navbar2"
@@ -146,16 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/navbar_2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/BTN_navbar3"
-            app:layout_constraintStart_toEndOf="@+id/BTN_navbar1"
-            app:layout_constraintTop_toTopOf="parent"
-            android:singleLine="true"
-            android:ellipsize="end"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp" />
-
+            android:text="@string/navbar_2" />
 
         <Button
             android:id="@+id/BTN_navbar3"
@@ -163,16 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/black"
-            android:text="@string/navbar_3"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/BTN_navbar2"
-            app:layout_constraintTop_toTopOf="parent"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+            android:text="@string/navbar_3" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
