@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         checkbox_7 = findViewById(R.id.CB_homepage_7);
 
         lineChartHelper = new LineChartHelper(findViewById(R.id.chart_homepage));
+        settingsLogo = findViewById(R.id.IV_main_settings);
 
         navbar_2 = findViewById(R.id.BTN_navbar2);
         navbar_3 = findViewById(R.id.BTN_navbar3);
