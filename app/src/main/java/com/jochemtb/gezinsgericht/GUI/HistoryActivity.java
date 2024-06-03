@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,8 +24,9 @@ public class HistoryActivity extends AppCompatActivity implements HistoryReposit
     private final String LOG_TAG = "HistoryActivity";
     RecyclerView rvHistoryList;
     private HistoryListAdapter mAdapter;
-    private Button navbar_1, navbar_3;
+    private Button navbar_1, navbar_3, navbar_2;
     private HistoryRepository historyRepository;
+    private ProgressBar loadingScreen;
 
     private HistoryDao historyDao;
 
@@ -33,6 +35,7 @@ public class HistoryActivity extends AppCompatActivity implements HistoryReposit
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         initViewComponents();
+        setLoadingScreen(true);
 
 //        Session session = new Session(HistoryRepository());
         historyRepository = new HistoryRepository(this);
@@ -65,13 +68,30 @@ public class HistoryActivity extends AppCompatActivity implements HistoryReposit
     //Method om de view componenten te initialiseren
     private void initViewComponents() {
         navbar_1 = findViewById(R.id.BTN_navbar1);
+        navbar_2 = findViewById(R.id.BTN_navbar2);
         navbar_3 = findViewById(R.id.BTN_navbar3);
+        loadingScreen = findViewById(R.id.PB_History_loading);
 
         Log.i(LOG_TAG, "initViewComponents");
     }
 
+    private void setLoadingScreen(Boolean bool){
+        if(bool){
+            navbar_1.setVisibility(View.INVISIBLE);
+            navbar_3.setVisibility(View.INVISIBLE);
+            navbar_2.setVisibility(View.INVISIBLE);
+            loadingScreen.setVisibility(View.VISIBLE);
+        } else{
+            navbar_1.setVisibility(View.VISIBLE);
+            navbar_3.setVisibility(View.VISIBLE);
+            navbar_2.setVisibility(View.VISIBLE);
+            loadingScreen.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void onHistoryFetched() {
+        setLoadingScreen(false);
         mAdapter.setHistoryList(historyDao.getHistoryList());
         mAdapter.notifyDataSetChanged();
         Log.i(LOG_TAG, "History data updated in adapter");
