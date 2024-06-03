@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         emailField = findViewById(R.id.ET_login_email);
         passwordField = findViewById(R.id.ET_login_password);
         title = findViewById(R.id.TV_login_title);
-        loaddingIcon = findViewById(R.id.PB_login_loadingLogo);
+        loaddingIcon = findViewById(R.id.PB_History_loading);
 
         userRepository = new UserRepository(this);
 
