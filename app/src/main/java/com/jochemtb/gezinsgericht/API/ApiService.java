@@ -1,6 +1,8 @@
 package com.jochemtb.gezinsgericht.API;
 
 
+import com.jochemtb.gezinsgericht.API.History.HistoryListRequest;
+import com.jochemtb.gezinsgericht.API.History.HistoryListResponse;
 import com.jochemtb.gezinsgericht.API.Login.ForgotPasswordRequest;
 import com.jochemtb.gezinsgericht.API.Login.ForgotPasswordResponse;
 import com.jochemtb.gezinsgericht.API.Login.LoginRequest;
@@ -19,4 +21,8 @@ public interface ApiService {
     @Headers("Content-Type: application/json")
     @POST("login/reset")
     Call<ForgotPasswordResponse> forgotPassword(@Body ForgotPasswordRequest forgotPasswordRequest);
+
+    @Headers("Content-Type: application/json")
+    @POST("history/list")
+    Call<HistoryListResponse> getHistory(@Body HistoryListRequest historyRequest);
 }

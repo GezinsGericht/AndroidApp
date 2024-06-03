@@ -7,12 +7,17 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.jochemtb.gezinsgericht.API.ApiService;
+import com.jochemtb.gezinsgericht.API.History.HistoryListRequest;
+import com.jochemtb.gezinsgericht.API.History.HistoryListResponse;
 import com.jochemtb.gezinsgericht.API.Login.ForgotPasswordRequest;
 import com.jochemtb.gezinsgericht.API.Login.ForgotPasswordResponse;
 import com.jochemtb.gezinsgericht.API.Login.LoginRequest;
 import com.jochemtb.gezinsgericht.API.Login.LoginResponse;
 import com.jochemtb.gezinsgericht.GUI.MainActivity;
 import com.jochemtb.gezinsgericht.dao.LoginDao;
+import com.jochemtb.gezinsgericht.domain.Session;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -106,6 +111,39 @@ public class UserRepository {
                 Toast.makeText(context, "Forgot password error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public ArrayList<Session> getSessions() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ArrayList<Session> sessions = new ArrayList<>();
+        ApiService apiService = retrofit.create(ApiService.class);
+        apiService.getHistory(new HistoryListRequest()).enqueue(new Callback<HistoryListResponse>() {
+            @Override
+            public void onResponse(Call<HistoryListResponse> call, Response<HistoryListResponse> response) {
+                if (response.isSuccessful()) {
+                    HistoryListResponse historyListResponse = response.body();
+                    if (historyListResponse != null) {
+                        //sessions array list vullen
+                    } else {
+                        Toast.makeText(context, "Error: No response data", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(context, "Error: Unable to get history list", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HistoryListResponse> call, Throwable t) {
+                Log.e(LOG_TAG, "Get history error: " + t.getMessage());
+                Toast.makeText(context, "Get history error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        return sessions;
     }
 }
 
