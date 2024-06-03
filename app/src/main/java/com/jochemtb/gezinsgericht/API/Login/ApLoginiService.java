@@ -1,17 +1,12 @@
 package com.jochemtb.gezinsgericht.API.Login;
 
 
-import com.jochemtb.gezinsgericht.API.Login.ForgotPasswordRequest;
-import com.jochemtb.gezinsgericht.API.Login.ForgotPasswordResponse;
-import com.jochemtb.gezinsgericht.API.Login.LoginRequest;
-import com.jochemtb.gezinsgericht.API.Login.LoginResponse;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
-public interface ApiService {
+public interface ApLoginiService {
     @Headers("Content-Type: application/json")
     @POST("login")
     Call<LoginResponse> loginUser(@Body LoginRequest loginRequest);

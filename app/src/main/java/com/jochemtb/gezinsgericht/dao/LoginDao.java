@@ -6,7 +6,7 @@ import android.util.Log;
 
 public class LoginDao {
     private static final String LOG_TAG = "LoginDao";
-    private static final String PREFS_NAME = "SharedPrefApp";
+    private static final String PREFS_NAME = "sharedPref";
     private static final String TOKEN_KEY = "jwtToken";
     private static final String DEVICE_KEY = "deviceKey";
     private SharedPreferences sharedPreferences;
@@ -17,6 +17,7 @@ public class LoginDao {
 
     public void saveToken(String token) {
         Log.i(LOG_TAG, "saveToken");
+        Log.i(LOG_TAG, token);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(TOKEN_KEY, token);
         editor.apply();

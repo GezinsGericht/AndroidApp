@@ -12,27 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jochemtb.gezinsgericht.R;
 
-import com.jochemtb.gezinsgericht.Repository.UserRepository;
+import com.jochemtb.gezinsgericht.dao.HistoryDao;
+import com.jochemtb.gezinsgericht.repository.HistoryRepository;
 import com.jochemtb.gezinsgericht.adapters.HistoryListAdapter;
-import com.jochemtb.gezinsgericht.domain.FamilyResults;
-import com.jochemtb.gezinsgericht.domain.Habitat;
-import com.jochemtb.gezinsgericht.domain.Professional;
-import com.jochemtb.gezinsgericht.domain.Score;
 import com.jochemtb.gezinsgericht.domain.Session;
-import com.jochemtb.gezinsgericht.domain.User;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
-public class HistoryActivity extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity implements HistoryRepository.HistoryCallback {
 
     private final String LOG_TAG = "HistoryActivity";
     RecyclerView rvHistoryList;
     private HistoryListAdapter mAdapter;
     private Button navbar_1, navbar_3;
+    private HistoryRepository historyRepository;
+
+    private HistoryDao historyDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +34,14 @@ public class HistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history);
         initViewComponents();
 
-        Session session = new Session(UserRepository.getSessions());
+//        Session session = new Session(HistoryRepository());
+        historyRepository = new HistoryRepository(this);
+        historyRepository.getHistory(this);
+        this.historyDao = historyRepository.getDao();
 
         rvHistoryList = findViewById(R.id.RV_history_list);
         rvHistoryList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mAdapter = new HistoryListAdapter(this, Sessions);
+        mAdapter = new HistoryListAdapter(this, historyDao.getHistoryList());
         rvHistoryList.setAdapter(mAdapter);
 
 
@@ -71,6 +68,13 @@ public class HistoryActivity extends AppCompatActivity {
         navbar_3 = findViewById(R.id.BTN_navbar3);
 
         Log.i(LOG_TAG, "initViewComponents");
+    }
+
+    @Override
+    public void onHistoryFetched() {
+        mAdapter.setHistoryList(historyDao.getHistoryList());
+        mAdapter.notifyDataSetChanged();
+        Log.i(LOG_TAG, "History data updated in adapter");
     }
 
 //    //TEMP DATA
