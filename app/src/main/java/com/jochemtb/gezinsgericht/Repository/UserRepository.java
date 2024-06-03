@@ -1,23 +1,24 @@
-package com.jochemtb.gezinsgericht.Repository;
+package com.jochemtb.gezinsgericht.repository;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.jochemtb.gezinsgericht.API.ApiService;
-import com.jochemtb.gezinsgericht.API.History.HistoryListRequest;
-import com.jochemtb.gezinsgericht.API.History.HistoryListResponse;
+import com.jochemtb.gezinsgericht.API.Login.ApiService;
 import com.jochemtb.gezinsgericht.API.Login.ForgotPasswordRequest;
 import com.jochemtb.gezinsgericht.API.Login.ForgotPasswordResponse;
 import com.jochemtb.gezinsgericht.API.Login.LoginRequest;
 import com.jochemtb.gezinsgericht.API.Login.LoginResponse;
+import com.jochemtb.gezinsgericht.API.Login.TokenRequest;
+import com.jochemtb.gezinsgericht.API.Login.TokenResponse;
 import com.jochemtb.gezinsgericht.GUI.MainActivity;
 import com.jochemtb.gezinsgericht.dao.LoginDao;
-import com.jochemtb.gezinsgericht.domain.Session;
 
-import java.util.ArrayList;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +33,9 @@ public class UserRepository {
     private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
     private static final String LOG_TAG = "UserRepository";
     private static final String RESET_TOKEN = "resetToken";
+
+    private int attemptsLeft;
+    private boolean returnBool;
 
     public UserRepository(Context context) {
         this.context = context;
@@ -113,37 +117,60 @@ public class UserRepository {
         });
     }
 
-    public ArrayList<Session> getSessions() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    public void checkPresentToken(String token, int attemptsInput, TokenCheckCallback callback) {
+        new TokenCheckTask(token, attemptsInput, callback).execute();
+    }
 
-        ArrayList<Session> sessions = new ArrayList<>();
-        ApiService apiService = retrofit.create(ApiService.class);
-        apiService.getHistory(new HistoryListRequest()).enqueue(new Callback<HistoryListResponse>() {
-            @Override
-            public void onResponse(Call<HistoryListResponse> call, Response<HistoryListResponse> response) {
+    private static class TokenCheckTask extends AsyncTask<Void, Void, Boolean> {
+        private String token;
+        private int attemptsInput;
+        private TokenCheckCallback callback;
+
+        public TokenCheckTask(String token, int attemptsInput, TokenCheckCallback callback) {
+            this.token = token;
+            this.attemptsInput = attemptsInput;
+            this.callback = callback;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            // Perform API call in the background
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(API_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            ApiService apiService = retrofit.create(ApiService.class);
+            TokenRequest tokenRequest = new TokenRequest(token);
+
+            try {
+                Response<TokenResponse> response = apiService.checkPresentToken(tokenRequest).execute();
                 if (response.isSuccessful()) {
-                    HistoryListResponse historyListResponse = response.body();
-                    if (historyListResponse != null) {
-                        //sessions array list vullen
-                    } else {
-                        Toast.makeText(context, "Error: No response data", Toast.LENGTH_LONG).show();
-                    }
+                    TokenResponse tokenResponse = response.body();
+                    return tokenResponse != null && tokenResponse.getData() != null;
                 } else {
-                    Toast.makeText(context, "Error: Unable to get history list", Toast.LENGTH_LONG).show();
+                    // Handle the case where the token check failed
+                    return false;
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
             }
+        }
 
-            @Override
-            public void onFailure(Call<HistoryListResponse> call, Throwable t) {
-                Log.e(LOG_TAG, "Get history error: " + t.getMessage());
-                Toast.makeText(context, "Get history error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+        @Override
+        protected void onPostExecute(Boolean isValid) {
+            // Update UI based on the result
+            if (callback != null) {
+                callback.onTokenChecked(isValid);
             }
-        });
+        }
+    }
 
-        return sessions;
+
+    public interface TokenCheckCallback {
+        void onTokenChecked(boolean isValid);
     }
 }
+
 
