@@ -52,12 +52,13 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
         mSessionId = intent.getIntExtra("session", 0);
         Log.i(LOG_TAG, "Session: " + mSessionId);
 
+        setupCloseButton(); //Sets up the "afsluiten" button
+        setupMyAnswerButton(); //Sets up the "mijn antwoorden" button
         initViewComponents(); //Sets the checkboxes by id
 
         resultsRepository = new ResultsRepository(this);
         resultsRepository.getResults(this, String.valueOf(mSessionId));
         this.resultsDao = resultsRepository.getDao();
-
 
     }
 
@@ -133,16 +134,6 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
         afsluiten.setOnClickListener(v -> startActivity(new Intent(ResultsActivity.this, MainActivity.class))); //Switches the page to MainActivity
     }
 
-    private void setLoadingScreen(Boolean bool) {
-        if (bool) {
-            mResultsCheckboxes.setVisibility(View.INVISIBLE);
-            loadingScreen.setVisibility(View.VISIBLE);
-        } else {
-            mResultsCheckboxes.setVisibility(View.INVISIBLE);
-            loadingScreen.setVisibility(View.GONE);
-        }
-    }
-
     @Override
     public void onResultsFetched(List<ResultsItem> results) {
         Set<Integer> uniqueUserIds = new HashSet<>();
@@ -185,12 +176,11 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
                 Log.d(LOG_TAG, "User " + userId + " Habitat " + habitatId + " Average " + average);
             }
         }
+
         Log.d(LOG_TAG, "UserHabitatAverageValues: " + userHabitatAverageValues);
         createCheckboxes(userHabitatAverageValues);
         radarChartHelper.createDataSetFromSession(userHabitatAverageValues); //Sets the dummy data with help from RadarChartHelper
         setupCheckBoxListeners(); //Sets the functionality for the checkboxes
-        setupCloseButton(); //Sets up the "afsluiten" button
-        setupMyAnswerButton(); //Sets up the "mijn antwoorden" button
         Log.i(LOG_TAG, "Results data updated");
 
     }
