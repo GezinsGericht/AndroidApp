@@ -86,22 +86,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(checkMandatoryFields(emailField)){
-                    startActivity(new Intent(LoginActivity.this, ActivationActivity.class));
+                    userRepository.forgotPassword(emailField.getText().toString());
                 } else {
                     Toast.makeText(getBaseContext(), "Vul een email address in", Toast.LENGTH_LONG).show();
                 }
 
-            }
-        });
-
-        passwordForgot.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if(checkMandatoryFields(emailField)) {
-                    userRepository.forgotPassword(emailField.getText().toString());
-                    return true;
-                }
-                return false;
             }
         });
     }

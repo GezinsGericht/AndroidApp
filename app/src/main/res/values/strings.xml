@@ -5,6 +5,7 @@
     <string name="password_forgot_button">Wachtwoord vergeten?</string>
     <string name="input_email">Email</string>
     <string name="input_password">Wachtwoord</string>
+    <string name="succes_pass_change">Wachtwoord succesvol aangepast</string>
 
     //Main
     <string name="title_main">Homescreen</string>

@@ -29,6 +29,13 @@ public class LoginDao {
         editor.apply();
     }
 
+    public void savePassword(String password) {
+        Log.i(LOG_TAG, "savePassword");
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("password", password);
+        editor.apply();
+    }
+
     public String getToken() {
         return sharedPreferences.getString(TOKEN_KEY, null);
     }

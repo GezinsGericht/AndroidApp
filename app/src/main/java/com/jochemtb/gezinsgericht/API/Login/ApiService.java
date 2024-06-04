@@ -21,6 +21,10 @@ public interface ApiService {
     Call<ForgotPasswordResponse> forgotPassword(@Body ForgotPasswordRequest forgotPasswordRequest);
 
     @Headers("Content-Type: application/json")
+    @POST("login/forgot")
+    Call<BaseResponse> changePassword(@Body ChangePasswordRequest changePasswordRequest);
+
+    @Headers("Content-Type: application/json")
     @POST("validate/renew")
     Call<TokenResponse> checkPresentToken(@Body TokenRequest tokenRequest);
 }

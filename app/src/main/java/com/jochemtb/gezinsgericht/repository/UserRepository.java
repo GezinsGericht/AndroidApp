@@ -8,6 +8,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.jochemtb.gezinsgericht.API.Login.ApiService;
+import com.jochemtb.gezinsgericht.API.Login.BaseResponse;
+import com.jochemtb.gezinsgericht.API.Login.ChangePasswordRequest;
 import com.jochemtb.gezinsgericht.API.Login.ForgotPasswordRequest;
 import com.jochemtb.gezinsgericht.API.Login.ForgotPasswordResponse;
 import com.jochemtb.gezinsgericht.API.Login.LoginRequest;
@@ -15,6 +17,7 @@ import com.jochemtb.gezinsgericht.API.Login.LoginResponse;
 import com.jochemtb.gezinsgericht.API.Login.TokenRequest;
 import com.jochemtb.gezinsgericht.API.Login.TokenResponse;
 import com.jochemtb.gezinsgericht.GUI.MainActivity;
+import com.jochemtb.gezinsgericht.R;
 import com.jochemtb.gezinsgericht.dao.LoginDao;
 
 
@@ -33,6 +36,7 @@ public class UserRepository {
     private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
     private static final String LOG_TAG = "UserRepository";
     private static final String RESET_TOKEN = "resetToken";
+    private static final String RESET_EMAIL = "resetEmail";
 
     private int attemptsLeft;
     private boolean returnBool;
@@ -92,13 +96,12 @@ public class UserRepository {
         apiService.forgotPassword(forgotPasswordRequest).enqueue(new Callback<ForgotPasswordResponse>() {
             @Override
             public void onResponse(Call<ForgotPasswordResponse> call, Response<ForgotPasswordResponse> response) {
-                long now = System.currentTimeMillis() / 1000;
-                sharedPref.edit().putLong(RESET_TOKEN, now).apply();
                 if (response.isSuccessful()) {
                     ForgotPasswordResponse forgotPasswordResponse = response.body();
                     if (forgotPasswordResponse != null) {
-//                        long now = System.currentTimeMillis() / 1000;
-//                        sharedPref.edit().putLong(RESET_TOKEN, now).apply();
+                        long now = System.currentTimeMillis() / 1000;
+                        sharedPref.edit().putLong(RESET_TOKEN, now).apply();
+                        sharedPref.edit().putString(RESET_EMAIL, email).apply();
                         Log.d(LOG_TAG, "Reset token: " + now);
                         Toast.makeText(context, forgotPasswordResponse.getMessage(), Toast.LENGTH_LONG).show();
                     } else {
@@ -116,6 +119,36 @@ public class UserRepository {
             }
         });
     }
+
+
+    public void changePassword(String email, String password){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiService apiService = retrofit.create(ApiService.class);
+        ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest(email, password);
+
+        apiService.changePassword(changePasswordRequest).enqueue(new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                if (response.isSuccessful()) {
+                    Log.e(LOG_TAG, "Change password response: " + response.body().getMessage());
+                    Toast.makeText(context, R.string.succes_pass_change, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, response.message(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+                Log.e(LOG_TAG, "Forgot password error: " + t.getMessage());
+                Toast.makeText(context, "Forgot password error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 
     public void checkPresentToken(String token, int attemptsInput, TokenCheckCallback callback) {
         new TokenCheckTask(token, attemptsInput, callback).execute();
