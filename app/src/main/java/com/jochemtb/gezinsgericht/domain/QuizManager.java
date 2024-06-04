@@ -10,6 +10,7 @@ import com.jochemtb.gezinsgericht.GUI.QuizActivity;
 import com.jochemtb.gezinsgericht.repository.QuestionRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public final class QuizManager {
@@ -71,59 +72,37 @@ public final class QuizManager {
         questionRepository.getQuestions(questionIds, new QuestionRepository.OnQuestionsRetrievedCallback() {
             @Override
             public void onQuestionsRetrieved(List<Question> questions) {
-                if (questions != null) {
+                if (questions != null && !questions.isEmpty()) {
                     questionList = questions;
                     Log.d(LOG_TAG, "Questions retrieved from database: " + questionList.size());
                     currentQuiz = new Quiz();
+
+                    //random volgorde van de vragen
+                    questionList = randomizeQuestions((ArrayList<Question>)questionList);
                     currentQuiz.setQuestionList((ArrayList<Question>) questionList);
                     currentQuiz.setTotalQuestions(questionList.size());
+
+//                    for (Question question : questionList) {
+//                        Log.e(LOG_TAG, question.getQuestion() + " " + question.getAnswer1() + " " + question.getAnswer2() + " " + question.getAnswer3() + " " + question.getAnswer4() + " " + question.getAnswer5());
+//                        questionstring.add(question.getQuestion());
+//                        possibleAnswers.add(new String[]{question.getAnswer1(), question.getAnswer2(), question.getAnswer3(), question.getAnswer4(), question.getAnswer5()});
+//                    }
 
                     if (quizGenerationListener != null) {
                         quizGenerationListener.onQuizGenerated();
                     }
                 } else {
-                    Log.e(LOG_TAG, "Failed to retrieve questions");
+                    Log.e(LOG_TAG, "No questions retrieved, or questions list is empty.");
+                    // Notify the user or handle the case when no questions are retrieved
+                    // E.g., show a dialog or a message on the UI
                 }
             }
         });
     }
 
-
-//        questionstring.add("Hoeveel aandacht besteed u aan gezonde voeding en lichaamsbeweging?");
-//        questionstring.add("Hoe actief bent u betrokken bij sociale activiteiten en evenementen?");
-//        questionstring.add("Hoe tevreden bent u over de plek waar u woont?");
-//
-//        possibleAnswers.add(new String[]{"Helemaal geen aandacht", "Weinig aandacht", "Neutraal", "Redelijk veel aandacht", "Zeer veel aandacht"});
-//        possibleAnswers.add(new String[]{"Helemaal geen aandacht", "Weinig aandacht", "Neutraal", "Redelijk veel aandacht", "Zeer veel aandacht"});
-//        possibleAnswers.add(new String[]{"Helemaal geen aandacht", "Weinig aandacht", "Neutraal", "Redelijk veel aandacht", "Zeer veel aandacht"});
-
-//        for (int i = 0; i < questionstring.size(); i++) {
-//            questionList.add(new Question(i + 1,
-//                    questionstring.get(i),
-//                    1,
-//                    possibleAnswers.get(i)[0],
-//                    possibleAnswers.get(i)[1],
-//                    possibleAnswers.get(i)[2],
-//                    possibleAnswers.get(i)[3],
-//                    possibleAnswers.get(i)[4]));
-//        }
-
-//        Quiz quiz = new Quiz();
-//        quiz.setQuestionList((ArrayList<Question>) questionList);
-//        quiz.setTotalQuestions(questionList.size());
-//        return quiz;
-
-
-    public List<Question> getQuestions() {
-        return questionList;
-    }
-
-    public Quiz getCurrentQuiz() {
-        return currentQuiz;
-    }
-
-    public void setCurrentQuiz(Quiz currentQuiz) {
-        this.currentQuiz = currentQuiz;
+    private ArrayList<Question> randomizeQuestions(ArrayList<Question> questions ){
+        Collections.shuffle(questions);
+        return questions;
     }
 
     public void saveSelectedAnswer(List<Integer> selectedAnswers, RadioGroup answersGroup, int currentQuestionIndex, QuizResult quizResult) {
@@ -176,7 +155,6 @@ public final class QuizManager {
         progressBar.setProgress((answeredQuestions) * 100 / quiz.getTotalQuestions());
     }
 
-
     public List<String> getQuestionstring() {
         return questionstring;
     }
@@ -201,6 +179,26 @@ public final class QuizManager {
         this.questionList = questionList;
     }
 
+    public Quiz getCurrentQuiz() {
+        return currentQuiz;
+    }
+
+    public void setCurrentQuiz(Quiz currentQuiz) {
+        this.currentQuiz = currentQuiz;
+    }
+
+    public QuizGenerationListener getQuizGenerationListener() {
+        return quizGenerationListener;
+    }
+
+    public List<Integer> getQuestionIds() {
+        return questionIds;
+    }
+
+    public void setQuestionIds(List<Integer> questionIds) {
+        this.questionIds = questionIds;
+    }
+
     public Context getContext() {
         return context;
     }
@@ -215,13 +213,5 @@ public final class QuizManager {
 
     public void setAnt(int ant) {
         this.ant = ant;
-    }
-
-    public List<Integer> getQuestionIds() {
-        return questionIds;
-    }
-
-    public void setQuestionIds(List<Integer> questionIds) {
-        this.questionIds = questionIds;
     }
 }

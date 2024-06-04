@@ -84,7 +84,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
 
     @Override
     public void onQuizGenerated() {
-        quiz = quizManager.getCurrentQuiz();
+        this.quiz = quizManager.getCurrentQuiz();
         if (quiz != null) {
             selectedAnswers = new ArrayList<>(quiz.getTotalQuestions());
             for (int i = 0; i < quiz.getTotalQuestions(); i++) {
@@ -190,9 +190,8 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
     }
 
     public class QuestionView {
-
         public void displayQuestion(int index) {
-            if (quiz != null) {
+            if (quiz != null && !quiz.getQuestionList().isEmpty()) {
                 Log.d("QuestionView", String.valueOf(index));
                 int selectedAnswerIndex = selectedAnswers.get(index); // Preload the previously selected answer
                 answersGroup.removeAllViews();
@@ -225,11 +224,13 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
                 questionNumber.setText(String.format("%d", index + 1));
 
                 previousButton.setVisibility(index == 0 ? View.INVISIBLE : View.VISIBLE); // Update the visibility of the previous button
+            } else {
+                Log.e("QuestionView", "Quiz or question list is null/empty");
+                // Handle the case where the quiz or question list is null/empty, e.g., show a message to the user
             }
         }
 
-        private void setUpRadioButton(final RadioButton radioButton, String answer, int answerIndex, int questionIndex,
-                                      RadioGroup answersGroup) {
+        private void setUpRadioButton(final RadioButton radioButton, String answer, int answerIndex, int questionIndex, RadioGroup answersGroup) {
             radioButton.setTextSize(20);
             radioButton.setPadding(0, 20, 0, 20);
             radioButton.setText(answer);
