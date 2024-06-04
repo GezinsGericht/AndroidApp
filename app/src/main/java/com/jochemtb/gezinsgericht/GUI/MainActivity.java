@@ -24,7 +24,9 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.google.longrunning.WaitOperationRequest;
 import com.jochemtb.gezinsgericht.R;
+import com.jochemtb.gezinsgericht.dao.LineChartDao;
 import com.jochemtb.gezinsgericht.domain.LineChartHelper;
+import com.jochemtb.gezinsgericht.repository.LineChartRepository;
 
 import java.sql.Array;
 import java.util.ArrayList;
@@ -40,7 +42,10 @@ public class MainActivity extends AppCompatActivity {
     private ImageView settingsLogo;
     private LineChart progressionChart;
     private SharedPreferences sharedPref;
+    private LineChartDao lineChartDao;
     private final String LOG_TAG = "HomepageActivity";
+
+    private LineChartRepository lineChartRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
         initViewComponents();
         navToSession();
         buildChart();
+
+        lineChartRepository = new LineChartRepository(this);
+        lineChartRepository.getLineChart((LineChartRepository.LineChartCallback) this);
+        this.lineChartDao = lineChartRepository.getDao();
 
         //TESTING
         sharedPref = getSharedPreferences("sharedPref", MODE_PRIVATE);
