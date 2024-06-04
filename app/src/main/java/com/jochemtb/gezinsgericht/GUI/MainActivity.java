@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -104,8 +105,56 @@ public class MainActivity extends AppCompatActivity {
         lineChartHelper.addDataSet("vooruitgang", Color.BLUE, 5f);
 
     }
+    private void setupCheckboxListeners() {
+        List<CheckBox> checkBoxes = new ArrayList<>();
+        checkBoxes.add(checkbox_1);
+        checkBoxes.add(checkbox_2);
+        checkBoxes.add(checkbox_3);
+        checkBoxes.add(checkbox_4);
+        checkBoxes.add(checkbox_5);
+        checkBoxes.add(checkbox_6);
+        checkBoxes.add(checkbox_7);
 
-    private void navToSession(){
+        for (final CheckBox checkBox : checkBoxes) {
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        // Uncheck all other checkboxes
+                        for (CheckBox cb : checkBoxes) {
+                            if (cb != checkBox) {
+                                cb.setChecked(false);
+                            }
+                        }
+                        // Update chart based on the selected checkbox
+                        updateChart(checkBox);
+                    } else {
+                        // Ensure at least one checkbox is checked
+                        boolean anyChecked = false;
+                        for (CheckBox cb : checkBoxes) {
+                            if (cb.isChecked()) {
+                                anyChecked = true;
+                                break;
+                            }
+                        }
+                        if (!anyChecked) {
+                            checkBox.setChecked(true);
+                        }
+                    }
+                }
+            });
+        }
+    }
+    private void updateChart(CheckBox checkBox) {
+        // Clear existing entries
+        lineChartHelper.clearEntries();
+        lineChartHelper.createDataSetForLineChart();
+
+        // Add a dataset to the chart with the updated entries
+        lineChartHelper.addDataSet("Label", Color.BLUE, 2.0f);
+    }
+
+        private void navToSession(){
         settingsLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

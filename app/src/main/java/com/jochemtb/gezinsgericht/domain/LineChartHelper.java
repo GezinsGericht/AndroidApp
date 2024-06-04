@@ -10,16 +10,21 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.jochemtb.gezinsgericht.API.Linechart.LineChartResponse;
+import com.jochemtb.gezinsgericht.dao.LineChartDao;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class LineChartHelper {
     private LineChart lineChart;
     private Description description;
     private List<Entry> entries;
+    private LineChartDao lineChartDao;
     private LineDataSet dataSet;
     private final String LOG_TAG = "LineChartHelper";
 
@@ -88,5 +93,13 @@ public class LineChartHelper {
         lineChart.setData(lineData);
         lineChart.invalidate();
         Log.d(LOG_TAG, "Dataline added");
+    }
+    //This method clears the entries
+    public void clearEntries() {
+        entries.clear();
+    }
+
+    public void createDataSetForLineChart(){
+        lineChartDao.setLineChartlist();
     }
 }

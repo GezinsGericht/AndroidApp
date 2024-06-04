@@ -8,6 +8,10 @@ public class LineChartDao {
 
     private ArrayList<LineChartEntry> LineChartlist;
 
+    public LineChartDao(ArrayList<LineChartEntry> lineChartlist) {
+        LineChartlist = lineChartlist;
+    }
+
     public LineChartDao() {
     }
 
