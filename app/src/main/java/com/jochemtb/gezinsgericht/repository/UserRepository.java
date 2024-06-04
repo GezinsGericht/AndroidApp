@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.jochemtb.gezinsgericht.API.Login.ApLoginiService;
+import com.jochemtb.gezinsgericht.API.Login.ApiLoginService;
 import com.jochemtb.gezinsgericht.API.Login.ForgotPasswordRequest;
 import com.jochemtb.gezinsgericht.API.Login.ForgotPasswordResponse;
 import com.jochemtb.gezinsgericht.API.Login.LoginRequest;
@@ -49,10 +49,10 @@ public class UserRepository {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        ApLoginiService apLoginiService = retrofit.create(ApLoginiService.class);
+        ApiLoginService apiLoginService = retrofit.create(ApiLoginService.class);
         LoginRequest loginRequest = new LoginRequest(email, password);
 
-        apLoginiService.loginUser(loginRequest).enqueue(new Callback<LoginResponse>() {
+        apiLoginService.loginUser(loginRequest).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 Log.d(LOG_TAG, "Login response: " + response.body());
@@ -86,10 +86,10 @@ public class UserRepository {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        ApLoginiService apLoginiService = retrofit.create(ApLoginiService.class);
+        ApiLoginService apiLoginService = retrofit.create(ApiLoginService.class);
         ForgotPasswordRequest forgotPasswordRequest = new ForgotPasswordRequest(email);
 
-        apLoginiService.forgotPassword(forgotPasswordRequest).enqueue(new Callback<ForgotPasswordResponse>() {
+        apiLoginService.forgotPassword(forgotPasswordRequest).enqueue(new Callback<ForgotPasswordResponse>() {
             @Override
             public void onResponse(Call<ForgotPasswordResponse> call, Response<ForgotPasswordResponse> response) {
                 long now = System.currentTimeMillis() / 1000;
@@ -140,11 +140,11 @@ public class UserRepository {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
-            ApLoginiService apLoginiService = retrofit.create(ApLoginiService.class);
+            ApiLoginService apiLoginService = retrofit.create(ApiLoginService.class);
             TokenRequest tokenRequest = new TokenRequest(token);
 
             try {
-                Response<TokenResponse> response = apLoginiService.checkPresentToken(tokenRequest).execute();
+                Response<TokenResponse> response = apiLoginService.checkPresentToken(tokenRequest).execute();
                 if (response.isSuccessful()) {
                     TokenResponse tokenResponse = response.body();
                     return tokenResponse != null && tokenResponse.getData() != null;

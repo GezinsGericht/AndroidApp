@@ -1,14 +1,11 @@
 package com.jochemtb.gezinsgericht.repository;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.jochemtb.gezinsgericht.API.ApiHistoryService;
-import com.jochemtb.gezinsgericht.API.History.HistoryListRequest;
-import com.jochemtb.gezinsgericht.API.History.HistoryListResponse;
+import com.jochemtb.gezinsgericht.API.History.ApiHistoryService;
 import com.jochemtb.gezinsgericht.dao.HistoryDao;
 
 import okhttp3.OkHttpClient;

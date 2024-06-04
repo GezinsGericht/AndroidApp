@@ -1,4 +1,4 @@
-package com.jochemtb.gezinsgericht.API;
+package com.jochemtb.gezinsgericht.API.History;
 
 
 import com.jochemtb.gezinsgericht.API.History.HistoryListRequest;
