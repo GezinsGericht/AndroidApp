@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- activity_myanswers.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:contentDescription="@string/my_answers"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/inlog">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,10 +29,12 @@
             android:text="@string/my_answers"
             android:textAlignment="center"
             android:textSize="34sp" />
+
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="696dp" />
+        android:layout_height="match_parent" />
 </LinearLayout>
