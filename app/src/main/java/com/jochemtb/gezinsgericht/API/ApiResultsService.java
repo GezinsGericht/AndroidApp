@@ -1,4 +1,4 @@
-package com.jochemtb.gezinsgericht.API.Results;
+package com.jochemtb.gezinsgericht.API;
 import com.jochemtb.gezinsgericht.domain.ResultsItem;
 
 import java.util.List;

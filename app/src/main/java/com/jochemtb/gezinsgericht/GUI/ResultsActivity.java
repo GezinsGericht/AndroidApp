@@ -39,7 +39,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
     private ResultsRepository resultsRepository;
     private ResultsDao resultsDao;
     private ProgressBar loadingScreen;
-    private HashMap<Integer, HashMap<Integer, Double>> userHabitatAverageValues;
+    private HashMap<String, HashMap<Integer, Double>> userHabitatAverageValues;
     private GridLayout mResultsCheckboxes;
 
 
@@ -68,18 +68,18 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
 
     }
 
-    private void createCheckboxes(HashMap<Integer, HashMap<Integer, Double>> userHabitatAverageValues) {
+    private void createCheckboxes(HashMap<String, HashMap<Integer, Double>> userHabitatAverageValues) {
         Log.d(LOG_TAG, "UserHabitatAverageValues: " + userHabitatAverageValues);
 
         // Get the users from the session
-        Set<Integer> userIds = userHabitatAverageValues.keySet();
+        Set<String> userNames = userHabitatAverageValues.keySet();
         int[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.DKGRAY, Color.YELLOW, Color.MAGENTA};
 
         // Create a checkbox for each userId
         int colorIndex = 0;
-        for (int userId : userIds) {
+        for (String userName : userNames) {
             CheckBox checkBox = new CheckBox(this);
-            checkBox.setText(String.valueOf(userId));
+            checkBox.setText(userName);
             checkBox.setChecked(false);
             int color = colors[colorIndex % colors.length];
             ColorStateList colorStateList = new ColorStateList(
@@ -136,44 +136,46 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
 
     @Override
     public void onResultsFetched(List<ResultsItem> results) {
-        Set<Integer> uniqueUserIds = new HashSet<>();
+        Set<String> users = new HashSet<>();
         for (ResultsItem item : results) {
-            uniqueUserIds.add(item.getUserId());
+            users.add(item.getUserName());
+            Log.d(LOG_TAG, "User: " + item.getUserName());
         }
         // Create a map to store the AnswerValues for each HabitatId per user
-        HashMap<Integer, HashMap<Integer, List<Integer>>> userHabitatAnswerValues = new HashMap<>();
+        HashMap<String, HashMap<Integer, List<Integer>>> userHabitatAnswerValues = new HashMap<>();
 
         // Populate the map
         for (ResultsItem item : results) {
-            int userId = item.getUserId();
+            String userName = item.getUserName();
             int habitatId = item.getHabitatId();
             int answerValue = item.getAnswerValue();
+            Log.d(LOG_TAG, "User: " + userName + " Habitat: " + habitatId + " Answer: " + answerValue);
 
             // If the user is not in the map, add them
-            if (!userHabitatAnswerValues.containsKey(userId)) {
-                userHabitatAnswerValues.put(userId, new HashMap<>());
+            if (!userHabitatAnswerValues.containsKey(userName)) {
+                userHabitatAnswerValues.put(userName, new HashMap<>());
             }
 
             // If the habitat is not in the user's map, add it
-            if (!userHabitatAnswerValues.get(userId).containsKey(habitatId)) {
-                userHabitatAnswerValues.get(userId).put(habitatId, new ArrayList<>());
+            if (!userHabitatAnswerValues.get(userName).containsKey(habitatId)) {
+                userHabitatAnswerValues.get(userName).put(habitatId, new ArrayList<>());
             }
 
             // Add the answer value to the list for this user and habitat
-            userHabitatAnswerValues.get(userId).get(habitatId).add(answerValue);
+            userHabitatAnswerValues.get(userName).get(habitatId).add(answerValue);
         }
 
         // Create a map to store the average AnswerValue for each HabitatId per user
         userHabitatAverageValues = new HashMap<>();
 
         // Calculate the averages
-        for (int userId : userHabitatAnswerValues.keySet()) {
-            userHabitatAverageValues.put(userId, new HashMap<>());
-            for (int habitatId : userHabitatAnswerValues.get(userId).keySet()) {
-                List<Integer> answerValues = userHabitatAnswerValues.get(userId).get(habitatId);
+        for (String userName : userHabitatAnswerValues.keySet()) {
+            userHabitatAverageValues.put(userName, new HashMap<>());
+            for (int habitatId : userHabitatAnswerValues.get(userName).keySet()) {
+                List<Integer> answerValues = userHabitatAnswerValues.get(userName).get(habitatId);
                 double average = answerValues.stream().mapToInt(val -> val).average().orElse(0.0);
-                userHabitatAverageValues.get(userId).put(habitatId, average);
-                Log.d(LOG_TAG, "User " + userId + " Habitat " + habitatId + " Average " + average);
+                userHabitatAverageValues.get(userName).put(habitatId, average);
+                Log.d(LOG_TAG, "User " + userName + " Habitat " + habitatId + " Average " + average);
             }
         }
 

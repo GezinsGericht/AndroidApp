@@ -6,8 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.jochemtb.gezinsgericht.API.AuthInterceptor;
-import com.jochemtb.gezinsgericht.API.Results.ApiResultsService;
-import com.jochemtb.gezinsgericht.API.Results.ResultsRequest;
+import com.jochemtb.gezinsgericht.API.ApiResultsService;
 import com.jochemtb.gezinsgericht.dao.ResultsDao;
 import com.jochemtb.gezinsgericht.domain.ResultsItem;
 
@@ -50,7 +49,6 @@ public class ResultsRepository {
                 .build();
 
         ApiResultsService apiResultsService = retrofit.create(ApiResultsService.class);
-        ResultsRequest resultsRequest = new ResultsRequest(sessionId);
 
         apiResultsService.getResults(sessionId).enqueue(new Callback<List<ResultsItem>>() {
             @Override
@@ -64,6 +62,7 @@ public class ResultsRepository {
                 if (response.isSuccessful()) {
                     List<ResultsItem> results = response.body();
                     if (results != null) {
+                        Log.d(LOG_TAG, "Username: " + results.get(1).getUserName());
                         resultsDao.setResults(new ArrayList<>(results));
                         callback.onResultsFetched(results);
                         Toast.makeText(context, "API CALL SUCCESS RESULTS", Toast.LENGTH_LONG).show();

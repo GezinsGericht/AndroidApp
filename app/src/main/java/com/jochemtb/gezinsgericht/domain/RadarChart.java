@@ -50,17 +50,17 @@ public class RadarChart {
         radarChart.setRotationEnabled(false);
     }
 
-    public void createDataSetFromSession(HashMap<Integer, HashMap<Integer, Double>> userHabitatAverageValues) {
+    public void createDataSetFromSession(HashMap<String, HashMap<Integer, Double>> userHabitatAverageValues) {
         // Get the users from the session
-        Set<Integer> userIds = userHabitatAverageValues.keySet();
+        Set<String> userNames = userHabitatAverageValues.keySet();
 
         // Define the colors for the datasets
         int[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.DKGRAY, Color.YELLOW, Color.MAGENTA};
 
         // Create a dataset for each user
         int colorIndex = 0;
-        for (int userId : userIds) {
-            HashMap<Integer, Double> habitatAverageValues = userHabitatAverageValues.get(userId);
+        for (String userName : userNames) {
+            HashMap<Integer, Double> habitatAverageValues = userHabitatAverageValues.get(userName);
             List<RadarEntry> entries = new ArrayList<>();
             for (double averageValue : habitatAverageValues.values()) {
                 entries.add(new RadarEntry((float) averageValue));
