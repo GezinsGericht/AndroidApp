@@ -87,7 +87,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
             if (position != RecyclerView.NO_POSITION) {
                 HistoryItem clickedSession = historyList.get(position);
                 Intent intent = new Intent(v.getContext(), ResultsActivity.class);
-//                intent.putExtra("clickedSession", clickedSession);
+                intent.putExtra("session", clickedSession.getSessionId());
                 v.getContext().startActivity(intent);
             }
         }

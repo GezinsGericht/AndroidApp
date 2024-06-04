@@ -21,7 +21,7 @@ import java.util.List;
 
 public class MyAnswerActivity extends AppCompatActivity {
 
-    private Session mSession;
+    private int mSessionId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class MyAnswerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_myanswers);
 
         Intent intent = getIntent();
-        mSession = (Session) intent.getSerializableExtra("session");
+        mSessionId = intent.getIntExtra("session", 0);
 
         setupBackButton(); //Sets up the "<--" button
 
@@ -59,7 +59,7 @@ public class MyAnswerActivity extends AppCompatActivity {
         ImageButton back = findViewById(R.id.back_to_results);
         back.setOnClickListener(v -> {
             Intent intent = new Intent(MyAnswerActivity.this, ResultsActivity.class);
-            intent.putExtra("session", mSession);
+            intent.putExtra("session", mSessionId);
             startActivity(intent);
         });
     }

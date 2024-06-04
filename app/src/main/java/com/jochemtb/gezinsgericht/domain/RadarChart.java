@@ -11,6 +11,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -49,21 +50,22 @@ public class RadarChart {
         radarChart.setRotationEnabled(false);
     }
 
-    public void createDataSetFromSession(Session session) {
+    public void createDataSetFromSession(HashMap<Integer, HashMap<Integer, Double>> userHabitatAverageValues) {
         // Get the users from the session
-        Set<User> users = session.getUsers();
+        Set<Integer> userIds = userHabitatAverageValues.keySet();
 
         // Define the colors for the datasets
         int[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.DKGRAY, Color.YELLOW, Color.MAGENTA};
 
         // Create a dataset for each user
         int colorIndex = 0;
-        for (User user : users) {
-            Score score = session.getResults().getResultMap().get(user);
-            Map<Integer, Integer> scoresMap = score.getScores();
-            int[] scores = scoresMap.values().stream().mapToInt(i -> i).toArray();
-            List<RadarEntry> entry = createDataSet(scores);
-            addDataSet(entry, "Gezinslid " + (colorIndex + 1), colors[colorIndex % colors.length]);
+        for (int userId : userIds) {
+            HashMap<Integer, Double> habitatAverageValues = userHabitatAverageValues.get(userId);
+            List<RadarEntry> entries = new ArrayList<>();
+            for (double averageValue : habitatAverageValues.values()) {
+                entries.add(new RadarEntry((float) averageValue));
+            }
+            addDataSet(entries, "Gezinslid " + (colorIndex + 1), colors[colorIndex % colors.length]);
             colorIndex++;
         }
     }
