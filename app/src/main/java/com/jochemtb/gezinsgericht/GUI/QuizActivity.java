@@ -1,11 +1,8 @@
 package com.jochemtb.gezinsgericht.GUI;
 
-import static com.jochemtb.gezinsgericht.R.style.RadioButtonStyle;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -27,7 +24,7 @@ import com.jochemtb.gezinsgericht.domain.QuizResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuizActivity extends AppCompatActivity {
+public class QuizActivity extends AppCompatActivity implements QuizManager.QuizGenerationListener {
 
     private TextView questionText;
     private TextView confirmText;
@@ -40,7 +37,7 @@ public class QuizActivity extends AppCompatActivity {
     private LinearLayout unansweredQuestionsLayout;
     private ScrollView scrollView;
 
-    private List<Integer> selectedAnswers;
+    private List<Integer> selectedAnswers = new ArrayList<>();
     private int currentQuestionIndex = 0;
     private Quiz quiz;
     private QuizManager quizManager;
@@ -61,8 +58,6 @@ public class QuizActivity extends AppCompatActivity {
         previousButton.setOnClickListener(v -> handlePreviousButtonClick());
         confirmButton.setOnClickListener(v -> handleConfirmButtonClick());
 
-        // Set up the initial question and answers
-        questionView.displayQuestion(currentQuestionIndex);
         confirmText.setText(
                 "Dit is het afsluitscherm van de vragenlijst. Enige onbeantwoorde vragen zullen worden weergegeven op het scherm. U kunt ernaartoe navigeren door op de knop te klikken.");
     }
@@ -81,61 +76,88 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void initQuiz() {
-        quizManager = new QuizManager(this);
-        quiz = quizManager.generateQuiz();
-        quizResult = new QuizResult(quiz.getQuestionList(), new ArrayList<>());
+        quizManager = QuizManager.getInstance();
+        quizManager.setContext(this);
+        quizManager.setQuizGenerationListener(this);
+        quizManager.generateQuiz();
+    }
 
-        selectedAnswers = new ArrayList<>(quiz.getTotalQuestions());
-        for (int i = 0; i < quiz.getTotalQuestions(); i++) {
-            selectedAnswers.add(-1); // Initialize all answers with -1 (indicating no answer selected)
+    @Override
+    public void onQuizGenerated() {
+        quiz = quizManager.getCurrentQuiz();
+        if (quiz != null) {
+            selectedAnswers = new ArrayList<>(quiz.getTotalQuestions());
+            for (int i = 0; i < quiz.getTotalQuestions(); i++) {
+                selectedAnswers.add(-1); // Initialize all answers with -1 (indicating no answer selected)
+            }
+            quizResult = new QuizResult((ArrayList<Question>) quiz.getQuestionList(), new ArrayList<>());
+            questionView = new QuestionView();
+            questionView.displayQuestion(currentQuestionIndex); // Display the first question
+        } else {
+            Log.e("QuizActivity", "Quiz is null after generation");
         }
-        questionView = new QuestionView();
     }
 
     private void handleNextButtonClick() {
-        quizManager.saveSelectedAnswer(selectedAnswers, answersGroup, currentQuestionIndex, quizResult);
-        currentQuestionIndex++;
-        quizManager.checkIfFinalQuestion(currentQuestionIndex, quiz, questionView);
-        if (currentQuestionIndex == quiz.getTotalQuestions()) {
-            prepareForQuizSubmission();
+        if (quiz != null) {
+            quizManager.saveSelectedAnswer(selectedAnswers, answersGroup, currentQuestionIndex, quizResult);
+            currentQuestionIndex++;
+            quizManager.checkIfFinalQuestion(currentQuestionIndex, quiz, questionView);
+            if (currentQuestionIndex == quiz.getTotalQuestions()) {
+                prepareForQuizSubmission();
+            }
+            quizManager.updateProgressBar(selectedAnswers, progressBar, quiz);
+        } else {
+            Toast.makeText(this, "Quiz is not yet loaded. Please wait.", Toast.LENGTH_SHORT).show();
         }
-        quizManager.updateProgressBar(selectedAnswers, progressBar, quiz);
     }
 
     private void handlePreviousButtonClick() {
-        if (currentQuestionIndex > 0) {
-            currentQuestionIndex--;
-            questionView.displayQuestion(currentQuestionIndex);
-        }
-        if (currentQuestionIndex < quiz.getTotalQuestions()) {
-            answersGroup.setVisibility(View.VISIBLE);
-            questionText.setVisibility(View.VISIBLE);
-            confirmText.setVisibility(View.INVISIBLE);
-            nextButton.setVisibility(View.VISIBLE);
-            confirmButton.setVisibility(View.INVISIBLE);
-            unansweredQuestionsLayout.setVisibility(View.INVISIBLE);
+        if (quiz != null) {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                questionView.displayQuestion(currentQuestionIndex);
+            }
+            if (currentQuestionIndex < quiz.getTotalQuestions()) {
+                answersGroup.setVisibility(View.VISIBLE);
+                questionText.setVisibility(View.VISIBLE);
+                confirmText.setVisibility(View.INVISIBLE);
+                nextButton.setVisibility(View.VISIBLE);
+                confirmButton.setVisibility(View.INVISIBLE);
+                unansweredQuestionsLayout.setVisibility(View.INVISIBLE);
+            }
+        } else {
+            Toast.makeText(this, "Quiz is not yet loaded. Please wait.", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void handleConfirmButtonClick() {
-        quizManager.submitData(selectedAnswers, quiz);
-        startActivity(new Intent(QuizActivity.this, ResultsActivity.class));
+        if (quiz != null) {
+            quizManager.submitData(selectedAnswers, quiz);
+            startActivity(new Intent(QuizActivity.this, ResultsActivity.class));
+        } else {
+            Toast.makeText(this, "Quiz is not yet loaded. Please wait.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void prepareForQuizSubmission() {
-        answersGroup.setVisibility(View.GONE);
-        questionText.setVisibility(View.INVISIBLE);
-        questionNumber.setVisibility(View.INVISIBLE);
-        nextButton.setVisibility(View.INVISIBLE);
+        if (quiz != null) {
+            answersGroup.setVisibility(View.GONE);
+            questionText.setVisibility(View.INVISIBLE);
+            questionNumber.setVisibility(View.INVISIBLE);
+            nextButton.setVisibility(View.INVISIBLE);
 
-        List<Integer> unansweredQuestionIndices = quizManager.getUnansweredQuestionIndices(selectedAnswers);
-        if (unansweredQuestionIndices.isEmpty()) {
-            confirmText.setText("U heeft alle vragen beantwoord. Klik op 'BEVESTIGEN' om door te gaan.");
-            confirmButton.setVisibility(View.VISIBLE);
+            List<Integer> unansweredQuestionIndices = quizManager.getUnansweredQuestionIndices(selectedAnswers);
+            if (unansweredQuestionIndices.isEmpty()) {
+                confirmText.setText("U heeft alle vragen beantwoord. Klik op 'BEVESTIGEN' om door te gaan.");
+                confirmButton.setVisibility(View.VISIBLE);
+            } else {
+                displayUnansweredQuestions(unansweredQuestionIndices);
+            }
+            confirmText.setVisibility(View.VISIBLE);
         } else {
-            displayUnansweredQuestions(unansweredQuestionIndices);
+            Toast.makeText(this, "Quiz is not yet loaded. Please wait.", Toast.LENGTH_SHORT).show();
         }
-        confirmText.setVisibility(View.VISIBLE);
     }
 
     private void displayUnansweredQuestions(List<Integer> unansweredQuestions) {
@@ -152,79 +174,69 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void navigateToQuestion(int index) {
-        currentQuestionIndex = index;
-        questionView.displayQuestion(index);
-        answersGroup.setVisibility(View.VISIBLE);
-        questionText.setVisibility(View.VISIBLE);
-        questionNumber.setVisibility(View.VISIBLE);
-        nextButton.setVisibility(View.VISIBLE);
-        confirmButton.setVisibility(View.INVISIBLE);
-        confirmText.setVisibility(View.GONE);
-        unansweredQuestionsLayout.setVisibility(View.GONE);
+        if (quiz != null) {
+            currentQuestionIndex = index;
+            questionView.displayQuestion(index);
+            answersGroup.setVisibility(View.VISIBLE);
+            questionText.setVisibility(View.VISIBLE);
+            questionNumber.setVisibility(View.VISIBLE);
+            nextButton.setVisibility(View.VISIBLE);
+            confirmButton.setVisibility(View.INVISIBLE);
+            confirmText.setVisibility(View.GONE);
+            unansweredQuestionsLayout.setVisibility(View.GONE);
+        } else {
+            Toast.makeText(this, "Quiz is not yet loaded. Please wait.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public class QuestionView {
 
         public void displayQuestion(int index) {
-            Log.d("QuestionView", String.valueOf(index));
-            int selectedAnswerIndex = selectedAnswers.get(index); // Preload the previously selected answer
-            answersGroup.removeAllViews();
+            if (quiz != null) {
+                Log.d("QuestionView", String.valueOf(index));
+                int selectedAnswerIndex = selectedAnswers.get(index); // Preload the previously selected answer
+                answersGroup.removeAllViews();
 
-            Question currentQuestion = quiz.getQuestionList().get(index);
-            questionText.setText(currentQuestion.getQuestion());
-            String[] answers = { currentQuestion.getAnswer1(),
-                    currentQuestion.getAnswer2(),
-                    currentQuestion.getAnswer3(),
-                    currentQuestion.getAnswer4(),
-                    currentQuestion.getAnswer5() };
+                Question currentQuestion = quiz.getQuestionList().get(index);
+                questionText.setText(currentQuestion.getQuestion());
+                String[] answers = {currentQuestion.getAnswer1(),
+                        currentQuestion.getAnswer2(),
+                        currentQuestion.getAnswer3(),
+                        currentQuestion.getAnswer4(),
+                        currentQuestion.getAnswer5()};
 
-            for (String answer : answers) {
-                if (answer != null && !answer.isEmpty()) {
-                    RadioButton radioButton = new RadioButton(QuizActivity.this);
-                    setUpRadioButton(radioButton, answer, i, index, answersGroup);
-                    answersGroup.addView(radioButton);
+                for (int i = 0; i < answers.length; i++) {
+                    if (answers[i] != null && !answers[i].isEmpty()) {
+                        RadioButton radioButton = new RadioButton(QuizActivity.this);
+                        setUpRadioButton(radioButton, answers[i], i, index, answersGroup);
+                        answersGroup.addView(radioButton);
+                    }
                 }
+
+                answersGroup.invalidate(); // Force the RadioGroup to redraw itself and recalculate its layout
+                answersGroup.requestLayout(); // Request a layout pass to ensure the RadioGroup is properly laid out
+
+                if (selectedAnswerIndex != -1) {
+                    RadioButton selectedRadioButton = (RadioButton) answersGroup.getChildAt(selectedAnswerIndex);
+                    selectedRadioButton.setChecked(true);
+                }
+
+                // Update the question number
+                questionNumber.setText(String.format("%d", index + 1));
+
+                previousButton.setVisibility(index == 0 ? View.INVISIBLE : View.VISIBLE); // Update the visibility of the previous button
             }
-
-            answersGroup.invalidate(); // Force the RadioGroup to redraw itself and recalculate its layout
-            answersGroup.requestLayout(); // Request a layout pass to ensure the RadioGroup is properly laid out
-
-            if (selectedAnswerIndex != -1) {
-                RadioButton selectedRadioButton = (RadioButton) answersGroup.getChildAt(selectedAnswerIndex);
-                selectedRadioButton.setChecked(true);
-            }
-
-            // Update the question number
-            questionNumber.setText(String.format("%d", index + 1));
-
-            previousButton.setVisibility(index == 0 ? View.INVISIBLE : View.VISIBLE); // Update the visibility of the
-                                                                                      // previous button
         }
-    }
 
-    private void setUpRadioButton(final RadioButton radioButton, String answer, int answerIndex, int questionIndex,
-            RadioGroup answersGroup) {
-        radioButton.setTextSize(20);
-        radioButton.setPadding(0, 20, 0, 20);
-        radioButton.setText(answer);
+        private void setUpRadioButton(final RadioButton radioButton, String answer, int answerIndex, int questionIndex,
+                                      RadioGroup answersGroup) {
+            radioButton.setTextSize(20);
+            radioButton.setPadding(0, 20, 0, 20);
+            radioButton.setText(answer);
 
-        radioButton.setOnClickListener(v -> {
-            int currentSelection = selectedAnswers.get(questionIndex);
-
-            if (currentSelection == answerIndex) {
-                // If the same button is clicked again, deselect it
-                answersGroup.clearCheck();
-                selectedAnswers.set(questionIndex, -1);
-            } else {
-                // Update selectedAnswers with the new selection
-                selectedAnswers.set(questionIndex, answerIndex);
-
-                // Deselect all radio buttons in the group and select the new one
-                for (int i = 0; i < answersGroup.getChildCount(); i++) {
-                    RadioButton button = (RadioButton) answersGroup.getChildAt(i);
-                    button.setChecked(i == answerIndex);
-                }
-            }
-        });
+            radioButton.setOnClickListener(v -> {
+                selectedAnswers.set(questionIndex, answerIndex); // Update the selected answer for the current question
+            });
+        }
     }
 }
