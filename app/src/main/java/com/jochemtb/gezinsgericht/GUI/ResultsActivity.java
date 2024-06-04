@@ -40,7 +40,7 @@ public class ResultsActivity extends AppCompatActivity {
         setupCheckBoxListeners(); //Sets the functionality for the checkboxes
         setupCloseButton(); //Sets up the "afsluiten" button
         setupMyAnswerButton(); //Sets up the "mijn antwoorden" button
-
+        setupGoalsButton(); //Sets up the "goals" button
     }
 
     private void initViewComponents(Session session) {
@@ -106,7 +106,12 @@ public class ResultsActivity extends AppCompatActivity {
     }
 
     private void setupCloseButton() {
-        Button afsluiten = findViewById(R.id.results_close);
-        afsluiten.setOnClickListener(v -> startActivity(new Intent(ResultsActivity.this, MainActivity.class))); //Switches the page to MainActivity
+        Button close = findViewById(R.id.results_close);
+        close.setOnClickListener(v -> startActivity(new Intent(ResultsActivity.this, MainActivity.class))); //Switches the page to MainActivity
+    }
+
+    private void setupGoalsButton(){
+        Button goals = findViewById(R.id.results_goals);
+        goals.setOnClickListener(v -> startActivity(new Intent(ResultsActivity.this, GoalsActivity.class)));
     }
 }

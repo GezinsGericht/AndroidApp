@@ -29,6 +29,7 @@
         <activity android:name=".GUI.QuizActivity" />
         <activity android:name=".GUI.MainActivity" />
         <activity android:name=".GUI.MyAnswerActivity" />
+        <activity android:name=".GUI.GoalsActivity" />
         <activity android:name=".GUI.ActivationActivity"
             android:exported="true">
                 <intent-filter>
