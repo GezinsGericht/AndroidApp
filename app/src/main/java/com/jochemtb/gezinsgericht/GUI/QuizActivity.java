@@ -63,7 +63,8 @@ public class QuizActivity extends AppCompatActivity {
 
         // Set up the initial question and answers
         questionView.displayQuestion(currentQuestionIndex);
-        confirmText.setText("Dit is het afsluitscherm van de vragenlijst. Enige onbeantwoorde vragen zullen worden weergegeven op het scherm. U kunt ernaartoe navigeren door op de knop te klikken.");
+        confirmText.setText(
+                "Dit is het afsluitscherm van de vragenlijst. Enige onbeantwoorde vragen zullen worden weergegeven op het scherm. U kunt ernaartoe navigeren door op de knop te klikken.");
     }
 
     private void initViews() {
@@ -171,14 +172,13 @@ public class QuizActivity extends AppCompatActivity {
 
             Question currentQuestion = quiz.getQuestionList().get(index);
             questionText.setText(currentQuestion.getQuestion());
-            String[] answers = {currentQuestion.getAnswer1(),
+            String[] answers = { currentQuestion.getAnswer1(),
                     currentQuestion.getAnswer2(),
                     currentQuestion.getAnswer3(),
                     currentQuestion.getAnswer4(),
-                    currentQuestion.getAnswer5()};
+                    currentQuestion.getAnswer5() };
 
-            for (int i = 0; i < answers.length; i++) {
-                String answer = answers[i];
+            for (String answer : answers) {
                 if (answer != null && !answer.isEmpty()) {
                     RadioButton radioButton = new RadioButton(QuizActivity.this);
                     setUpRadioButton(radioButton, answer, i, index, answersGroup);
@@ -197,11 +197,13 @@ public class QuizActivity extends AppCompatActivity {
             // Update the question number
             questionNumber.setText(String.format("%d", index + 1));
 
-            previousButton.setVisibility(index == 0 ? View.INVISIBLE : View.VISIBLE); // Update the visibility of the previous button
+            previousButton.setVisibility(index == 0 ? View.INVISIBLE : View.VISIBLE); // Update the visibility of the
+                                                                                      // previous button
         }
     }
 
-    private void setUpRadioButton(final RadioButton radioButton, String answer, int answerIndex, int questionIndex, RadioGroup answersGroup) {
+    private void setUpRadioButton(final RadioButton radioButton, String answer, int answerIndex, int questionIndex,
+            RadioGroup answersGroup) {
         radioButton.setTextSize(20);
         radioButton.setPadding(0, 20, 0, 20);
         radioButton.setText(answer);
