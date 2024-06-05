@@ -1,88 +1,91 @@
 package com.jochemtb.gezinsgericht.domain;
 
 public class Question {
-    private int questionid;
-    private String question;
-    private int weight;
-    private String answer1;
-    private String answer2;
-    private String answer3;
-    private String answer4;
-    private String answer5;
+    private int Questionid;
+    private String Question;
+    private int Weight;
+    private String Answer1;
 
-    public Question(int questionid, String question, int weight, String answer1, String answer2, String answer3, String answer4, String answer5) {
-        this.questionid = questionid;
-        this.question = question;
-        this.weight = weight;
-        this.answer1 = answer1;
-        this.answer2 = answer2;
-        this.answer3 = answer3;
-        this.answer4 = answer4;
-        this.answer5 = answer5;
+    private String Answer2;
+    private String Answer3;
+    private String Answer4;
+    private String Answer5;
+
+    public Question(int questionid, String question, int weight, String answer1, String answer2, String answer3,
+            String answer4, String answer5) {
+        this.Questionid = questionid;
+        this.Question = question;
+        this.Weight = weight;
+        this.Answer1 = answer1;
+        this.Answer2 = answer2;
+        this.Answer3 = answer3;
+        this.Answer4 = answer4;
+        this.Answer5 = answer5;
     }
 
     public int getQuestionid() {
-        return questionid;
+        return Questionid;
     }
 
     public void setQuestionid(int questionid) {
-        this.questionid = questionid;
+        this.Questionid = questionid;
     }
 
     public String getQuestion() {
-        return question;
+        return Question;
     }
 
     public void setQuestion(String question) {
-        this.question = question;
+        this.Question = question;
     }
 
     public int getWeight() {
-        return weight;
+        return Weight;
     }
 
     public void setWeight(int weight) {
-        this.weight = weight;
+        this.Weight = weight;
     }
-    
     public String getAnswer1() {
-        return answer1;
+        return Answer1;
     }
 
     public void setAnswer1(String answer1) {
-        this.answer1 = answer1;
+        this.Answer1 = answer1;
     }
 
     public String getAnswer2() {
-        return answer2;
+        return Answer2;
     }
 
     public void setAnswer2(String answer2) {
-        this.answer2 = answer2;
+        this.Answer2 = answer2;
     }
 
     public String getAnswer3() {
-        return answer3;
+        return Answer3;
     }
 
     public void setAnswer3(String answer3) {
-        this.answer3 = answer3;
+        this.Answer3 = answer3;
     }
 
     public String getAnswer4() {
-        return answer4;
+        return Answer4;
     }
 
     public void setAnswer4(String answer4) {
-        this.answer4 = answer4;
+        this.Answer4 = answer4;
     }
 
     public String getAnswer5() {
-        return answer5;
+        return Answer5;
     }
 
     public void setAnswer5(String answer5) {
-        this.answer5 = answer5;
+
+        this.Answer5 = answer5;
+
     }
 
 }

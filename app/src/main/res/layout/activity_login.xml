@@ -8,7 +8,7 @@
     android:background="@drawable/inlog">
 
     <TextView
-        android:id="@+id/TV_activation_title"
+        android:id="@+id/TV_login_title"
         android:layout_width="188dp"
         android:layout_height="186dp"
         android:layout_marginStart="48dp"
@@ -33,9 +33,9 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/ET_activation_password_repeat"
-        android:layout_width="311dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/ET_login_password"
+        android:layout_width="314dp"
+        android:layout_height="54dp"
         android:ems="10"
         android:fontFamily="@font/sofia_sans_extra_condensed_bold"
         android:hint="@string/input_password"
@@ -45,15 +45,15 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/ET_activation_password"
+        android:id="@+id/ET_login_email"
         android:layout_width="311dp"
-        android:layout_height="wrap_content"
+        android:layout_height="54dp"
         android:layout_marginBottom="15dp"
         android:ems="10"
         android:fontFamily="@font/sofia_sans_extra_condensed_bold"
         android:hint="@string/input_email"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/ET_activation_password_repeat"
+        app:layout_constraintBottom_toTopOf="@+id/ET_login_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -68,6 +68,16 @@
         android:textColor="@color/grey"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/BT_activation_submit"
-        app:layout_constraintEnd_toEndOf="@+id/ET_activation_password_repeat" />
+        app:layout_constraintEnd_toEndOf="@+id/ET_login_password" />
+
+    <ProgressBar
+        android:id="@+id/PB_login_loadingLogo"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

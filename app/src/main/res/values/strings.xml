@@ -1,10 +1,11 @@
 <resources>
     //Login
     <string name="app_name">GezinsGericht</string>
-    <string name="login_button">Login</string>
+    <string name="login_button">Inloggen</string>
     <string name="password_forgot_button">Wachtwoord vergeten?</string>
     <string name="input_email">Email</string>
     <string name="input_password">Wachtwoord</string>
+    <string name="succes_pass_change">Wachtwoord succesvol aangepast</string>
 
     //Main
     <string name="title_main">Homescreen</string>
@@ -16,7 +17,7 @@
     <string name="quiz_button_confirm">BEVESTIGEN</string>
 
     //Activation
-    <string name="activation_title">Maak uw account aan</string>
+    <string name="activation_title">Verander uw wachtwoord:</string>
     <string name="activation_input_password_repeat">Herhaal wachtwoord</string>
     <string name="activation_input_password">Nieuw wachtwoord</string>
     <string name="activation_button">Bevestigen</string>

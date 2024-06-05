@@ -27,7 +27,7 @@
         android:layout_marginTop="50dp"
         android:fontFamily="@font/sofia_sans_extra_condensed_bold"
         android:text="PlaceHolder Question"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:textSize="45dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
