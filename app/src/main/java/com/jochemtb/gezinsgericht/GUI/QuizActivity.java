@@ -124,7 +124,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
                 confirmText.setVisibility(View.INVISIBLE);
                 nextButton.setVisibility(View.VISIBLE);
                 confirmButton.setVisibility(View.INVISIBLE);
-                unansweredQuestionsLayout.setVisibility(View.INVISIBLE);
+                unansweredQuestionsLayout.setVisibility(View.GONE);
             }
         } else {
             Toast.makeText(this, "Quiz is not yet loaded. Please wait.", Toast.LENGTH_SHORT).show();
@@ -167,7 +167,11 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
         for (int index : unansweredQuestions) {
             Button questionButton = new Button(this);
             questionButton.setText(String.format("Vraag %d", index + 1));
-            questionButton.setOnClickListener(v -> navigateToQuestion(index));
+            questionButton.setOnClickListener(v -> {
+                        navigateToQuestion(index);
+                        unansweredQuestionsLayout.setVisibility(View.GONE);
+                    }
+            );
             unansweredQuestionsLayout.addView(questionButton);
         }
         scrollView.fullScroll(View.FOCUS_DOWN);
@@ -236,7 +240,15 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
             radioButton.setText(answer);
 
             radioButton.setOnClickListener(v -> {
-                selectedAnswers.set(questionIndex, answerIndex); // Update the selected answer for the current question
+                if((radioButton.isChecked() && selectedAnswers.get(questionIndex) == answerIndex)) { // If the radio button is checked
+                    radioButton.setChecked(false); // Uncheck the radio button
+                    selectedAnswers.set(questionIndex, -1); // Update the selected answer for the current question
+                    answersGroup.clearCheck(); // Clear the checked radio button
+
+                } else{
+                    radioButton.setChecked(true); // Check the radio button
+                    selectedAnswers.set(questionIndex, answerIndex); // Update the selected answer for the current question
+                }
             });
         }
     }

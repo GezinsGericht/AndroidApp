@@ -45,6 +45,7 @@ public final class QuizManager {
         possibleAnswers = new ArrayList<>();
         questionList = new ArrayList<>();
         questionIds = new ArrayList<>();
+        //Dummy data questionIds
         questionIds.add(1);
         questionIds.add(2);
         questionIds.add(3);
