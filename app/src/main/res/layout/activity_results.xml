@@ -5,7 +5,7 @@
     android:id="@+id/ConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/inlog"
+    android:background="@drawable/account_geactiveerd"
     >
 
     <TextView
@@ -66,9 +66,9 @@
         android:layout_height="48dp"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="4dp"
-        android:backgroundTint="#31AFAFAF"
+        android:backgroundTint="#D0CDCD"
         android:text="@string/my_answers"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/results_close"
         app:layout_constraintHorizontal_bias="0.15"
