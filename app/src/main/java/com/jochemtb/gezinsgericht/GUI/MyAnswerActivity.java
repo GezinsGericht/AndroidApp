@@ -52,7 +52,7 @@ public class MyAnswerActivity extends AppCompatActivity implements HistoryAnswer
 
         // Initialize the repository and fetch the data
         historyAnswerRepository = new HistoryAnswerRepository(this);
-        historyAnswerRepository.getHistory(this);
+        historyAnswerRepository.getHistory(this, intent); // Pass the Intent here
     }
 
     @Override
@@ -76,6 +76,7 @@ public class MyAnswerActivity extends AppCompatActivity implements HistoryAnswer
         // Notify adapter about data changes
         adapter.notifyDataSetChanged();
     }
+
 
     private void setupBackButton() { // Navigates you back to ResultsActivity
         ImageButton back = findViewById(R.id.back_to_results);

@@ -1,6 +1,9 @@
 package com.jochemtb.gezinsgericht.repository;
 
+import static android.content.Intent.getIntent;
+
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
@@ -42,7 +45,7 @@ public class HistoryAnswerRepository {
         return historyAnswerDao;
     }
 
-    public void getHistory(HistoryCallback callback) {
+    public void getHistory(HistoryCallback callback, Intent intent) {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(context))
                 .build();
@@ -53,15 +56,19 @@ public class HistoryAnswerRepository {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        // Storing JWT token and session ID for demonstration purposes
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("session_id", "1"); // Replace with actual session ID for testing
-        editor.apply();
+
+        String sessionId = intent.getStringExtra("sessionId");
+
+//          Storing JWT token and session ID for demonstration purposes
+//        SharedPreferences.Editor editor = sharedPref.edit();
+//        editor.putString("session_id", "1"); // Replace with actual session ID for testing
+//        editor.apply();
 
         HistoryAnswerService apiHistoryService = retrofit.create(HistoryAnswerService.class);
 
-        // Get the JWT token and sessionId from SharedPreferences
-        String sessionId = sharedPref.getString("session_id", "");
+//        Get the JWT token and sessionId from SharedPreferences
+//        String sessionId = sharedPref.getString("session_id", "");
+
 
         // Log the values of JWT token and session ID for debugging
         Log.d(LOG_TAG, "Session ID: " + sessionId);

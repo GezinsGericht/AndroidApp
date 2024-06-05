@@ -1,5 +1,7 @@
 package com.jochemtb.gezinsgericht.GUI;
 
+import static android.content.Intent.getIntent;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -46,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        String sessionId = intent.getStringExtra("sessionId");
+
         initViewComponents();
         navToSession();
         buildChart();
