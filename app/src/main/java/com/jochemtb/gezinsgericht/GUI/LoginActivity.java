@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText passwordField;
 
     TextView title;
+
     ProgressBar loadingIcon;
 
     private SharedPreferences sharedPref;
@@ -55,11 +56,11 @@ public class LoginActivity extends AppCompatActivity {
                     // Token is valid, proceed to MainActivity
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish(); // Finish LoginActivity to prevent going back
-                  
-               
                 } else{
                     setLoadingScreen(false);
                 }
+
+
             }
         });
 
@@ -67,7 +68,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(checkMandatoryFields(emailField, passwordField)){
-
                     userRepository.loginUser(
                             emailField.getText().toString(),
                             passwordField.getText().toString()
@@ -77,7 +77,6 @@ public class LoginActivity extends AppCompatActivity {
                     sharedPref.edit().putString("jwtToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjQsIkZhbWlseUlkIjoxLCJSb2xlIjoiQ0hJTEQiLCJpYXQiOjE3MTcxNTMwNTEsImV4cCI6MTcxNzc1Nzg1MX0.5HknxVogBRLt_RQnnh4NHLe_5L0aX2RA9l3DcdQ9Hi0").apply();
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
 //                    Toast.makeText(getBaseContext(), "Een of meerdere verplichte velden niet ingevuld", Toast.LENGTH_LONG).show();
-
                 }
             }
         });
@@ -113,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
     private boolean checkMandatoryFields(EditText field1){
         String text = field1.getText().toString();
         if( text == null || text.isEmpty()){
@@ -131,4 +131,6 @@ public class LoginActivity extends AppCompatActivity {
             return true;
         }
     }
+
 }
+
