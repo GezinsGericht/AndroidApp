@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+
 import com.jochemtb.gezinsgericht.API.Login.ApiService;
 import com.jochemtb.gezinsgericht.API.Login.BaseResponse;
 import com.jochemtb.gezinsgericht.API.Login.ChangePasswordRequest;
@@ -17,6 +18,7 @@ import com.jochemtb.gezinsgericht.API.Login.LoginResponse;
 import com.jochemtb.gezinsgericht.API.Login.TokenRequest;
 import com.jochemtb.gezinsgericht.API.Login.TokenResponse;
 import com.jochemtb.gezinsgericht.GUI.MainActivity;
+
 import com.jochemtb.gezinsgericht.R;
 import com.jochemtb.gezinsgericht.dao.LoginDao;
 
@@ -52,6 +54,7 @@ public class UserRepository {
                 .baseUrl(API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
 
         ApiService apiService = retrofit.create(ApiService.class);
         LoginRequest loginRequest = new LoginRequest(email, password);
@@ -90,6 +93,7 @@ public class UserRepository {
                 .baseUrl(API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
 
 
         ApiService apiService = retrofit.create(ApiService.class);
@@ -151,7 +155,6 @@ public class UserRepository {
             }
         });
     }
-
 
     public void checkPresentToken(String token, int attemptsInput, TokenCheckCallback callback) {
         new TokenCheckTask(token, attemptsInput, callback).execute();

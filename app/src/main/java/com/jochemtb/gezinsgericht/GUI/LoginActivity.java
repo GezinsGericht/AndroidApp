@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 
     TextView title;
 
+
     ProgressBar loadingIcon;
 
     private SharedPreferences sharedPref;
@@ -41,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         emailField = findViewById(R.id.ET_login_email);
         passwordField = findViewById(R.id.ET_login_password);
         title = findViewById(R.id.TV_login_title);
+
         loadingIcon = findViewById(R.id.PB_login_loadingLogo);
 
         userRepository = new UserRepository(this);
@@ -52,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         userRepository.checkPresentToken(sharedPref.getString("jwtToken", null), 3, new UserRepository.TokenCheckCallback() {
             @Override
             public void onTokenChecked(boolean isValid) {
+
                 if (isValid) {
                     // Token is valid, proceed to MainActivity
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -59,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
                 } else{
                     setLoadingScreen(false);
                 }
-
 
             }
         });
@@ -89,7 +91,6 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getBaseContext(), "Vul een email address in", Toast.LENGTH_LONG).show();
                 }
-
             }
         });
     }
@@ -131,6 +132,4 @@ public class LoginActivity extends AppCompatActivity {
             return true;
         }
     }
-
 }
-

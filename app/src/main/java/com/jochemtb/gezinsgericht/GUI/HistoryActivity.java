@@ -21,13 +21,8 @@ import com.jochemtb.gezinsgericht.domain.FamilyResults;
 import com.jochemtb.gezinsgericht.domain.Habitat;
 import com.jochemtb.gezinsgericht.domain.Professional;
 import com.jochemtb.gezinsgericht.domain.Score;
-import com.jochemtb.gezinsgericht.domain.Session;
-import com.jochemtb.gezinsgericht.domain.User;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import com.jochemtb.gezinsgericht.domain.Session;
 
 
 public class HistoryActivity extends AppCompatActivity implements HistoryRepository.HistoryCallback {

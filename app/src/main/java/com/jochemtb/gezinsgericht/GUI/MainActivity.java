@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         progressionChart.invalidate();
     }
 
+
     private void navToSession() {
         settingsLogo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     private void initViewComponents() {
         usernameTv = findViewById(R.id.TV_homepage_username);
 
@@ -155,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
         navbar_3 = findViewById(R.id.BTN_navbar3);
         Log.d(LOG_TAG, "InitViewCompents done");
     }
-
 
 
 }

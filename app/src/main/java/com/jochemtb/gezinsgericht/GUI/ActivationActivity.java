@@ -18,14 +18,18 @@ import com.jochemtb.gezinsgericht.repository.UserRepository;
 
 import com.jochemtb.gezinsgericht.repository.UserRepository;
 
+import com.jochemtb.gezinsgericht.repository.UserRepository;
+
 public class ActivationActivity extends AppCompatActivity {
 
     Button confirmButton;
     private UserRepository userRepository;
+
     EditText passwordField1, passwordField2;
     SharedPreferences sharefPref;
     private static final String RESET_TOKEN = "resetToken";
     private static final String RESET_EMAIL = "resetEmail";
+
     private static final String LOG_TAG = "ActivationActivity";
 
     @Override
@@ -33,13 +37,13 @@ public class ActivationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         userRepository = new UserRepository(this);
         sharefPref = getSharedPreferences("sharedPref", MODE_PRIVATE);
-
         Log.d(LOG_TAG, "onCreate: resetToken="+sharefPref.getLong(RESET_TOKEN, 0)+", isFiveMinutesPassed="+isFiveMinutesPassed(sharefPref.getLong(RESET_TOKEN, 0)));
         if(isFiveMinutesPassed(sharefPref.getLong(RESET_TOKEN, 0))){
             Toast.makeText(this, "Activation link has expired, please request a new one.", Toast.LENGTH_LONG).show();
             startActivity(new Intent(ActivationActivity.this, LoginActivity.class));
         }
         setContentView(R.layout.activity_activation);
+
         confirmButton = findViewById(R.id.BT_activation_submit);
         passwordField1 = findViewById(R.id.ET_activation_password);
         passwordField2 = findViewById(R.id.ET_activation_password_repeat);
@@ -55,6 +59,7 @@ public class ActivationActivity extends AppCompatActivity {
                 } else {
                 userRepository.changePassword(sharefPref.getString(RESET_EMAIL, ""),passwordField2.getText().toString());
                 Log.d(LOG_TAG, sharefPref.getString(RESET_EMAIL, "") + "  Pass: "+passwordField2.getText().toString());
+
                 startActivity(new Intent(ActivationActivity.this, LoginActivity.class));
                 }
             }
