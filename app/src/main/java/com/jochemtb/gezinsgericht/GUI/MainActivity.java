@@ -69,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
 
         // Fetch data when the activity is created
         lineChartRepository.getLineChart(this);
+
+        // Set the username
+        usernameTv.setText(sharedPref.getString("username", "NAME_PLACEHOLDER"));
     }
 
     @Override
