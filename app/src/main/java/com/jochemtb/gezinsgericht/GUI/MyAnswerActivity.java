@@ -33,7 +33,6 @@ public class MyAnswerActivity extends AppCompatActivity implements HistoryAnswer
     private HistoryAnswerAdapter adapter;
     private List<GroupedHistoryAnswer> groupedHistoryAnswers;
 
-    private Session mSession;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

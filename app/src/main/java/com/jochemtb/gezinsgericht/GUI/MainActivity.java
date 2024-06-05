@@ -63,22 +63,6 @@ public class MainActivity extends AppCompatActivity {
         usernameTv.setText("Sietse 't Hooft"); // Dummie data
     }
 
-    private void initViewComponents() {
-        usernameTv = findViewById(R.id.TV_homepage_username);
-
-        checkbox_1 = findViewById(R.id.CB_homepage_1);
-        checkbox_2 = findViewById(R.id.CB_homepage_2);
-        checkbox_3 = findViewById(R.id.CB_homepage_3);
-        checkbox_4 = findViewById(R.id.CB_homepage_4);
-        checkbox_5 = findViewById(R.id.CB_homepage_5);
-        checkbox_6 = findViewById(R.id.CB_homepage_6);
-        checkbox_7 = findViewById(R.id.CB_homepage_7);
-
-        progressionChart = findViewById(R.id.chart_homepage);
-        settingsLogo = findViewById(R.id.IV_main_settings);
-
-        usernameTv.setText("Sietse 't Hooft"); // Dummie data
-    }
 
     private void buildChart() {
         // Makes description that is visible above the chart
@@ -171,5 +155,7 @@ public class MainActivity extends AppCompatActivity {
         navbar_3 = findViewById(R.id.BTN_navbar3);
         Log.d(LOG_TAG, "InitViewCompents done");
     }
+
+
 
 }
