@@ -7,12 +7,14 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.jochemtb.gezinsgericht.API.AuthInterceptor;
 import com.jochemtb.gezinsgericht.API.Questions.ApiQuestionService;
 import com.jochemtb.gezinsgericht.domain.Question;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,8 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class QuestionRepository {
     private Context context;
     private SharedPreferences sharedPref;
-    //    private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
-    private static final String API_URL = "http://81.206.200.166:3000/api/";
+        private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
     private static final String LOG_TAG = "QuestionRepository";
     private List<Question> retrievedQuestions;
 
@@ -33,8 +34,14 @@ public class QuestionRepository {
     }
 
     public void getQuestions(List<Integer> questionIds, OnQuestionsRetrievedCallback callback) {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new AuthInterceptor(context))
+                .build();
+
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(API_URL)
+                .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
