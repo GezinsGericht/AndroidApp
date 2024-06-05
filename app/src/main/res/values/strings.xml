@@ -46,4 +46,6 @@
     <string name="answer">Hier komt het gegeven antwoord</string>
     <string name="geschiedenis">Geschiedenis</string>
     <string name="persoonlijke_progressie">Persoonlijke progressie:</string>
+    <string name="welkom_bij">Welkom bij</string>
+    <string name="gezinsgericht">GezinsGericht</string>
 </resources>

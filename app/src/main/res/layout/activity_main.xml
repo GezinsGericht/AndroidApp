@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".GUI.MainActivity">
+    tools:context=".GUI.MainActivity"
+    android:background="@drawable/inlog">
 
     <!-- Top bar with name and logo -->
     <RelativeLayout
@@ -55,11 +56,43 @@
         android:layout_margin="5dp"
         app:layout_constraintBottom_toTopOf="@+id/checkboxes_homepage"
         app:layout_constraintTop_toBottomOf="@+id/dividerTop"
-        tools:layout_editor_absoluteX="5dp" />
+        tools:layout_editor_absoluteX="5dp" >
+
+    </com.github.mikephil.charting.charts.LineChart>
 
     <!-- Divider -->
 
     <!-- Checkboxes -->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/TV_welkom_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+            android:text="@string/welkom_bij"
+            android:textSize="70sp"
+            app:layout_constraintBottom_toTopOf="@+id/TV_welkom_message_gg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.84000003" />
+
+        <TextView
+            android:id="@+id/TV_welkom_message_gg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+            android:text="@string/gezinsgericht"
+            android:textSize="75sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:id="@+id/dividerBtm"
