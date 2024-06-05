@@ -26,12 +26,11 @@ public class LoginActivity extends AppCompatActivity {
     EditText passwordField;
 
     TextView title;
-    ProgressBar loaddingIcon;
 
-    //TODO weghalen omzeiling.
+
+    ProgressBar loadingIcon;
+
     private SharedPreferences sharedPref;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         emailField = findViewById(R.id.ET_login_email);
         passwordField = findViewById(R.id.ET_login_password);
         title = findViewById(R.id.TV_login_title);
-        loaddingIcon = findViewById(R.id.PB_History_loading);
+
+        loadingIcon = findViewById(R.id.PB_login_loadingLogo);
 
         userRepository = new UserRepository(this);
 
@@ -82,40 +82,29 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
         passwordForgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(checkMandatoryFields(emailField)){
-                    startActivity(new Intent(LoginActivity.this, ActivationActivity.class));
+                    userRepository.forgotPassword(emailField.getText().toString());
                 } else {
                     Toast.makeText(getBaseContext(), "Vul een email address in", Toast.LENGTH_LONG).show();
                 }
-
-            }
-        });
-
-        passwordForgot.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if(checkMandatoryFields(emailField)) {
-                    userRepository.forgotPassword(emailField.getText().toString());
-                    return true;
-                }
-                return false;
             }
         });
     }
 
     private void setLoadingScreen(boolean loading){
         if(loading){
-            loaddingIcon.setVisibility(View.VISIBLE);
+            loadingIcon.setVisibility(View.VISIBLE);
             loginBtn.setVisibility(View.INVISIBLE);
             passwordForgot.setVisibility(View.INVISIBLE);
             emailField.setVisibility(View.INVISIBLE);
             passwordField.setVisibility(View.INVISIBLE);
             title.setVisibility(View.INVISIBLE);
         } else {
-            loaddingIcon.setVisibility(View.INVISIBLE);
+            loadingIcon.setVisibility(View.INVISIBLE);
             loginBtn.setVisibility(View.VISIBLE);
             passwordForgot.setVisibility(View.VISIBLE);
             emailField.setVisibility(View.VISIBLE);

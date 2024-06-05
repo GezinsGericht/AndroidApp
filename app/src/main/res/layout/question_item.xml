@@ -9,17 +9,22 @@
         android:id="@+id/tv_question_answered"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:layout_margin="10dp"
-        android:fontFamily="@font/hanken_grotesk_bold"
-        android:textSize="24sp" />
+        android:textSize="24sp"/>
+
 
     <Button
         android:id="@+id/b_answer_given"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginBottom="10dp"
         android:backgroundTint="#1C0099FF"
-        android:textColor="#0099FF"
+
+        android:textColor="@color/black"
+
         android:textSize="20sp"
         app:icon="@drawable/radiobtn"
         app:iconTint="#0099FF"

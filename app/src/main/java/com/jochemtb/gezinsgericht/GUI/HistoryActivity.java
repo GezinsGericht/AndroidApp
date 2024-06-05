@@ -16,6 +16,12 @@ import com.jochemtb.gezinsgericht.R;
 import com.jochemtb.gezinsgericht.dao.HistoryDao;
 import com.jochemtb.gezinsgericht.repository.HistoryRepository;
 import com.jochemtb.gezinsgericht.adapters.HistoryListAdapter;
+
+import com.jochemtb.gezinsgericht.domain.FamilyResults;
+import com.jochemtb.gezinsgericht.domain.Habitat;
+import com.jochemtb.gezinsgericht.domain.Professional;
+import com.jochemtb.gezinsgericht.domain.Score;
+
 import com.jochemtb.gezinsgericht.domain.Session;
 
 
@@ -46,6 +52,8 @@ public class HistoryActivity extends AppCompatActivity implements HistoryReposit
         rvHistoryList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mAdapter = new HistoryListAdapter(this, historyDao.getHistoryList());
         rvHistoryList.setAdapter(mAdapter);
+
+        LocalDate today = LocalDate.now();
 
 
         //Navigeer naar de main activity

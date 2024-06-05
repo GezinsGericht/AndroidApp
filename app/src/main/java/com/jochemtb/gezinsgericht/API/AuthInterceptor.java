@@ -36,6 +36,8 @@ public class AuthInterceptor implements Interceptor {
         Request.Builder builder = originalRequest.newBuilder()
                 .header("Authorization", "Bearer " + token);
 
+        Log.d("INTERCEPTOR", "Adding Authorization header to request: " + token);
+
         Request newRequest = builder.build();
         return chain.proceed(newRequest);
     }

@@ -18,6 +18,12 @@
         android:text="@string/geschiedenis"
         android:textAlignment="center"
         android:textSize="54sp" />
+<!--         android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+        android:text="@string/geschiedenis"
+        android:textAlignment="center"
+        android:textSize="54sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="0dp" /> -->
 
     <View
         android:id="@+id/divider"

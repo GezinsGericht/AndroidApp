@@ -6,11 +6,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.jochemtb.gezinsgericht.R;
+import com.jochemtb.gezinsgericht.repository.UserRepository;
+
+import com.jochemtb.gezinsgericht.repository.UserRepository;
+
+import com.jochemtb.gezinsgericht.repository.UserRepository;
 
 import com.jochemtb.gezinsgericht.repository.UserRepository;
 
@@ -18,8 +24,12 @@ public class ActivationActivity extends AppCompatActivity {
 
     Button confirmButton;
     private UserRepository userRepository;
+
+    EditText passwordField1, passwordField2;
     SharedPreferences sharefPref;
     private static final String RESET_TOKEN = "resetToken";
+    private static final String RESET_EMAIL = "resetEmail";
+
     private static final String LOG_TAG = "ActivationActivity";
 
     @Override
@@ -33,12 +43,25 @@ public class ActivationActivity extends AppCompatActivity {
             startActivity(new Intent(ActivationActivity.this, LoginActivity.class));
         }
         setContentView(R.layout.activity_activation);
-        confirmButton = findViewById(R.id.BT_login_submit);
+
+        confirmButton = findViewById(R.id.BT_activation_submit);
+        passwordField1 = findViewById(R.id.ET_activation_password);
+        passwordField2 = findViewById(R.id.ET_activation_password_repeat);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                userRepository.updatePassword()
+                if(!passwordField1.getText().toString().equals(passwordField2.getText().toString())){
+                    Toast.makeText(ActivationActivity.this, "Passwords do not match", Toast.LENGTH_LONG).show();
+                    return;
+                } else if(sharefPref.getString(RESET_EMAIL, "").isEmpty()){
+                    Toast.makeText(ActivationActivity.this, "No email found", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(ActivationActivity.this, LoginActivity.class));
+                } else {
+                userRepository.changePassword(sharefPref.getString(RESET_EMAIL, ""),passwordField2.getText().toString());
+                Log.d(LOG_TAG, sharefPref.getString(RESET_EMAIL, "") + "  Pass: "+passwordField2.getText().toString());
+
                 startActivity(new Intent(ActivationActivity.this, LoginActivity.class));
+                }
             }
         });
     }

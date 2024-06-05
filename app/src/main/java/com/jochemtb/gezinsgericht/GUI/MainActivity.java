@@ -1,5 +1,7 @@
 package com.jochemtb.gezinsgericht.GUI;
 
+import static android.content.Intent.getIntent;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -46,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        String sessionId = intent.getStringExtra("sessionId");
+
         initViewComponents();
         navToSession();
         buildChart();
@@ -57,46 +63,52 @@ public class MainActivity extends AppCompatActivity {
         usernameTv.setText("Sietse 't Hooft"); // Dummie data
     }
 
-    private void initViewComponents() {
-        usernameTv = findViewById(R.id.TV_homepage_username);
 
-        checkbox_1 = findViewById(R.id.CB_homepage_1);
-        checkbox_2 = findViewById(R.id.CB_homepage_2);
-        checkbox_3 = findViewById(R.id.CB_homepage_3);
-        checkbox_4 = findViewById(R.id.CB_homepage_4);
-        checkbox_5 = findViewById(R.id.CB_homepage_5);
-        checkbox_6 = findViewById(R.id.CB_homepage_6);
-        checkbox_7 = findViewById(R.id.CB_homepage_7);
+    private void buildChart() {
+        // Makes description that is visible above the chart
+        Description description = new Description();
+        description.setText("Vooruitgang patiënt");
+        description.setPosition(250f, 15f);
+        description.setTextSize(10f);
+        progressionChart.setDescription(description);
+        progressionChart.getAxisRight().setDrawLabels(false);
 
-        lineChartHelper = new LineChartHelper(findViewById(R.id.chart_homepage));
-        settingsLogo = findViewById(R.id.IV_main_settings);
+        // Makes the x-as
+        XAxis xAxis = progressionChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter());
+        xAxis.setLabelCount(4);
+        xAxis.setGranularity(1f);
 
-        navbar_2 = findViewById(R.id.BTN_navbar2);
-        navbar_3 = findViewById(R.id.BTN_navbar3);
-        Log.d(LOG_TAG, "InitViewCompents done");
-    }
+        // Makes the y-as
+        YAxis yAxis = progressionChart.getAxisLeft();
+        yAxis.setAxisMinimum(0f);
+        yAxis.setAxisMaximum(15f);
+        yAxis.setAxisLineWidth(2f);
+        yAxis.setAxisLineColor(Color.BLACK);
+        yAxis.setLabelCount(10);
 
-    private void buildChart(){
-
-        //Makes the entries (points)
+        // Makes the entries (points)
         List<Entry> entries = new ArrayList<>();
-
-        //Dummy data:
         entries.add(new Entry(0, 0f));
         entries.add(new Entry(1, 3f));
         entries.add(new Entry(2, 9f));
         entries.add(new Entry(3, 7f));
         entries.add(new Entry(4, 13f));
 
-        //Add the entries to the lineChart
-        lineChartHelper.addEntries(entries);
+        // Makes the line(s)
+        LineDataSet dataSet = new LineDataSet(entries, "vooruitgang");
+        dataSet.setColor(Color.BLUE);
+        dataSet.setLineWidth(5f);
 
-        //Makes the line(s)
-        lineChartHelper.addDataSet("vooruitgang", Color.BLUE, 5f);
+        LineData lineData = new LineData(dataSet);
 
+        progressionChart.setData(lineData);
+        progressionChart.invalidate();
     }
 
-    private void navToSession(){
+
+    private void navToSession() {
         settingsLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,5 +137,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    private void initViewComponents() {
+        usernameTv = findViewById(R.id.TV_homepage_username);
+
+        checkbox_1 = findViewById(R.id.CB_homepage_1);
+        checkbox_2 = findViewById(R.id.CB_homepage_2);
+        checkbox_3 = findViewById(R.id.CB_homepage_3);
+        checkbox_4 = findViewById(R.id.CB_homepage_4);
+        checkbox_5 = findViewById(R.id.CB_homepage_5);
+        checkbox_6 = findViewById(R.id.CB_homepage_6);
+        checkbox_7 = findViewById(R.id.CB_homepage_7);
+
+        progressionChart = findViewById(R.id.chart_homepage);
+        settingsLogo = findViewById(R.id.IV_main_settings);
+
+        navbar_2 = findViewById(R.id.BTN_navbar2);
+        navbar_3 = findViewById(R.id.BTN_navbar3);
+        Log.d(LOG_TAG, "InitViewCompents done");
+    }
+
 
 }
