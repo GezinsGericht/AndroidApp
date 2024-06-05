@@ -11,7 +11,7 @@
         <item name="colorPrimary">@color/aqua</item>
     </style>
 
-    <style name="Button.Black" parent="ThemeOverlay.AppCompat">
-        <item name="colorPrimary">@color/black</item>
+    <style name="Button.LightBlack" parent="ThemeOverlay.AppCompat">
+        <item name="colorPrimary">@color/dark_grey</item>
     </style>
 </resources>

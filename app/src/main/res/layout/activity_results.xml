@@ -97,7 +97,7 @@
         app:layout_constraintStart_toEndOf="@+id/results_title"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.441"
-        android:theme="@style/Button.Black"
+        android:theme="@style/Button.LightBlack"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

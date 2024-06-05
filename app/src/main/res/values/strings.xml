@@ -45,4 +45,5 @@
     <string name="question">Hier komt de beantwoorde vraag.</string>
     <string name="answer">Hier komt het gegeven antwoord</string>
     <string name="geschiedenis">Geschiedenis</string>
+    <string name="goal_title"><![CDATA[Doelen & Acties]]></string>
 </resources>
