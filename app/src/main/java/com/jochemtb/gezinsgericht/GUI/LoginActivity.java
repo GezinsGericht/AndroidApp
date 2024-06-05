@@ -26,12 +26,9 @@ public class LoginActivity extends AppCompatActivity {
     EditText passwordField;
 
     TextView title;
-    ProgressBar loaddingIcon;
+    ProgressBar loadingIcon;
 
-    //TODO weghalen omzeiling.
     private SharedPreferences sharedPref;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         emailField = findViewById(R.id.ET_login_email);
         passwordField = findViewById(R.id.ET_login_password);
         title = findViewById(R.id.TV_login_title);
-        loaddingIcon = findViewById(R.id.PB_login_loadingLogo);
+        loadingIcon = findViewById(R.id.PB_login_loadingLogo);
 
         userRepository = new UserRepository(this);
 
@@ -54,15 +51,15 @@ public class LoginActivity extends AppCompatActivity {
         userRepository.checkPresentToken(sharedPref.getString("jwtToken", null), 3, new UserRepository.TokenCheckCallback() {
             @Override
             public void onTokenChecked(boolean isValid) {
-
                 if (isValid) {
                     // Token is valid, proceed to MainActivity
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish(); // Finish LoginActivity to prevent going back
+
+
                 } else{
                     setLoadingScreen(false);
                 }
-
             }
         });
 
@@ -70,45 +67,44 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(checkMandatoryFields(emailField, passwordField)){
+
                     userRepository.loginUser(
                             emailField.getText().toString(),
                             passwordField.getText().toString()
                     );
                 } else {
                     //TODO weghalen omzeiling.
-
-                    //sharedPref.edit().putString("jwtToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjQsIkZhbWlseUlkIjoxLCJSb2xlIjoiQ0hJTEQiLCJpYXQiOjE3MTcxNTMwNTEsImV4cCI6MTcxNzc1Nzg1MX0.5HknxVogBRLt_RQnnh4NHLe_5L0aX2RA9l3DcdQ9Hi0").apply();
-                    sharedPref.edit().putString("jwtToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsIkZhbWlseUlkIjoxLCJSb2xlIjoiQ0hJTEQiLCJpYXQiOjE3MTcxNTMwNTEsImV4cCI6MTcxNzc1Nzg1MX0.fEeewKgsOSuQd4dKWl2f3fdXvzJCyJrsMozXDqmj7dY").apply();
-
+                    sharedPref.edit().putString("jwtToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjQsIkZhbWlseUlkIjoxLCJSb2xlIjoiQ0hJTEQiLCJpYXQiOjE3MTcxNTMwNTEsImV4cCI6MTcxNzc1Nzg1MX0.5HknxVogBRLt_RQnnh4NHLe_5L0aX2RA9l3DcdQ9Hi0").apply();
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
 //                    Toast.makeText(getBaseContext(), "Een of meerdere verplichte velden niet ingevuld", Toast.LENGTH_LONG).show();
+
                 }
             }
         });
+
         passwordForgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(checkMandatoryFields(emailField)){
-
-                    startActivity(new Intent(LoginActivity.this, ActivationActivity.class));
                     userRepository.forgotPassword(emailField.getText().toString());
-
                 } else {
                     Toast.makeText(getBaseContext(), "Vul een email address in", Toast.LENGTH_LONG).show();
                 }
+
+            }
         });
     }
 
     private void setLoadingScreen(boolean loading){
         if(loading){
-            loaddingIcon.setVisibility(View.VISIBLE);
+            loadingIcon.setVisibility(View.VISIBLE);
             loginBtn.setVisibility(View.INVISIBLE);
             passwordForgot.setVisibility(View.INVISIBLE);
             emailField.setVisibility(View.INVISIBLE);
             passwordField.setVisibility(View.INVISIBLE);
             title.setVisibility(View.INVISIBLE);
         } else {
-            loaddingIcon.setVisibility(View.INVISIBLE);
+            loadingIcon.setVisibility(View.INVISIBLE);
             loginBtn.setVisibility(View.VISIBLE);
             passwordForgot.setVisibility(View.VISIBLE);
             emailField.setVisibility(View.VISIBLE);
@@ -116,7 +112,6 @@ public class LoginActivity extends AppCompatActivity {
             title.setVisibility(View.VISIBLE);
         }
     }
-
 
     private boolean checkMandatoryFields(EditText field1){
         String text = field1.getText().toString();

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.jochemtb.gezinsgericht.R;
+import com.jochemtb.gezinsgericht.repository.UserRepository;
 
 import com.jochemtb.gezinsgericht.repository.UserRepository;
 
@@ -30,30 +31,37 @@ public class ActivationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         userRepository = new UserRepository(this);
         sharefPref = getSharedPreferences("sharedPref", MODE_PRIVATE);
-        Log.d(LOG_TAG, "onCreate: resetToken="+sharefPref.getLong(RESET_TOKEN, 0)+", isFiveMinutesPassed="+isFiveMinutesPassed(sharefPref.getLong(RESET_TOKEN, 0)));
-        if(isFiveMinutesPassed(sharefPref.getLong(RESET_TOKEN, 0))){
+        long resetToken = sharefPref.getLong(RESET_TOKEN, 0);
+        Log.d(LOG_TAG, "onCreate: resetToken=" + resetToken + ", isFiveMinutesPassed=" + isFiveMinutesPassed(resetToken));
+
+        if (isFiveMinutesPassed(resetToken)) {
             Toast.makeText(this, "Activation link has expired, please request a new one.", Toast.LENGTH_LONG).show();
             startActivity(new Intent(ActivationActivity.this, LoginActivity.class));
+            finish();
+            return;
         }
+
         setContentView(R.layout.activity_activation);
         confirmButton = findViewById(R.id.BT_login_submit);
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-        confirmButton = findViewById(R.id.BT_activation_submit);
         passwordField1 = findViewById(R.id.ET_activation_password);
-        passwordField2 = findViewById(R.id.ET_activation_password_repeat);
+        passwordField2 = findViewById(R.id.ET_login_password);
+
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!passwordField1.getText().toString().equals(passwordField2.getText().toString())){
+                if (!passwordField1.getText().toString().equals(passwordField2.getText().toString())) {
                     Toast.makeText(ActivationActivity.this, "Passwords do not match", Toast.LENGTH_LONG).show();
                     return;
-                } else if(sharefPref.getString(RESET_EMAIL, "").isEmpty()){
+                } else if (sharefPref.getString(RESET_EMAIL, "").isEmpty()) {
                     Toast.makeText(ActivationActivity.this, "No email found", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(ActivationActivity.this, LoginActivity.class));
+                    finish();
+                    return;
                 } else {
-                userRepository.changePassword(sharefPref.getString(RESET_EMAIL, ""),passwordField2.getText().toString());
-                Log.d(LOG_TAG, sharefPref.getString(RESET_EMAIL, "") + "  Pass: "+passwordField2.getText().toString());
-                startActivity(new Intent(ActivationActivity.this, LoginActivity.class));
+                    userRepository.changePassword(sharefPref.getString(RESET_EMAIL, ""), passwordField2.getText().toString());
+                    Log.d(LOG_TAG, sharefPref.getString(RESET_EMAIL, "") + " Pass: " + passwordField2.getText().toString());
+                    startActivity(new Intent(ActivationActivity.this, LoginActivity.class));
+                    finish();
                 }
             }
         });
