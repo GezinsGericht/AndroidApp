@@ -45,6 +45,7 @@ public class ActivationActivity extends AppCompatActivity {
         confirmButton = findViewById(R.id.BT_login_submit);
         passwordField1 = findViewById(R.id.ET_activation_password);
         passwordField2 = findViewById(R.id.ET_login_password);
+        //Hallo
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
