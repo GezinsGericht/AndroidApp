@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jochemtb.gezinsgericht.GUI.ResultsActivity;
 import com.jochemtb.gezinsgericht.R;
+import com.jochemtb.gezinsgericht.domain.HistoryItem;
 import com.jochemtb.gezinsgericht.domain.Session;
 
 import java.nio.channels.SeekableByteChannel;
@@ -22,13 +23,17 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
     private final String LOG_TAG = "HistoryListAdapter";
     private LayoutInflater inflater;
-    private ArrayList<Session> Sessions;
+    private ArrayList<HistoryItem> historyList;
 
     //Adapter Constructor
-    public HistoryListAdapter(Context context, ArrayList<Session> Sessions) {
+    public HistoryListAdapter(Context context, ArrayList<HistoryItem> historyList) {
         inflater = LayoutInflater.from(context);
-        this.Sessions = Sessions; //Set Sessions
+        this.historyList = historyList; //Set Sessions
         Log.i(LOG_TAG, "HistoryListAdapter");
+    }
+
+    public void setHistoryList(ArrayList<HistoryItem> historyList) {
+        this.historyList = historyList;
     }
 
     //Maak itemview aan
@@ -44,9 +49,9 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     @Override
     public void onBindViewHolder(@NonNull HistoryListAdapter.HistoryListViewHolder holder, int position) {
 
-        Session session = Sessions.get(position);
-        holder.tvHistoryDate.setText(session.getDate().toString());
-        holder.tvHistoryProfName.setText(session.getProf().getName());
+        HistoryItem item = historyList.get(position);
+        holder.tvHistoryDate.setText(item.getDate());
+        holder.tvHistoryProfName.setText(item.getProfessional_Name());
 
         Log.i(LOG_TAG, "onBindViewHolder");
     }
@@ -54,8 +59,8 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     //Return aantal sessions
     @Override
     public int getItemCount() {
-        if (Sessions != null) {
-            return Sessions.size();
+        if (historyList != null) {
+            return historyList.size();
         } else {
             return 0;
         }
@@ -80,9 +85,10 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         public void onClick(View v) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                Session clickedSession = Sessions.get(position);
+                HistoryItem clickedSession = historyList.get(position);
                 Intent intent = new Intent(v.getContext(), ResultsActivity.class);
-                intent.putExtra("session", clickedSession);
+                intent.putExtra("session", clickedSession.getSessionId());
+
                 v.getContext().startActivity(intent);
             }
         }
