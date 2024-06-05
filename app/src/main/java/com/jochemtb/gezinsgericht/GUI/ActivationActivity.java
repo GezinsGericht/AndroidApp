@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.jochemtb.gezinsgericht.R;
 import com.jochemtb.gezinsgericht.repository.UserRepository;
 
+import com.jochemtb.gezinsgericht.repository.UserRepository;
+
 public class ActivationActivity extends AppCompatActivity {
 
     Button confirmButton;

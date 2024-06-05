@@ -35,19 +35,19 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sharedPref = getSharedPreferences("sharedPref", MODE_PRIVATE);
         setContentView(R.layout.activity_login);
-
-        loginBtn = findViewById(R.id.BT_login_submit); // Corrected ID
+        loginBtn = findViewById(R.id.BT_login_submit);
         passwordForgot = findViewById(R.id.BT_login_forgotPassword);
         emailField = findViewById(R.id.ET_login_email);
-        passwordField = findViewById(R.id.ET_login_password); // Corrected ID
+        passwordField = findViewById(R.id.ET_login_password);
         title = findViewById(R.id.TV_login_title);
-        loadingIcon = findViewById(R.id.PB_login_loadingLogo);
+        loaddingIcon = findViewById(R.id.PB_login_loadingLogo);
 
         userRepository = new UserRepository(this);
 
+
         setLoadingScreen(true);
 
-        // Check if user is already logged in
+        //Check if user is already logged in
         userRepository.checkPresentToken(sharedPref.getString("jwtToken", null), 3, new UserRepository.TokenCheckCallback() {
             @Override
             public void onTokenChecked(boolean isValid) {
@@ -55,7 +55,9 @@ public class LoginActivity extends AppCompatActivity {
                     // Token is valid, proceed to MainActivity
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish(); // Finish LoginActivity to prevent going back
-                } else {
+                  
+               
+                } else{
                     setLoadingScreen(false);
                 }
             }
@@ -64,13 +66,18 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkMandatoryFields(emailField, passwordField)) {
+                if(checkMandatoryFields(emailField, passwordField)){
+
                     userRepository.loginUser(
                             emailField.getText().toString(),
                             passwordField.getText().toString()
                     );
                 } else {
-                    Toast.makeText(LoginActivity.this, "Een of meerdere verplichte velden niet ingevuld", Toast.LENGTH_LONG).show();
+                    //TODO weghalen omzeiling.
+                    sharedPref.edit().putString("jwtToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjQsIkZhbWlseUlkIjoxLCJSb2xlIjoiQ0hJTEQiLCJpYXQiOjE3MTcxNTMwNTEsImV4cCI6MTcxNzc1Nzg1MX0.5HknxVogBRLt_RQnnh4NHLe_5L0aX2RA9l3DcdQ9Hi0").apply();
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                    Toast.makeText(getBaseContext(), "Een of meerdere verplichte velden niet ingevuld", Toast.LENGTH_LONG).show();
+
                 }
             }
         });
@@ -78,18 +85,18 @@ public class LoginActivity extends AppCompatActivity {
         passwordForgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkMandatoryFields(emailField)) {
-                    startActivity(new Intent(LoginActivity.this, ActivationActivity.class));
+                if(checkMandatoryFields(emailField)){
                     userRepository.forgotPassword(emailField.getText().toString());
                 } else {
-                    Toast.makeText(LoginActivity.this, "Vul een email address in", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Vul een email address in", Toast.LENGTH_LONG).show();
                 }
+
             }
         });
     }
 
-    private void setLoadingScreen(boolean loading) {
-        if (loading) {
+    private void setLoadingScreen(boolean loading){
+        if(loading){
             loadingIcon.setVisibility(View.VISIBLE);
             loginBtn.setVisibility(View.INVISIBLE);
             passwordForgot.setVisibility(View.INVISIBLE);
@@ -106,14 +113,22 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private boolean checkMandatoryFields(EditText field1) {
+    private boolean checkMandatoryFields(EditText field1){
         String text = field1.getText().toString();
-        return text != null && !text.isEmpty();
+        if( text == null || text.isEmpty()){
+            return false;
+        } else {
+            return true;
+        }
     }
 
-    private boolean checkMandatoryFields(EditText field1, EditText field2) {
+    private boolean checkMandatoryFields(EditText field1, EditText field2){
         String text1 = field1.getText().toString();
         String text2 = field2.getText().toString();
-        return (text1 != null && !text1.isEmpty()) && (text2 != null && !text2.isEmpty());
+        if( (text1 == null || text1.isEmpty()) || (text2 == null || text2.isEmpty())){
+            return false;
+        } else {
+            return true;
+        }
     }
 }

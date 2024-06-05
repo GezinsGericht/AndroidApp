@@ -92,7 +92,6 @@ public class UserRepository {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-
         ApLoginiService apLoginiService = retrofit.create(ApLoginiService.class);
         ForgotPasswordRequest forgotPasswordRequest = new ForgotPasswordRequest(email);
 
@@ -183,6 +182,7 @@ public class UserRepository {
 
             try {
                 Response<TokenResponse> response = apLoginiService.checkPresentToken(tokenRequest).execute();
+
 
                 if (response.isSuccessful()) {
                     TokenResponse tokenResponse = response.body();

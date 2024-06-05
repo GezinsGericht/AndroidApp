@@ -20,6 +20,7 @@ import com.jochemtb.gezinsgericht.domain.Session;
 import com.jochemtb.gezinsgericht.repository.HistoryAnswerRepository;
 import com.jochemtb.gezinsgericht.API.HistoryAnswers.HistoryAnswerResponse;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +32,8 @@ public class MyAnswerActivity extends AppCompatActivity implements HistoryAnswer
     private HistoryAnswerRepository historyAnswerRepository;
     private HistoryAnswerAdapter adapter;
     private List<GroupedHistoryAnswer> groupedHistoryAnswers;
+
+    private Session mSession;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

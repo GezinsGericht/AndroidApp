@@ -77,9 +77,7 @@ public class MainActivity extends AppCompatActivity {
         progressionChart = findViewById(R.id.chart_homepage);
         settingsLogo = findViewById(R.id.IV_main_settings);
 
-        navbar_2 = findViewById(R.id.BTN_navbar2);
-        navbar_3 = findViewById(R.id.BTN_navbar3);
-        Log.d(LOG_TAG, "InitViewCompents done");
+        usernameTv.setText("Sietse 't Hooft"); // Dummie data
     }
 
     private void buildChart() {
@@ -125,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
         progressionChart.invalidate();
     }
 
-
     private void navToSession() {
         settingsLogo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,4 +152,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void initViewComponents() {
+        usernameTv = findViewById(R.id.TV_homepage_username);
+
+        checkbox_1 = findViewById(R.id.CB_homepage_1);
+        checkbox_2 = findViewById(R.id.CB_homepage_2);
+        checkbox_3 = findViewById(R.id.CB_homepage_3);
+        checkbox_4 = findViewById(R.id.CB_homepage_4);
+        checkbox_5 = findViewById(R.id.CB_homepage_5);
+        checkbox_6 = findViewById(R.id.CB_homepage_6);
+        checkbox_7 = findViewById(R.id.CB_homepage_7);
+
+        progressionChart = findViewById(R.id.chart_homepage);
+        settingsLogo = findViewById(R.id.IV_main_settings);
+
+        navbar_2 = findViewById(R.id.BTN_navbar2);
+        navbar_3 = findViewById(R.id.BTN_navbar3);
+        Log.d(LOG_TAG, "InitViewCompents done");
+    }
+
 }
