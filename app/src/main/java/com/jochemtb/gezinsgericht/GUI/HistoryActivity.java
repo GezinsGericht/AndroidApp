@@ -53,7 +53,6 @@ public class HistoryActivity extends AppCompatActivity implements HistoryReposit
         mAdapter = new HistoryListAdapter(this, historyDao.getHistoryList());
         rvHistoryList.setAdapter(mAdapter);
 
-        LocalDate today = LocalDate.now();
 
 
         //Navigeer naar de main activity

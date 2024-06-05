@@ -54,7 +54,7 @@ public class HistoryAnswerRepository {
                 .build();
 
 
-        String sessionId = intent.getStringExtra("sessionId");
+        int mSessionId = intent.getIntExtra("session", 0);
 
 //          Storing JWT token and session ID for demonstration purposes
 //        SharedPreferences.Editor editor = sharedPref.edit();
@@ -68,13 +68,13 @@ public class HistoryAnswerRepository {
 
 
         // Log the values of JWT token and session ID for debugging
-        Log.d(LOG_TAG, "Session ID: " + sessionId);
+        Log.d(LOG_TAG, "Session ID: " + mSessionId);
 
 
         // Log the request details
-        Log.d(LOG_TAG, "Sending request with Session ID: " + sessionId);
+        Log.d(LOG_TAG, "Sending request with Session ID: " + mSessionId);
 
-        apiHistoryService.getHistoryAnswer(sessionId).enqueue(new Callback<List<HistoryAnswerResponse>>() {
+        apiHistoryService.getHistoryAnswer(String.valueOf(mSessionId)).enqueue(new Callback<List<HistoryAnswerResponse>>() {
             @Override
             public void onResponse(Call<List<HistoryAnswerResponse>> call, Response<List<HistoryAnswerResponse>> response) {
                 Log.d(LOG_TAG, "History response: " + response);

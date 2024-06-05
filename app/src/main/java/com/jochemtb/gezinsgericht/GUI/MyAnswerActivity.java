@@ -41,7 +41,7 @@ public class MyAnswerActivity extends AppCompatActivity implements HistoryAnswer
         setContentView(R.layout.activity_myanswers);
 
         Intent intent = getIntent();
-        mSessionId = intent.getIntExtra("session", 0);
+        mSessionId = intent.getIntExtra("session", mSessionId);
 
         setupBackButton(); // Sets up the "<--" button
 
