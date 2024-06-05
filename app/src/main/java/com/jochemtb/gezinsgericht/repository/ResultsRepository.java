@@ -62,7 +62,6 @@ public class ResultsRepository {
                 if (response.isSuccessful()) {
                     List<ResultsItem> results = response.body();
                     if (results != null) {
-                        Log.d(LOG_TAG, "Username: " + results.get(1).getUserName());
                         resultsDao.setResults(new ArrayList<>(results));
                         callback.onResultsFetched(results);
                         Toast.makeText(context, "API CALL SUCCESS RESULTS", Toast.LENGTH_LONG).show();

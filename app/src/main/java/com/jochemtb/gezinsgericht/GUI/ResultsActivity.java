@@ -94,8 +94,17 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
             );
             checkBox.setButtonTintList(colorStateList);
             mResultsCheckboxes.addView(checkBox);
+
+            if (colorIndex == 0) {
+                checkBox.setChecked(true);
+                checkBox.setTextColor(color);
+                RadarDataSet dataSet = radarChartHelper.getDataSet(0);
+                radarChartHelper.toggleDataSetVisibility(dataSet, true);
+            }
+
             colorIndex++;
         }
+
     }
 
     private void setupCheckBoxListeners() {
@@ -180,8 +189,8 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
         }
 
         Log.d(LOG_TAG, "UserHabitatAverageValues: " + userHabitatAverageValues);
-        createCheckboxes(userHabitatAverageValues);
         radarChartHelper.createDataSetFromSession(userHabitatAverageValues); //Sets the dummy data with help from RadarChartHelper
+        createCheckboxes(userHabitatAverageValues);
         setupCheckBoxListeners(); //Sets the functionality for the checkboxes
         Log.i(LOG_TAG, "Results data updated");
 

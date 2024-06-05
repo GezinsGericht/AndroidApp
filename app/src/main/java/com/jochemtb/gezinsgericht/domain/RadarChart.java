@@ -32,7 +32,7 @@ public class RadarChart {
 
         YAxis axis = radarChart.getYAxis();
         axis.setTextSize(10F);
-        axis.setAxisMaximum(15F);
+        axis.setAxisMaximum(5F);
         axis.setAxisMinimum(0F);
         axis.setLabelCount(6, true);
 
@@ -48,6 +48,9 @@ public class RadarChart {
         radarChart.setClickable(true);
         radarChart.setFocusable(true);
         radarChart.setRotationEnabled(false);
+        radarChart.setDescription(null);
+
+
     }
 
     public void createDataSetFromSession(HashMap<String, HashMap<Integer, Double>> userHabitatAverageValues) {
