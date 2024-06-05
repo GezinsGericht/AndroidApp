@@ -8,9 +8,6 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.jochemtb.gezinsgericht.API.AuthInterceptor;
 import com.jochemtb.gezinsgericht.API.HistoryAnswers.HistoryAnswerResponse;
 import com.jochemtb.gezinsgericht.API.HistoryAnswers.HistoryAnswerService;
