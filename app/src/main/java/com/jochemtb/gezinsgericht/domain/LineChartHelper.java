@@ -35,6 +35,7 @@ public class LineChartHelper {
         makeDiscription();
         lineChart.setDescription(description);
         lineChart.getAxisRight().setDrawLabels(false);
+        lineChart.getLegend().setEnabled(false);
 
         makeXaxis();
         makeYaxis();
@@ -89,4 +90,10 @@ public class LineChartHelper {
         lineChart.invalidate();
         Log.d(LOG_TAG, "Dataline added");
     }
+
+    // This method clears the entries
+    public void clearEntries() {
+        entries.clear();
+    }
+
 }
