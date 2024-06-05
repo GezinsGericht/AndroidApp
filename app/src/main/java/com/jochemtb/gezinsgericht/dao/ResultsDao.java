@@ -8,10 +8,6 @@ public class ResultsDao {
 
     private ArrayList<ResultsItem> results;
 
-    public ResultsDao(ArrayList<ResultsItem> results) {
-        this.results = results;
-    }
-
     public ResultsDao(){
 
     }

@@ -6,13 +6,13 @@ public class ResultsItem {
     private int HabitatId;
     private int UserId;
     private int AnswerValue;
-    private String UserName;
+    private String Name;
 
     public ResultsItem(int weight, int habitatId, int userId, int answerValue, String userName) {
         this.weight = weight;
         HabitatId = habitatId;
         UserId = userId;
-        UserName = userName;
+        Name = userName;
         AnswerValue = answerValue;
     }
 
@@ -48,8 +48,8 @@ public class ResultsItem {
         AnswerValue = answerValue;
     }
 
-    public String getUserName() { return UserName; }
+    public String getName() { return Name; }
 
-    public void setUserName(String userName) { UserName = userName; }
+    public void setName(String name) { Name = name; }
 
 }

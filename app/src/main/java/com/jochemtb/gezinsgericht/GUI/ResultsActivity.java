@@ -5,12 +5,9 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridLayout;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,9 +16,6 @@ import com.jochemtb.gezinsgericht.R;
 import com.jochemtb.gezinsgericht.dao.ResultsDao;
 import com.jochemtb.gezinsgericht.domain.RadarChart;
 import com.jochemtb.gezinsgericht.domain.ResultsItem;
-import com.jochemtb.gezinsgericht.domain.Session;
-import com.jochemtb.gezinsgericht.domain.User;
-import com.jochemtb.gezinsgericht.repository.HistoryRepository;
 import com.jochemtb.gezinsgericht.repository.ResultsRepository;
 
 import java.util.ArrayList;
@@ -34,11 +28,9 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
 
     private final String LOG_TAG = "ResultsActivity";
     private RadarChart radarChartHelper;
-    private Session mSession;
     private int mSessionId;
     private ResultsRepository resultsRepository;
     private ResultsDao resultsDao;
-    private ProgressBar loadingScreen;
     private HashMap<String, HashMap<Integer, Double>> userHabitatAverageValues;
     private GridLayout mResultsCheckboxes;
 
@@ -147,15 +139,15 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
     public void onResultsFetched(List<ResultsItem> results) {
         Set<String> users = new HashSet<>();
         for (ResultsItem item : results) {
-            users.add(item.getUserName());
-            Log.d(LOG_TAG, "User: " + item.getUserName());
+            users.add(item.getName());
+            Log.d(LOG_TAG, "User: " + item.getName());
         }
         // Create a map to store the AnswerValues for each HabitatId per user
         HashMap<String, HashMap<Integer, List<Integer>>> userHabitatAnswerValues = new HashMap<>();
 
         // Populate the map
         for (ResultsItem item : results) {
-            String userName = item.getUserName();
+            String userName = item.getName();
             int habitatId = item.getHabitatId();
             int answerValue = item.getAnswerValue();
             Log.d(LOG_TAG, "User: " + userName + " Habitat: " + habitatId + " Answer: " + answerValue);
