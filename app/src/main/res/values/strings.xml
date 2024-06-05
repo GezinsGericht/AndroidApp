@@ -44,4 +44,5 @@
     <string name="question">Hier komt de beantwoorde vraag.</string>
     <string name="answer">Hier komt het gegeven antwoord</string>
     <string name="geschiedenis">Geschiedenis</string>
+    <string name="persoonlijke_progressie">Persoonlijke progressie:</string>
 </resources>

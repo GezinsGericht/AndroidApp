@@ -38,25 +38,63 @@
     <!-- Divider -->
 
     <View
-        android:id="@+id/divider"
+        android:id="@+id/dividerTop"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toBottomOf="@+id/header_homepage"
         app:layout_constraintTop_toBottomOf="@+id/header_homepage" />
 
+
+
+    <!-- Placeholder for the graph -->
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart_homepage"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:layout_margin="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/checkboxes_homepage"
+        app:layout_constraintTop_toBottomOf="@+id/dividerTop"
+        tools:layout_editor_absoluteX="5dp" />
+
+    <!-- Divider -->
+
     <!-- Checkboxes -->
+
+    <View
+        android:id="@+id/dividerBtm"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginBottom="4dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@+id/tv_PersoonlijkeProgressie"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_PersoonlijkeProgressie"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="@string/persoonlijke_progressie"
+        app:layout_constraintBottom_toTopOf="@+id/checkboxes_homepage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chart_homepage"
+        app:layout_constraintVertical_bias="1.0" />
 
     <GridLayout
         android:id="@+id/checkboxes_homepage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:columnCount="2"
-        android:padding="16dp"
+        android:padding="8dp"
+        android:paddingBottom="16dp"
+        android:paddingHorizontal="16dp"
         android:rowCount="4"
+        app:layout_constraintBottom_toTopOf="@+id/navbar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_homepage">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
 
         <CheckBox
             android:id="@+id/CB_homepage_1"
@@ -103,18 +141,6 @@
 
     </GridLayout>
 
-    <!-- Placeholder for the graph -->
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/chart_homepage"
-        android:layout_width="match_parent"
-        android:layout_height="480dp"
-        android:layout_margin="5dp"
-        android:layout_marginTop="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/navbar"
-        app:layout_constraintTop_toBottomOf="@+id/checkboxes_homepage">
-    </com.github.mikephil.charting.charts.LineChart>
-
     <!-- Navigation bar -->
     <LinearLayout
         android:id="@+id/navbar"
@@ -122,8 +148,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/BTN_navbar1"
@@ -131,8 +157,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/aqua"
-            android:theme="@style/Button.Aqua"
-            android:text="@string/navbar_1" />
+            android:text="@string/navbar_1"
+            android:theme="@style/Button.Aqua" />
 
         <Button
             android:id="@+id/BTN_navbar2"
