@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jochemtb.gezinsgericht.R;
@@ -43,12 +44,15 @@ public class GoalListAdapter extends RecyclerView.Adapter<GoalListAdapter.GoalVi
             actionTextView.setText(addBulletPoint(action));
             actionTextView.setTextSize(20);
 
+            // Set font family
+            actionTextView.setTypeface(ResourcesCompat.getFont(holder.itemView.getContext(), R.font.hanken_grotesk_bold));
+
             // Set margins to achieve horizontal bias effect
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            layoutParams.setMargins(60, 0, 0, 0); // Adjust the left margin as needed
+            layoutParams.setMargins(120, 0, 0, 0); // Adjust the left margin as needed
             actionTextView.setLayoutParams(layoutParams);
 
             holder.actionsContainer.addView(actionTextView);
