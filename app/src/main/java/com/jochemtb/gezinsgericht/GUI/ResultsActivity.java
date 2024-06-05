@@ -112,6 +112,10 @@ public class ResultsActivity extends AppCompatActivity {
 
     private void setupGoalsButton(){
         Button goals = findViewById(R.id.results_goals);
-        goals.setOnClickListener(v -> startActivity(new Intent(ResultsActivity.this, GoalsActivity.class)));
+        goals.setOnClickListener(v -> {
+            Intent intent = new Intent(ResultsActivity.this, GoalsActivity.class);
+            intent.putExtra("session", mSession);
+            startActivity(intent);
+        });
     }
 }
