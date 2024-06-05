@@ -1,5 +1,7 @@
 package com.jochemtb.gezinsgericht.GUI;
 
+import static android.content.Intent.getIntent;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -40,20 +42,40 @@ public class MainActivity extends AppCompatActivity {
     private ImageView settingsLogo;
     private LineChart progressionChart;
     private SharedPreferences sharedPref;
-
     private final String LOG_TAG = "HomepageActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        String sessionId = intent.getStringExtra("sessionId");
+
         initViewComponents();
         navToSession();
         buildChart();
 
-        // TESTING
+        //TESTING
         sharedPref = getSharedPreferences("sharedPref", MODE_PRIVATE);
         Toast.makeText(this, sharedPref.getString("jwtToken", "Error"), Toast.LENGTH_LONG).show();
+
+        usernameTv.setText("Sietse 't Hooft"); // Dummie data
+    }
+
+    private void initViewComponents() {
+        usernameTv = findViewById(R.id.TV_homepage_username);
+
+        checkbox_1 = findViewById(R.id.CB_homepage_1);
+        checkbox_2 = findViewById(R.id.CB_homepage_2);
+        checkbox_3 = findViewById(R.id.CB_homepage_3);
+        checkbox_4 = findViewById(R.id.CB_homepage_4);
+        checkbox_5 = findViewById(R.id.CB_homepage_5);
+        checkbox_6 = findViewById(R.id.CB_homepage_6);
+        checkbox_7 = findViewById(R.id.CB_homepage_7);
+
+        progressionChart = findViewById(R.id.chart_homepage);
+        settingsLogo = findViewById(R.id.IV_main_settings);
 
         usernameTv.setText("Sietse 't Hooft"); // Dummie data
     }

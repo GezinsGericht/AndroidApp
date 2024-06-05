@@ -82,6 +82,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
         quizManager.generateQuiz();
     }
 
+
     @Override
     public void onQuizGenerated() {
         this.quiz = quizManager.getCurrentQuiz();
@@ -128,6 +129,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
             }
         } else {
             Toast.makeText(this, "Quiz is not yet loaded. Please wait.", Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -135,6 +137,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
         if (quiz != null) {
             quizManager.submitData(selectedAnswers, quiz);
             startActivity(new Intent(QuizActivity.this, ResultsActivity.class));
+
         } else {
             Toast.makeText(this, "Quiz is not yet loaded. Please wait.", Toast.LENGTH_SHORT).show();
         }
@@ -160,6 +163,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
         }
     }
 
+
     private void displayUnansweredQuestions(List<Integer> unansweredQuestions) {
         unansweredQuestionsLayout.removeAllViews();
         unansweredQuestionsLayout.setVisibility(View.VISIBLE);
@@ -178,6 +182,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
     }
 
     private void navigateToQuestion(int index) {
+
         if (quiz != null) {
             currentQuestionIndex = index;
             questionView.displayQuestion(index);
@@ -214,6 +219,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
                         setUpRadioButton(radioButton, answers[i], i, index, answersGroup);
                         answersGroup.addView(radioButton);
                     }
+
                 }
 
                 answersGroup.invalidate(); // Force the RadioGroup to redraw itself and recalculate its layout

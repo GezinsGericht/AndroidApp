@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.jochemtb.gezinsgericht.API.Login.ApLoginiService;
 import com.jochemtb.gezinsgericht.API.Login.ApiService;
 import com.jochemtb.gezinsgericht.API.Login.BaseResponse;
 import com.jochemtb.gezinsgericht.API.Login.ChangePasswordRequest;
@@ -53,10 +54,11 @@ public class UserRepository {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        ApiService apiService = retrofit.create(ApiService.class);
+        ApLoginiService apLoginiService = retrofit.create(ApLoginiService.class);
         LoginRequest loginRequest = new LoginRequest(email, password);
 
-        apiService.loginUser(loginRequest).enqueue(new Callback<LoginResponse>() {
+        apLoginiService.loginUser(loginRequest).enqueue(new Callback<LoginResponse>() {
+
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 Log.d(LOG_TAG, "Login response: " + response.body());
@@ -90,18 +92,19 @@ public class UserRepository {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        ApiService apiService = retrofit.create(ApiService.class);
+        ApLoginiService apLoginiService = retrofit.create(ApLoginiService.class);
         ForgotPasswordRequest forgotPasswordRequest = new ForgotPasswordRequest(email);
 
-        apiService.forgotPassword(forgotPasswordRequest).enqueue(new Callback<ForgotPasswordResponse>() {
+        apLoginiService.forgotPassword(forgotPasswordRequest).enqueue(new Callback<ForgotPasswordResponse>() {
             @Override
             public void onResponse(Call<ForgotPasswordResponse> call, Response<ForgotPasswordResponse> response) {
+                long now = System.currentTimeMillis() / 1000;
+                sharedPref.edit().putLong(RESET_TOKEN, now).apply();
                 if (response.isSuccessful()) {
                     ForgotPasswordResponse forgotPasswordResponse = response.body();
                     if (forgotPasswordResponse != null) {
-                        long now = System.currentTimeMillis() / 1000;
-                        sharedPref.edit().putLong(RESET_TOKEN, now).apply();
-                        sharedPref.edit().putString(RESET_EMAIL, email).apply();
+//                        long now = System.currentTimeMillis() / 1000;
+//                        sharedPref.edit().putLong(RESET_TOKEN, now).apply();
                         Log.d(LOG_TAG, "Reset token: " + now);
                         Toast.makeText(context, forgotPasswordResponse.getMessage(), Toast.LENGTH_LONG).show();
                     } else {
@@ -173,11 +176,14 @@ public class UserRepository {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
-            ApiService apiService = retrofit.create(ApiService.class);
+
+            ApLoginiService apLoginiService = retrofit.create(ApLoginiService.class);
             TokenRequest tokenRequest = new TokenRequest(token);
 
             try {
-                Response<TokenResponse> response = apiService.checkPresentToken(tokenRequest).execute();
+                Response<TokenResponse> response = apLoginiService.checkPresentToken(tokenRequest).execute();
+
+
                 if (response.isSuccessful()) {
                     TokenResponse tokenResponse = response.body();
                     return tokenResponse != null && tokenResponse.getData() != null;

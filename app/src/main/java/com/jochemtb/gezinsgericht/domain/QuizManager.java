@@ -7,6 +7,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 
 import com.jochemtb.gezinsgericht.GUI.QuizActivity;
+
 import com.jochemtb.gezinsgericht.repository.QuestionRepository;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public final class QuizManager {
     private static QuizManager instance;
     private List<String> questionstring;
     private List<String[]> possibleAnswers;
+
     private List<Question> questionList;
     private Quiz currentQuiz;
 
@@ -40,9 +42,11 @@ public final class QuizManager {
         this.context = context;
     }
 
-    public QuizManager() {
+
+    public QuizManager(Context context) {
         questionstring = new ArrayList<>();
         possibleAnswers = new ArrayList<>();
+
         questionList = new ArrayList<>();
         questionIds = new ArrayList<>();
         //Dummy data questionIds
@@ -214,5 +218,55 @@ public final class QuizManager {
 
     public void setAnt(int ant) {
         this.ant = ant;
+    }
+
+    public void saveSelectedAnswer(List<Integer> selectedAnswers, RadioGroup answersGroup, int currentQuestionIndex, QuizResult quizResult) {
+        int selectedId = answersGroup.getCheckedRadioButtonId();
+        if (selectedId != -1) {
+            View radioButton = answersGroup.findViewById(selectedId);
+            int index = answersGroup.indexOfChild(radioButton);
+            Log.d("Selected answer", Integer.toString(index));
+            quizResult.setQuestionList((ArrayList<Question>) qs);
+            selectedAnswers.set(currentQuestionIndex, index);
+            quizResult.addToAntSelected(index);
+            Log.d(quizResult.getQuestionList().get(currentQuestionIndex).getQuestion(), quizResult.getAntselected().toString());
+
+        } else {
+            selectedAnswers.set(currentQuestionIndex, -1);
+        }
+        answersGroup.clearCheck();
+    }
+
+    public void checkIfFinalQuestion(int currentQuestionIndex, Quiz quiz, QuizActivity.QuestionView questionView) {
+        if (currentQuestionIndex < quiz.getTotalQuestions()) {
+            questionView.displayQuestion(currentQuestionIndex);
+        }
+    }
+
+    public List<Integer> getUnansweredQuestionIndices(List<Integer> selectedAnswers) {
+        List<Integer> unansweredQuestions = new ArrayList<>();
+        for (int i = 0; i < selectedAnswers.size(); i++) {
+            if (selectedAnswers.get(i) == -1) {
+                unansweredQuestions.add(i);
+            }
+        }
+        return unansweredQuestions;
+    }
+
+    public void submitData(List<Integer> selectedAnswers, Quiz quiz) {
+        for (int i = 0; i < quiz.getTotalQuestions(); i++) {
+            String answer = selectedAnswers.get(i) == -1 ? "No answer selected" : Integer.toString(selectedAnswers.get(i));
+            // Perform submission logic here
+        }
+    }
+
+    public void updateProgressBar(List<Integer> selectedAnswers, ProgressBar progressBar, Quiz quiz) {
+        int answeredQuestions = 0;
+        for (int answer : selectedAnswers) {
+            if (answer != -1) {
+                answeredQuestions++;
+            }
+        }
+        progressBar.setProgress((answeredQuestions) * 100 / quiz.getTotalQuestions());
     }
 }

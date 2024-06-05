@@ -46,7 +46,6 @@ public class Question {
     public void setWeight(int weight) {
         this.Weight = weight;
     }
-
     public String getAnswer1() {
         return Answer1;
     }
@@ -84,7 +83,9 @@ public class Question {
     }
 
     public void setAnswer5(String answer5) {
+
         this.Answer5 = answer5;
+
     }
 
 }
