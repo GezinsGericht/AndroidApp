@@ -141,7 +141,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
         Button goals = findViewById(R.id.results_goals);
         goals.setOnClickListener(v -> {
             Intent intent = new Intent(ResultsActivity.this, GoalsActivity.class);
-            intent.putExtra("session", mSession);
+            intent.putExtra("session", mSessionId);
             startActivity(intent);
         });
     }

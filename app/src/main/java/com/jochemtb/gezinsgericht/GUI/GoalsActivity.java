@@ -38,7 +38,7 @@ public class GoalsActivity extends AppCompatActivity implements GoalRepository.G
         setContentView(R.layout.activity_goals);
 
         Intent intent = getIntent();
-        mSession = (Session) intent.getSerializableExtra("session");
+//        mSession = (Session) intent.getSerializableExtra("session"); //Hier gaat het fout! (Moet nog aan gefixt worden)
 
         Log.d(LOG_TAG, "InitViewComponents called");
         recyclerView = findViewById(R.id.RV_goal_list);
