@@ -1,12 +1,15 @@
 package com.jochemtb.gezinsgericht.domain;
 
+import com.jochemtb.gezinsgericht.API.Goal.GoalResponse;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Goal {
     private String goal;
-    private ArrayList<String> actions;
+    private List<GoalResponse> actions;
 
-    public Goal(String goal, ArrayList<String> actions){
+    public Goal(String goal, List<GoalResponse> actions){
         this.goal = goal;
         this.actions = actions;
     }
@@ -15,7 +18,7 @@ public class Goal {
         return goal;
     }
 
-    public ArrayList<String> getActions() {
+    public List<GoalResponse> getActions() {
         return actions;
     }
 }
