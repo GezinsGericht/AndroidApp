@@ -3,6 +3,7 @@ package com.jochemtb.gezinsgericht.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,12 +33,26 @@ public class GoalListAdapter extends RecyclerView.Adapter<GoalListAdapter.GoalVi
     public void onBindViewHolder(@NonNull GoalViewHolder holder, int position) {
         Goal goal = goalList.get(position);
         holder.goal.setText(goal.getGoal());
-        ArrayList<String> actions = goal.getActions();
-        holder.action1.setText(actions.get(0));
-        holder.action2.setText(actions.get(1));
-        holder.action3.setText(actions.get(2));
-        holder.action4.setText(actions.get(3));
-        holder.action5.setText(actions.get(4));
+
+        // Clear any previous views to avoid duplication
+        holder.actionsContainer.removeAllViews();
+
+        // Dynamically add TextViews for each action
+        for (String action : goal.getActions()) {
+            TextView actionTextView = new TextView(holder.itemView.getContext());
+            actionTextView.setText(addBulletPoint(action));
+            actionTextView.setTextSize(20);
+
+            // Set margins to achieve horizontal bias effect
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            layoutParams.setMargins(60, 0, 0, 0); // Adjust the left margin as needed
+            actionTextView.setLayoutParams(layoutParams);
+
+            holder.actionsContainer.addView(actionTextView);
+        }
     }
 
     @Override
@@ -45,17 +60,18 @@ public class GoalListAdapter extends RecyclerView.Adapter<GoalListAdapter.GoalVi
         return goalList.size();
     }
 
+    private String addBulletPoint(String text) {
+        return "\u2022 " + text; // Unicode for bullet point
+    }
     public static class GoalViewHolder extends RecyclerView.ViewHolder {
-        TextView goal, action1, action2, action3, action4, action5;
+        TextView goal;
+        LinearLayout actionsContainer;
 
         public GoalViewHolder(@NonNull View itemView) {
             super(itemView);
             goal = itemView.findViewById(R.id.goal);
-            action1 = itemView.findViewById(R.id.action1);
-            action2 = itemView.findViewById(R.id.action2);
-            action3 = itemView.findViewById(R.id.action3);
-            action4 = itemView.findViewById(R.id.action4);
-            action5 = itemView.findViewById(R.id.action5);
+            actionsContainer = itemView.findViewById(R.id.actions_container);
         }
     }
+
 }

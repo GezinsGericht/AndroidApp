@@ -22,8 +22,6 @@ public class GoalsActivity extends AppCompatActivity{
 
     private RecyclerView recyclerView;
     private GoalListAdapter goalListAdapter;
-    private List<Goal> goalList;
-    private ArrayList<String> actions;
     private Session mSession;
     private final String LOG_TAG = "GoalsActivity";
     @Override
@@ -44,14 +42,13 @@ public class GoalsActivity extends AppCompatActivity{
 
         backButton();
 
-        makeDummyDate();
-        goalListAdapter = new GoalListAdapter(goalList);
+        goalListAdapter = new GoalListAdapter(makeDummyDate());
         recyclerView.setAdapter(goalListAdapter);
     }
 
-    private void makeDummyDate(){
-        actions = new ArrayList<>();
-        goalList = new ArrayList<>();
+    private List<Goal> makeDummyDate(){
+        ArrayList<String> actions = new ArrayList<>();
+        List<Goal> goalList = new ArrayList<>();
 
         actions.add("Ik ga meer fortnite spelen");
         actions.add("Ik ga vaker mijn moeders credit gebruiken");
@@ -60,10 +57,12 @@ public class GoalsActivity extends AppCompatActivity{
         actions.add("Goede vraag wat de laatste actie is");
 
         goalList.add(new Goal("Doel 1: Meer Vbucks", actions));
-        goalList.add(new Goal("Doel 1: Meer Vbucks", actions));
-        goalList.add(new Goal("Doel 1: Meer Vbucks", actions));
-        goalList.add(new Goal("Doel 1: Meer Vbucks", actions));
-        goalList.add(new Goal("Doel 1: Meer Vbucks", actions));
+        goalList.add(new Goal("Doel 2: Meer Vbucks", actions));
+        goalList.add(new Goal("Doel 3: Meer Vbucks", actions));
+        goalList.add(new Goal("Doel 4: Meer Vbucks", actions));
+        goalList.add(new Goal("Doel 5: Meer Vbucks", actions));
+
+        return goalList;
     }
 
     private void backButton(){
