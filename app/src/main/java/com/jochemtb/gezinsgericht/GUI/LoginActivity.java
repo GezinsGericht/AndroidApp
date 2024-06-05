@@ -26,12 +26,10 @@ public class LoginActivity extends AppCompatActivity {
     EditText passwordField;
 
     TextView title;
-    ProgressBar loaddingIcon;
 
-    //TODO weghalen omzeiling.
+    ProgressBar loadingIcon;
+
     private SharedPreferences sharedPref;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         userRepository.checkPresentToken(sharedPref.getString("jwtToken", null), 3, new UserRepository.TokenCheckCallback() {
             @Override
             public void onTokenChecked(boolean isValid) {
-
                 if (isValid) {
                     // Token is valid, proceed to MainActivity
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -62,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else{
                     setLoadingScreen(false);
                 }
+
 
             }
         });
@@ -82,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
         passwordForgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,14 +96,14 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setLoadingScreen(boolean loading){
         if(loading){
-            loaddingIcon.setVisibility(View.VISIBLE);
+            loadingIcon.setVisibility(View.VISIBLE);
             loginBtn.setVisibility(View.INVISIBLE);
             passwordForgot.setVisibility(View.INVISIBLE);
             emailField.setVisibility(View.INVISIBLE);
             passwordField.setVisibility(View.INVISIBLE);
             title.setVisibility(View.INVISIBLE);
         } else {
-            loaddingIcon.setVisibility(View.INVISIBLE);
+            loadingIcon.setVisibility(View.INVISIBLE);
             loginBtn.setVisibility(View.VISIBLE);
             passwordForgot.setVisibility(View.VISIBLE);
             emailField.setVisibility(View.VISIBLE);
@@ -132,4 +131,6 @@ public class LoginActivity extends AppCompatActivity {
             return true;
         }
     }
+
 }
+

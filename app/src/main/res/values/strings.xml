@@ -14,6 +14,7 @@
     //Quiz
     <string name="quiz_button_previous">VORIGE</string>
     <string name="quiz_button_next">VOLGENDE</string>
+    <string name="quiz_button_confirm">BEVESTIGEN</string>
 
     //Activation
     <string name="activation_title">Maak uw account aan</string>

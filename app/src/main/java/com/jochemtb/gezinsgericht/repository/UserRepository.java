@@ -57,6 +57,7 @@ public class UserRepository {
         LoginRequest loginRequest = new LoginRequest(email, password);
 
         apiService.loginUser(loginRequest).enqueue(new Callback<LoginResponse>() {
+
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 Log.d(LOG_TAG, "Login response: " + response.body());
@@ -90,6 +91,7 @@ public class UserRepository {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+
         ApiService apiService = retrofit.create(ApiService.class);
         ForgotPasswordRequest forgotPasswordRequest = new ForgotPasswordRequest(email);
 
@@ -102,6 +104,7 @@ public class UserRepository {
                         long now = System.currentTimeMillis() / 1000;
                         sharedPref.edit().putLong(RESET_TOKEN, now).apply();
                         sharedPref.edit().putString(RESET_EMAIL, email).apply();
+
                         Log.d(LOG_TAG, "Reset token: " + now);
                         Toast.makeText(context, forgotPasswordResponse.getMessage(), Toast.LENGTH_LONG).show();
                     } else {
@@ -178,6 +181,7 @@ public class UserRepository {
 
             try {
                 Response<TokenResponse> response = apiService.checkPresentToken(tokenRequest).execute();
+
                 if (response.isSuccessful()) {
                     TokenResponse tokenResponse = response.body();
                     return tokenResponse != null && tokenResponse.getData() != null;

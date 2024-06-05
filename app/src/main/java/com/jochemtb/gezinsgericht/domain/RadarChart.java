@@ -2,7 +2,6 @@ package com.jochemtb.gezinsgericht.domain;
 
 import android.graphics.Color;
 
-import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.RadarData;
@@ -13,13 +12,15 @@ import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-public class RadarChartHelper {
+public class RadarChart {
 
-    private RadarChart radarChart;
+    private com.github.mikephil.charting.charts.RadarChart radarChart;
     private List<IRadarDataSet> dataSets;
 
-    public RadarChartHelper(RadarChart radarChart) {
+    public RadarChart(com.github.mikephil.charting.charts.RadarChart radarChart) {
         this.radarChart = radarChart;
         this.dataSets = new ArrayList<>();
         initRadarChart();
@@ -48,6 +49,25 @@ public class RadarChartHelper {
         radarChart.setRotationEnabled(false);
     }
 
+    public void createDataSetFromSession(Session session) {
+        // Get the users from the session
+        Set<User> users = session.getUsers();
+
+        // Define the colors for the datasets
+        int[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.DKGRAY, Color.YELLOW, Color.MAGENTA};
+
+        // Create a dataset for each user
+        int colorIndex = 0;
+        for (User user : users) {
+            Score score = session.getResults().getResultMap().get(user);
+            Map<Integer, Integer> scoresMap = score.getScores();
+            int[] scores = scoresMap.values().stream().mapToInt(i -> i).toArray();
+            List<RadarEntry> entry = createDataSet(scores);
+            addDataSet(entry, "Gezinslid " + (colorIndex + 1), colors[colorIndex % colors.length]);
+            colorIndex++;
+        }
+    }
+
     public void addDataSet(List<RadarEntry> entries, String label, int color) {
         RadarDataSet dataSet = new RadarDataSet(entries, label);
         dataSet.setDrawHighlightCircleEnabled(true);
@@ -68,7 +88,7 @@ public class RadarChartHelper {
         radarChart.invalidate();
     }
 
-    public List<RadarEntry> createDummyDataSet(int... values) {
+    public List<RadarEntry> createDataSet(int... values) {
         List<RadarEntry> entries = new ArrayList<>();
         for (int value : values) {
             entries.add(new RadarEntry(value));

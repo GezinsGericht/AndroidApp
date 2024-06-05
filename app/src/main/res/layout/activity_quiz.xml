@@ -13,7 +13,7 @@
         android:layout_height="25dp"
         android:layout_marginTop="20dp"
         android:indeterminate="false"
-        android:progressDrawable="@drawable/progress_bar_background"
+        android:progressDrawable="@drawable/my_progressbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
 
@@ -22,22 +22,36 @@
 
     <TextView
         android:id="@+id/TV_quiz_questionText"
-        android:layout_width="219dp"
+        android:layout_width="285dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="PlaceHolder Question"
         android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+        android:text="PlaceHolder Question"
+        android:textAlignment="textStart"
         android:textSize="45dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PB_quiz_quizProgress" />
+
+    <TextView
+        android:id="@+id/TV_quiz_confirm"
+        android:layout_width="345dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+        android:text="PlaceHolder Question"
         android:textAlignment="center"
+        android:textSize="34sp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PB_quiz_quizProgress" />
 
     <RadioGroup
         android:id="@+id/RG_quiz_answersGroup"
-        android:layout_width="279dp"
-        android:layout_height="246dp"
-        android:layout_marginBottom="60dp"
+        android:layout_width="269dp"
+        android:layout_height="349dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/TV_quiz_questionNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -46,32 +60,58 @@
             android:id="@+id/RB_quiz_radio1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="Placeholder Answer" />
 
         <RadioButton
             android:id="@+id/RB_quiz_radio2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="Placeholder Answer" />
 
         <RadioButton
             android:id="@+id/RB_quiz_radio3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="Placeholder Answer" />
 
         <RadioButton
             android:id="@+id/RB_quiz_radio4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="Placeholder Answer" />
 
         <RadioButton
             android:id="@+id/RB_quiz_radio5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="Placeholder Answer" />
     </RadioGroup>
+
+    <ScrollView
+        android:id="@+id/SV_quiz_scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/PB_quiz_quizProgress"
+        android:layout_below="@id/TV_quiz_confirm"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/TV_quiz_questionNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TV_quiz_confirm">
+
+        <LinearLayout
+            android:id="@+id/LL_quiz_unansweredQuestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone" />
+    </ScrollView>
 
     <Button
         android:id="@+id/BT_quiz_next"
@@ -81,6 +121,18 @@
         android:layout_marginBottom="20dp"
         android:text="@string/quiz_button_next"
         android:backgroundTint="@color/aqua"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/BT_quiz_confirm"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/aqua"
+        android:text="@string/quiz_button_confirm"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

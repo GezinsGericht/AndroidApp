@@ -12,6 +12,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.jochemtb.gezinsgericht.R;
+import com.jochemtb.gezinsgericht.repository.UserRepository;
+
+import com.jochemtb.gezinsgericht.repository.UserRepository;
 
 import com.jochemtb.gezinsgericht.repository.UserRepository;
 
@@ -30,6 +33,7 @@ public class ActivationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         userRepository = new UserRepository(this);
         sharefPref = getSharedPreferences("sharedPref", MODE_PRIVATE);
+
         Log.d(LOG_TAG, "onCreate: resetToken="+sharefPref.getLong(RESET_TOKEN, 0)+", isFiveMinutesPassed="+isFiveMinutesPassed(sharefPref.getLong(RESET_TOKEN, 0)));
         if(isFiveMinutesPassed(sharefPref.getLong(RESET_TOKEN, 0))){
             Toast.makeText(this, "Activation link has expired, please request a new one.", Toast.LENGTH_LONG).show();
