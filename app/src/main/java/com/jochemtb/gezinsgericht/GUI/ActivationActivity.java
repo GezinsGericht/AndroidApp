@@ -36,6 +36,8 @@ public class ActivationActivity extends AppCompatActivity {
             startActivity(new Intent(ActivationActivity.this, LoginActivity.class));
         }
         setContentView(R.layout.activity_activation);
+        confirmButton = findViewById(R.id.BT_login_submit);
+        confirmButton.setOnClickListener(new View.OnClickListener() {
         confirmButton = findViewById(R.id.BT_activation_submit);
         passwordField1 = findViewById(R.id.ET_activation_password);
         passwordField2 = findViewById(R.id.ET_activation_password_repeat);
