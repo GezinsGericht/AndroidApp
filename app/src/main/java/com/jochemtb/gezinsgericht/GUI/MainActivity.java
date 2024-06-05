@@ -5,10 +5,11 @@ import static android.content.Intent.getIntent;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -18,22 +19,12 @@ import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
-import com.jochemtb.gezinsgericht.GUI.HistoryActivity;
-import com.jochemtb.gezinsgericht.GUI.QuizActivity;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.jochemtb.gezinsgericht.R;
 import com.jochemtb.gezinsgericht.domain.LineChartEntry;
 import com.jochemtb.gezinsgericht.domain.LineChartHelper;
 import com.jochemtb.gezinsgericht.repository.LineChartRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.graphics.Color;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,33 +33,42 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements LineChartRepository.LineChartCallback {
 
     private LineChartHelper lineChartHelper;
+    private Button navbar_2, navbar_3;
+
+    private ImageView settingsLogo;
     private LineChartRepository lineChartRepository;
     private List<LineChartEntry> allEntries = new ArrayList<>();
     private Map<CheckBox, String> checkBoxHabitatMap = new HashMap<>();
+    private TextView TV_Welcome, TV_WelcomeGG, usernameTv;
+
+    private SharedPreferences sharedPref;
+    private final String LOG_TAG = "HomepageActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        lineChartHelper = new LineChartHelper(findViewById(R.id.chart_homepage));
+        // Initialize components
+        lineChartHelper = new LineChartHelper((LineChart) findViewById(R.id.chart_homepage));
         lineChartRepository = new LineChartRepository(this);
+        TV_Welcome = findViewById(R.id.TV_welkom_message);
+        TV_WelcomeGG = findViewById(R.id.TV_welkom_message_gg);
+        usernameTv = findViewById(R.id.TV_homepage_username);
+        settingsLogo = findViewById(R.id.IV_main_settings);
+        navbar_2 = findViewById(R.id.BTN_navbar2);
+        navbar_3 = findViewById(R.id.BTN_navbar3);
+        sharedPref = getSharedPreferences("sharedPref", MODE_PRIVATE);
 
-        TextView TV_Welcome = findViewById(R.id.TV_welkom_message);
-        TextView TV_WelcomeGG = findViewById(R.id.TV_welkom_message_gg);
+        // Set up navigation
+        navToSession();
 
-        TV_Welcome.setVisibility(View.VISIBLE);
-        TV_WelcomeGG.setVisibility(View.VISIBLE);
-
-        lineChartHelper.getLineChart().setVisibility(View.INVISIBLE);
-
+        // Initialize checkboxes
         initViewComponents();
         setupCheckboxListeners();
 
-        lineChartRepository.getLineChart(this);  // Fetch data when the activity is created
-
-        TextView TV_Homepage = findViewById(R.id.TV_homepage_username);
-        TV_Homepage.setText("Name_PlaceHolder");
+        // Fetch data when the activity is created
+        lineChartRepository.getLineChart(this);
     }
 
     @Override
@@ -94,7 +94,11 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
         checkBoxHabitatMap.put(checkbox_6, "Lichamelijke gezondheid");
         checkBoxHabitatMap.put(checkbox_7, "Sociale relaties");
 
-        setupCheckboxListeners();
+        settingsLogo = findViewById(R.id.IV_main_settings);
+
+        navbar_2 = findViewById(R.id.BTN_navbar2);
+        navbar_3 = findViewById(R.id.BTN_navbar3);
+
     }
 
     private void setupCheckboxListeners() {
@@ -118,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
                             }
                         }
                         if (!anyChecked) {
-                            checkBox.setChecked(true);
+                            showWelcomeText();
                         }
                     }
                 }
@@ -127,11 +131,17 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
     }
 
     private void updateChartBasedOnSelectedHabitat() {
+        boolean anyChecked = false;
         for (Map.Entry<CheckBox, String> entry : checkBoxHabitatMap.entrySet()) {
             if (entry.getKey().isChecked()) {
                 updateChart(entry.getValue());
+                anyChecked = true;
                 break;
             }
+        }
+
+        if (!anyChecked) {
+            showWelcomeText();
         }
     }
 
@@ -139,8 +149,7 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
         List<Entry> chartEntries = new ArrayList<>();
         final List<String> dates = new ArrayList<>();
 
-        for (int i = 0; i < allEntries.size(); i++) {
-            LineChartEntry entry = allEntries.get(i);
+        for (LineChartEntry entry : allEntries) {
             if (entry.getHabitat_Name().equals(habitatName)) {
                 float yValue = Float.parseFloat(entry.getAverage_Answer_Score());
                 chartEntries.add(new Entry(chartEntries.size(), yValue));
@@ -148,16 +157,15 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
             }
         }
 
-        TextView TV_Welcome = findViewById(R.id.TV_welkom_message);
-        TextView TV_WelcomeGG = findViewById(R.id.TV_welkom_message_gg);
-
         lineChartHelper.clearEntries();
         lineChartHelper.addEntries(chartEntries);
         lineChartHelper.addDataSet(habitatName, Color.RED, 2.0f);
 
+        // Hide welcome messages
         TV_Welcome.setVisibility(View.GONE);
         TV_WelcomeGG.setVisibility(View.GONE);
 
+        // Show the chart
         lineChartHelper.getLineChart().setVisibility(View.VISIBLE);
 
         lineChartHelper.getLineChart().getXAxis().setValueFormatter(new ValueFormatter() {
@@ -167,4 +175,49 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
             }
         });
     }
+
+    private void navToSession() {
+        settingsLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle logout
+                try {
+                    Log.i(LOG_TAG, "Uitloggen");
+                    sharedPref.edit().remove("jwtToken").apply();
+                    Toast.makeText(getBaseContext(), "Uitloggen succesvol", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    finish(); // Optional: Finish current activity after logout
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "Error: " + e.getMessage());
+                }
+            }
+        });
+
+        navbar_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to HistoryActivity
+                startActivity(new Intent(MainActivity.this, HistoryActivity.class));
+            }
+        });
+
+        navbar_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to QuizActivity
+                startActivity(new Intent(MainActivity.this, QuizActivity.class));
+            }
+        });
+    }
+
+
+    private void showWelcomeText() {
+        // Show welcome messages
+        TV_Welcome.setVisibility(View.VISIBLE);
+        TV_WelcomeGG.setVisibility(View.VISIBLE);
+
+        // Hide the chart
+        lineChartHelper.getLineChart().setVisibility(View.INVISIBLE);
+    }
 }
+
