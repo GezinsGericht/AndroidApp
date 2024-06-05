@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         checkbox_6 = findViewById(R.id.CB_homepage_6);
         checkbox_7 = findViewById(R.id.CB_homepage_7);
 
-        lineChartHelper = new LineChartHelper(findViewById(R.id.chart_homepage));
+        progressionChart = findViewById(R.id.chart_homepage);
         settingsLogo = findViewById(R.id.IV_main_settings);
 
         navbar_2 = findViewById(R.id.BTN_navbar2);
@@ -82,27 +82,51 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "InitViewCompents done");
     }
 
-    private void buildChart(){
+    private void buildChart() {
+        // Makes description that is visible above the chart
+        Description description = new Description();
+        description.setText("Vooruitgang patiënt");
+        description.setPosition(250f, 15f);
+        description.setTextSize(10f);
+        progressionChart.setDescription(description);
+        progressionChart.getAxisRight().setDrawLabels(false);
 
-        //Makes the entries (points)
+        // Makes the x-as
+        XAxis xAxis = progressionChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter());
+        xAxis.setLabelCount(4);
+        xAxis.setGranularity(1f);
+
+        // Makes the y-as
+        YAxis yAxis = progressionChart.getAxisLeft();
+        yAxis.setAxisMinimum(0f);
+        yAxis.setAxisMaximum(15f);
+        yAxis.setAxisLineWidth(2f);
+        yAxis.setAxisLineColor(Color.BLACK);
+        yAxis.setLabelCount(10);
+
+        // Makes the entries (points)
         List<Entry> entries = new ArrayList<>();
-
-        //Dummy data:
         entries.add(new Entry(0, 0f));
         entries.add(new Entry(1, 3f));
         entries.add(new Entry(2, 9f));
         entries.add(new Entry(3, 7f));
         entries.add(new Entry(4, 13f));
 
-        //Add the entries to the lineChart
-        lineChartHelper.addEntries(entries);
+        // Makes the line(s)
+        LineDataSet dataSet = new LineDataSet(entries, "vooruitgang");
+        dataSet.setColor(Color.BLUE);
+        dataSet.setLineWidth(5f);
 
-        //Makes the line(s)
-        lineChartHelper.addDataSet("vooruitgang", Color.BLUE, 5f);
+        LineData lineData = new LineData(dataSet);
 
+        progressionChart.setData(lineData);
+        progressionChart.invalidate();
     }
 
-    private void navToSession(){
+
+    private void navToSession() {
         settingsLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,5 +155,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 }

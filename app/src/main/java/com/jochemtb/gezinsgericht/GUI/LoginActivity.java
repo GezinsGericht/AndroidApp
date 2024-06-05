@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         emailField = findViewById(R.id.ET_login_email);
         passwordField = findViewById(R.id.ET_login_password);
         title = findViewById(R.id.TV_login_title);
-        loaddingIcon = findViewById(R.id.PB_History_loading);
+        loaddingIcon = findViewById(R.id.PB_login_loadingLogo);
 
         userRepository = new UserRepository(this);
 
@@ -76,8 +76,10 @@ public class LoginActivity extends AppCompatActivity {
                     );
                 } else {
                     //TODO weghalen omzeiling.
+
                     //sharedPref.edit().putString("jwtToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjQsIkZhbWlseUlkIjoxLCJSb2xlIjoiQ0hJTEQiLCJpYXQiOjE3MTcxNTMwNTEsImV4cCI6MTcxNzc1Nzg1MX0.5HknxVogBRLt_RQnnh4NHLe_5L0aX2RA9l3DcdQ9Hi0").apply();
                     sharedPref.edit().putString("jwtToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsIkZhbWlseUlkIjoxLCJSb2xlIjoiQ0hJTEQiLCJpYXQiOjE3MTcxNTMwNTEsImV4cCI6MTcxNzc1Nzg1MX0.fEeewKgsOSuQd4dKWl2f3fdXvzJCyJrsMozXDqmj7dY").apply();
+
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
 //                    Toast.makeText(getBaseContext(), "Een of meerdere verplichte velden niet ingevuld", Toast.LENGTH_LONG).show();
                 }
@@ -87,23 +89,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(checkMandatoryFields(emailField)){
+
                     startActivity(new Intent(LoginActivity.this, ActivationActivity.class));
+                    userRepository.forgotPassword(emailField.getText().toString());
+
                 } else {
                     Toast.makeText(getBaseContext(), "Vul een email address in", Toast.LENGTH_LONG).show();
                 }
-
-            }
-        });
-
-        passwordForgot.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if(checkMandatoryFields(emailField)) {
-                    userRepository.forgotPassword(emailField.getText().toString());
-                    return true;
-                }
-                return false;
-            }
         });
     }
 
