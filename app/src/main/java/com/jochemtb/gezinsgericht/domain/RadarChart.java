@@ -28,7 +28,7 @@ public class RadarChart {
     }
 
     private void initRadarChart() {
-        String[] labels = {"Financiën", "Werk en activiteiten", "Sociale relaties", "Wonen", "Psychische gezondheid", "Zingeving", "Lichamelijke gezondheid"};
+        String[] labels = {"Financiën", "Werk en activiteiten","Sociaal", "Wonen", "Psychisch", "Zingeving", "Lichamelijk"};
 
         YAxis axis = radarChart.getYAxis();
         axis.setTextSize(10F);

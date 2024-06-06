@@ -49,16 +49,18 @@
         android:id="@+id/GL_results_checkboxes"
         android:layout_width="match_parent"
         android:layout_height="120dp"
+        android:columnCount="3"
+        android:rowCount="2"
         android:orientation="horizontal"
-        android:columnCount="2"
         android:layout_marginHorizontal="20dp"
+        android:layout_gravity="center"
+        android:alignmentMode="alignMargins"
+        android:columnOrderPreserved="false"
+        android:rowOrderPreserved="false"
         app:layout_constraintBottom_toTopOf="@+id/results_show"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Radarchart">
-
-
-    </GridLayout>
+        app:layout_constraintTop_toBottomOf="@+id/Radarchart"/>
 
     <Button
         android:id="@+id/results_show"

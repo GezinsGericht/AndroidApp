@@ -57,22 +57,24 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
     private void initViewComponents() {
         radarChartHelper = new RadarChart(findViewById(R.id.Radarchart));
         mResultsCheckboxes = findViewById(R.id.GL_results_checkboxes);
-
     }
 
     private void createCheckboxes(HashMap<String, HashMap<Integer, Double>> userHabitatAverageValues) {
         Log.d(LOG_TAG, "UserHabitatAverageValues: " + userHabitatAverageValues);
 
-        // Get the users from the session
         Set<String> userNames = userHabitatAverageValues.keySet();
         int[] colors = { Color.RED, Color.BLUE, Color.GREEN, Color.DKGRAY, Color.YELLOW, Color.MAGENTA };
 
-        // Create a checkbox for each userId
         int colorIndex = 0;
+        int row = 0;
+        int col = 0;
+        int columnCount = 3; // Aantal kolommen
+
         for (String userName : userNames) {
             CheckBox checkBox = new CheckBox(this);
             checkBox.setText(userName);
             checkBox.setChecked(false);
+
             int color = colors[colorIndex % colors.length];
             ColorStateList colorStateList = new ColorStateList(
                     new int[][] {
@@ -84,6 +86,13 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
                             color
                     });
             checkBox.setButtonTintList(colorStateList);
+
+            // Stel de positie van de checkbox in
+            GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+            params.columnSpec = GridLayout.spec(col, 1, 1f);
+            params.rowSpec = GridLayout.spec(row, 1, 1f);
+            checkBox.setLayoutParams(params);
+
             mResultsCheckboxes.addView(checkBox);
 
             if (colorIndex == 0) {
@@ -94,8 +103,12 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
             }
 
             colorIndex++;
+            col++;
+            if (col == columnCount) {
+                col = 0;
+                row++;
+            }
         }
-
     }
 
     private void setupCheckBoxListeners() {
@@ -150,12 +163,14 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
             users.add(item.getName());
             Log.d(LOG_TAG, "User: " + item.getName());
         }
+
         // Create a map to store the AnswerValues for each HabitatId per user
         HashMap<String, HashMap<Integer, List<Integer>>> userHabitatAnswerValues = new HashMap<>();
 
         // Populate the map
         for (ResultsItem item : results) {
-            String userName = item.getName();
+            String[] userNamePart = item.getName().split(" ");
+            String userName = userNamePart[0];
             int habitatId = item.getHabitatId();
             int answerValue = item.getAnswerValue();
             Log.d(LOG_TAG, "User: " + userName + " Habitat: " + habitatId + " Answer: " + answerValue);

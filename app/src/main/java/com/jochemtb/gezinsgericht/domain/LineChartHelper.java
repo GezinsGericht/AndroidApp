@@ -28,9 +28,7 @@ public class LineChartHelper {
     }
 
     private void initLineChart() {
-        Description description = new Description();
-        description.setText("Voortgangsgrafiek");
-        lineChart.setDescription(description);
+        lineChart.setDescription(null);
         lineChart.getAxisRight().setDrawLabels(false);
         lineChart.getLegend().setEnabled(false);
         lineChart.setTouchEnabled(false);
