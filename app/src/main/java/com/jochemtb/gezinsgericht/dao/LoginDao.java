@@ -6,7 +6,7 @@ import android.util.Log;
 
 public class LoginDao {
     private static final String LOG_TAG = "LoginDao";
-    private static final String PREFS_NAME = "SharedPrefApp";
+    private static final String PREFS_NAME = "sharedPref";
     private static final String TOKEN_KEY = "jwtToken";
     private static final String DEVICE_KEY = "deviceKey";
     private SharedPreferences sharedPreferences;
