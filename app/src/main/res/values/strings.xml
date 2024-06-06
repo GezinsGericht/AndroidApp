@@ -15,6 +15,7 @@
     <string name="quiz_button_previous">VORIGE</string>
     <string name="quiz_button_next">VOLGENDE</string>
     <string name="quiz_button_confirm">BEVESTIGEN</string>
+    <string name="quiz_overview_text">Vragenoverzicht</string>
 
     //Activation
     <string name="activation_title">Verander uw wachtwoord:</string>

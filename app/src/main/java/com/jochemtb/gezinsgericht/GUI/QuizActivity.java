@@ -1,5 +1,6 @@
 package com.jochemtb.gezinsgericht.GUI;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.jochemtb.gezinsgericht.R;
+import com.jochemtb.gezinsgericht.adapters.DialogAdapter;
 import com.jochemtb.gezinsgericht.domain.Question;
 import com.jochemtb.gezinsgericht.domain.Quiz;
 import com.jochemtb.gezinsgericht.domain.QuizManager;
@@ -36,6 +38,8 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
     private ProgressBar progressBar;
     private LinearLayout unansweredQuestionsLayout;
     private ScrollView scrollView;
+    private Dialog dialog;
+    LinearLayout QuestionsLayout;
 
     private List<Integer> selectedAnswers = new ArrayList<>();
     private int currentQuestionIndex = 0;
@@ -43,6 +47,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
     private QuizManager quizManager;
     private QuestionView questionView;
     private QuizResult quizResult;
+    DialogAdapter dialogAdapter;
 
     private int progressCounter = 0;
 
@@ -54,9 +59,11 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
         initViews();
         initQuiz();
 
+
         nextButton.setOnClickListener(v -> handleNextButtonClick());
         previousButton.setOnClickListener(v -> handlePreviousButtonClick());
         confirmButton.setOnClickListener(v -> handleConfirmButtonClick());
+        questionNumber.setOnClickListener(v -> dialogAdapter.showQuestionOverview());
 
         confirmText.setText(
                 "Dit is het afsluitscherm van de vragenlijst. Enige onbeantwoorde vragen zullen worden weergegeven op het scherm. U kunt ernaartoe navigeren door op de knop te klikken.");
@@ -73,6 +80,12 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
         progressBar = findViewById(R.id.PB_quiz_quizProgress);
         unansweredQuestionsLayout = findViewById(R.id.LL_quiz_unansweredQuestions);
         scrollView = findViewById(R.id.SV_quiz_scrollView);
+        scrollView = findViewById(R.id.SV_quiz_scrollView);
+        dialog = new Dialog(QuizActivity.this);
+        dialog.setContentView(R.layout.dialog_question_overview);
+        dialog.setCancelable(true);
+
+        dialogAdapter = new DialogAdapter(this, dialog, scrollView, QuestionsLayout);
     }
 
     private void initQuiz() {
@@ -98,6 +111,8 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
             Log.e("QuizActivity", "Quiz is null after generation");
         }
     }
+
+
 
     private void handleNextButtonClick() {
         if (quiz != null) {
@@ -181,7 +196,9 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
         scrollView.fullScroll(View.FOCUS_DOWN);
     }
 
-    private void navigateToQuestion(int index) {
+
+
+    public void navigateToQuestion(int index) {
 
         if (quiz != null) {
             currentQuestionIndex = index;
