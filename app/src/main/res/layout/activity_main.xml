@@ -106,7 +106,9 @@
     <TextView
         android:id="@+id/tv_PersoonlijkeProgressie"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="15dp"
+        android:textSize="17sp"
         android:text="@string/persoonlijke_progressie"
         app:layout_constraintBottom_toTopOf="@+id/checkboxes_homepage"
         app:layout_constraintEnd_toEndOf="parent"
