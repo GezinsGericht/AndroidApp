@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
 
     @Override
     public void onLineChartFetched(List<LineChartEntry> entries) {
-        allEntries = entries;  // Save all entries
+        allEntries = entries; // Save all entries
         updateChartBasedOnSelectedHabitat();
     }
 
@@ -213,7 +213,6 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
         });
     }
 
-
     private void showWelcomeText() {
         // Show welcome messages
         TV_Welcome.setVisibility(View.VISIBLE);
@@ -223,4 +222,3 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
         lineChartHelper.getLineChart().setVisibility(View.INVISIBLE);
     }
 }
-

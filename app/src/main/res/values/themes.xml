@@ -10,4 +10,8 @@
     <style name="Button.Aqua" parent="ThemeOverlay.AppCompat">
         <item name="colorPrimary">@color/aqua</item>
     </style>
+
+    <style name="Button.LightBlack" parent="ThemeOverlay.AppCompat">
+        <item name="colorPrimary">@color/dark_grey</item>
+    </style>
 </resources>

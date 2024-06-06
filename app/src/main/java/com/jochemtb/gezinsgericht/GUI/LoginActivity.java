@@ -27,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
 
     TextView title;
 
-
     ProgressBar loadingIcon;
 
     private SharedPreferences sharedPref;
@@ -47,39 +46,42 @@ public class LoginActivity extends AppCompatActivity {
 
         userRepository = new UserRepository(this);
 
-
         setLoadingScreen(true);
 
-        //Check if user is already logged in
-        userRepository.checkPresentToken(sharedPref.getString("jwtToken", null), 3, new UserRepository.TokenCheckCallback() {
-            @Override
-            public void onTokenChecked(boolean isValid) {
+        // Check if user is already logged in
+        userRepository.checkPresentToken(sharedPref.getString("jwtToken", null), 3,
+                new UserRepository.TokenCheckCallback() {
+                    @Override
+                    public void onTokenChecked(boolean isValid) {
 
-                if (isValid) {
-                    // Token is valid, proceed to MainActivity
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish(); // Finish LoginActivity to prevent going back
-                } else{
-                    setLoadingScreen(false);
-                }
+                        if (isValid) {
+                            // Token is valid, proceed to MainActivity
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish(); // Finish LoginActivity to prevent going back
+                        } else {
+                            setLoadingScreen(false);
+                        }
 
-            }
-        });
+                    }
+                });
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkMandatoryFields(emailField, passwordField)){
+                if (checkMandatoryFields(emailField, passwordField)) {
                     userRepository.loginUser(
                             emailField.getText().toString(),
-                            passwordField.getText().toString()
-                    );
+                            passwordField.getText().toString());
                 } else {
-                    //TODO weghalen omzeiling.
-//                    sharedPref.edit().putString("jwtToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjQsIkZhbWlseUlkIjoxLCJSb2xlIjoiQ0hJTEQiLCJpYXQiOjE3MTcxNTMwNTEsImV4cCI6MTcxNzc1Nzg1MX0.5HknxVogBRLt_RQnnh4NHLe_5L0aX2RA9l3DcdQ9Hi0").apply();
-                    sharedPref.edit().putString("jwtToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsIkZhbWlseUlkIjoxLCJSb2xlIjoiQ0hJTEQiLCJpYXQiOjE3MTcxNTMwNTEsImV4cCI6MTcxNzc1Nzg1MX0.YZs92oUrNxOuR9vX7WOs9biMR9CdHzccMPF3wTRkAKU").apply();
+                    // TODO weghalen omzeiling.
+                    // sharedPref.edit().putString("jwtToken",
+                    // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjQsIkZhbWlseUlkIjoxLCJSb2xlIjoiQ0hJTEQiLCJpYXQiOjE3MTcxNTMwNTEsImV4cCI6MTcxNzc1Nzg1MX0.5HknxVogBRLt_RQnnh4NHLe_5L0aX2RA9l3DcdQ9Hi0").apply();
+                    sharedPref.edit().putString("jwtToken",
+                            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsIkZhbWlseUlkIjoxLCJSb2xlIjoiQ0hJTEQiLCJpYXQiOjE3MTcxNTMwNTEsImV4cCI6MTcxNzc1Nzg1MX0.YZs92oUrNxOuR9vX7WOs9biMR9CdHzccMPF3wTRkAKU")
+                            .apply();
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//                    Toast.makeText(getBaseContext(), "Een of meerdere verplichte velden niet ingevuld", Toast.LENGTH_LONG).show();
+                    // Toast.makeText(getBaseContext(), "Een of meerdere verplichte velden niet
+                    // ingevuld", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -87,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordForgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkMandatoryFields(emailField)){
+                if (checkMandatoryFields(emailField)) {
                     userRepository.forgotPassword(emailField.getText().toString());
                 } else {
                     Toast.makeText(getBaseContext(), "Vul een email address in", Toast.LENGTH_LONG).show();
@@ -96,8 +98,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void setLoadingScreen(boolean loading){
-        if(loading){
+    private void setLoadingScreen(boolean loading) {
+        if (loading) {
             loadingIcon.setVisibility(View.VISIBLE);
             loginBtn.setVisibility(View.INVISIBLE);
             passwordForgot.setVisibility(View.INVISIBLE);
@@ -114,20 +116,19 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
-    private boolean checkMandatoryFields(EditText field1){
+    private boolean checkMandatoryFields(EditText field1) {
         String text = field1.getText().toString();
-        if( text == null || text.isEmpty()){
+        if (text == null || text.isEmpty()) {
             return false;
         } else {
             return true;
         }
     }
 
-    private boolean checkMandatoryFields(EditText field1, EditText field2){
+    private boolean checkMandatoryFields(EditText field1, EditText field2) {
         String text1 = field1.getText().toString();
         String text2 = field2.getText().toString();
-        if( (text1 == null || text1.isEmpty()) || (text2 == null || text2.isEmpty())){
+        if ((text1 == null || text1.isEmpty()) || (text2 == null || text2.isEmpty())) {
             return false;
         } else {
             return true;

@@ -34,7 +34,6 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
     private HashMap<String, HashMap<Integer, Double>> userHabitatAverageValues;
     private GridLayout mResultsCheckboxes;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,9 +43,10 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
         mSessionId = intent.getIntExtra("session", 0);
         Log.i(LOG_TAG, "Session: " + mSessionId);
 
-        setupCloseButton(); //Sets up the "afsluiten" button
-        setupMyAnswerButton(); //Sets up the "mijn antwoorden" button
-        initViewComponents(); //Sets the checkboxes by id
+        setupCloseButton(); // Sets up the "afsluiten" button
+        setupMyAnswerButton(); // Sets up the "mijn antwoorden" button
+        setupGoalsButton(); // Sets up the "goals" button
+        initViewComponents(); // Sets the checkboxes by id
 
         resultsRepository = new ResultsRepository(this);
         resultsRepository.getResults(this, String.valueOf(mSessionId));
@@ -65,7 +65,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
 
         // Get the users from the session
         Set<String> userNames = userHabitatAverageValues.keySet();
-        int[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.DKGRAY, Color.YELLOW, Color.MAGENTA};
+        int[] colors = { Color.RED, Color.BLUE, Color.GREEN, Color.DKGRAY, Color.YELLOW, Color.MAGENTA };
 
         // Create a checkbox for each userId
         int colorIndex = 0;
@@ -75,15 +75,14 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
             checkBox.setChecked(false);
             int color = colors[colorIndex % colors.length];
             ColorStateList colorStateList = new ColorStateList(
-                    new int[][]{
-                            new int[]{-android.R.attr.state_checked}, // unchecked
-                            new int[]{android.R.attr.state_checked}  // checked
+                    new int[][] {
+                            new int[] { -android.R.attr.state_checked }, // unchecked
+                            new int[] { android.R.attr.state_checked } // checked
                     },
-                    new int[]{
+                    new int[] {
                             Color.BLACK,
                             color
-                    }
-            );
+                    });
             checkBox.setButtonTintList(colorStateList);
             mResultsCheckboxes.addView(checkBox);
 
@@ -102,7 +101,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
     private void setupCheckBoxListeners() {
         int checkboxCount = mResultsCheckboxes.getChildCount();
         // Define the colors for the datasets
-        int[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.DKGRAY, Color.YELLOW, Color.MAGENTA};
+        int[] colors = { Color.RED, Color.BLUE, Color.GREEN, Color.DKGRAY, Color.YELLOW, Color.MAGENTA };
         // Set up a listener for each checkbox
         for (int i = 0; i < checkboxCount; i++) {
             CheckBox checkBox = (CheckBox) mResultsCheckboxes.getChildAt(i);
@@ -131,8 +130,20 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
     }
 
     private void setupCloseButton() {
-        Button afsluiten = findViewById(R.id.results_close);
-        afsluiten.setOnClickListener(v -> startActivity(new Intent(ResultsActivity.this, MainActivity.class))); //Switches the page to MainActivity
+        Button close = findViewById(R.id.results_close);
+        close.setOnClickListener(v -> startActivity(new Intent(ResultsActivity.this, MainActivity.class))); // Switches
+                                                                                                            // the page
+                                                                                                            // to
+                                                                                                            // MainActivity
+    }
+
+    private void setupGoalsButton() {
+        Button goals = findViewById(R.id.results_goals);
+        goals.setOnClickListener(v -> {
+            Intent intent = new Intent(ResultsActivity.this, GoalsActivity.class);
+            intent.putExtra("session", mSessionId);
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -181,9 +192,10 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
         }
 
         Log.d(LOG_TAG, "UserHabitatAverageValues: " + userHabitatAverageValues);
-        radarChartHelper.createDataSetFromSession(userHabitatAverageValues); //Sets the dummy data with help from RadarChartHelper
+        radarChartHelper.createDataSetFromSession(userHabitatAverageValues); // Sets the dummy data with help from
+                                                                             // RadarChartHelper
         createCheckboxes(userHabitatAverageValues);
-        setupCheckBoxListeners(); //Sets the functionality for the checkboxes
+        setupCheckBoxListeners(); // Sets the functionality for the checkboxes
         Log.i(LOG_TAG, "Results data updated");
 
     }

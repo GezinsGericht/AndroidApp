@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ConstraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/account_geactiveerd"
+    >
 
     <TextView
         android:id="@+id/results_title"
@@ -64,9 +66,9 @@
         android:layout_height="48dp"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="4dp"
-        android:backgroundTint="#31AFAFAF"
+        android:backgroundTint="#D0CDCD"
         android:text="@string/my_answers"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/results_close"
         app:layout_constraintHorizontal_bias="0.15"
@@ -78,9 +80,24 @@
         android:layout_height="48dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="4dp"
-        android:backgroundTint="#000000"
+        android:backgroundTint="@color/black"
         android:text="@string/close_results"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/results_goals"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/baseline_fact_check_24"
+        app:layout_constraintBottom_toTopOf="@+id/results_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.553"
+        app:layout_constraintStart_toEndOf="@+id/results_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.441"
+        android:theme="@style/Button.LightBlack"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
