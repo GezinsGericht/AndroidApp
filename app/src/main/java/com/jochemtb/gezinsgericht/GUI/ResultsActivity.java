@@ -131,10 +131,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
 
     private void setupCloseButton() {
         Button close = findViewById(R.id.results_close);
-        close.setOnClickListener(v -> startActivity(new Intent(ResultsActivity.this, MainActivity.class))); // Switches
-                                                                                                            // the page
-                                                                                                            // to
-                                                                                                            // MainActivity
+        close.setOnClickListener(v -> startActivity(new Intent(ResultsActivity.this, MainActivity.class))); // Switches the page to MainActivity
     }
 
     private void setupGoalsButton() {
@@ -192,8 +189,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
         }
 
         Log.d(LOG_TAG, "UserHabitatAverageValues: " + userHabitatAverageValues);
-        radarChartHelper.createDataSetFromSession(userHabitatAverageValues); // Sets the dummy data with help from
-                                                                             // RadarChartHelper
+        radarChartHelper.createDataSetFromSession(userHabitatAverageValues); // Sets the dummy data with help from RadarChartHelper
         createCheckboxes(userHabitatAverageValues);
         setupCheckBoxListeners(); // Sets the functionality for the checkboxes
         Log.i(LOG_TAG, "Results data updated");
