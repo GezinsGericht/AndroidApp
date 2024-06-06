@@ -85,7 +85,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
         dialog.setContentView(R.layout.dialog_question_overview);
         dialog.setCancelable(true);
 
-        dialogAdapter = new DialogAdapter(this, dialog, scrollView, QuestionsLayout);
+        dialogAdapter = new DialogAdapter(this,dialog, scrollView, QuestionsLayout);
     }
 
     private void initQuiz() {
