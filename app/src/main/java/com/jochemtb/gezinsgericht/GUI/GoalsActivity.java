@@ -43,6 +43,10 @@ public class GoalsActivity extends AppCompatActivity implements GoalRepository.G
         mSessionId = intent.getIntExtra("session", mSessionId);
         Log.d(LOG_TAG, "Given intent:" + mSessionId);
 
+        initViewComponents(intent);
+    }
+
+    private void initViewComponents(Intent intent){
         Log.d(LOG_TAG, "InitViewComponents called");
         recyclerView = findViewById(R.id.RV_goal_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -56,25 +60,7 @@ public class GoalsActivity extends AppCompatActivity implements GoalRepository.G
 
         goalRepository = new GoalRepository(this);
         goalRepository.getGoal(this, intent);
-
-//        initViewComponents();
     }
-
-//    private void initViewComponents(){
-//        Log.d(LOG_TAG, "InitViewComponents called");
-//        recyclerView = findViewById(R.id.RV_goal_list);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//
-//        backButton();
-//
-//        goalList = new ArrayList<>();
-//
-//        goalListAdapter = new GoalListAdapter(goalList);
-//        recyclerView.setAdapter(goalListAdapter);
-//
-//        goalRepository = new GoalRepository(this);
-//        goalRepository.getGoal(this, intent);
-//    }
 
     public void onGoalFetched(){
         List<GoalResponse> goalAnswers = GoalRepository.getDao().getGoalList();
