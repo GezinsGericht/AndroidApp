@@ -1,14 +1,15 @@
 package com.jochemtb.gezinsgericht.GUI;
 
+import static android.content.Intent.getIntent;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -23,9 +24,6 @@ import com.jochemtb.gezinsgericht.R;
 import com.jochemtb.gezinsgericht.domain.LineChartEntry;
 import com.jochemtb.gezinsgericht.domain.LineChartHelper;
 import com.jochemtb.gezinsgericht.repository.LineChartRepository;
-import com.jochemtb.gezinsgericht.repository.NameRepository;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
     private TextView TV_Welcome, TV_WelcomeGG, usernameTv;
 
     private SharedPreferences sharedPref;
-    private NameRepository nameRepository;
     private final String LOG_TAG = "HomepageActivity";
 
     @Override
@@ -73,18 +70,8 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
         // Fetch data when the activity is created
         lineChartRepository.getLineChart(this);
 
-        // Fetch and display the user name
-        nameRepository = new NameRepository(this); // Create an instance of NameRepository
-
-        String apiKey = sharedPref.getString("jwtToken", "");
-        Log.d(LOG_TAG, "API Key: " + apiKey); // Log the API key for debugging
-        String userId = extractUserIdFromApiKey(apiKey);
-
-        if (userId != null) {
-            fetchAndDisplayUserName(userId);
-        } else {
-            Toast.makeText(this, "Invalid API key", Toast.LENGTH_SHORT).show();
-        }
+        // Set the username
+        usernameTv.setText(sharedPref.getString("username", "NAME_PLACEHOLDER"));
     }
 
     @Override
@@ -114,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
 
         navbar_2 = findViewById(R.id.BTN_navbar2);
         navbar_3 = findViewById(R.id.BTN_navbar3);
+
     }
 
     private void setupCheckboxListeners() {
@@ -233,53 +221,4 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
         // Hide the chart
         lineChartHelper.getLineChart().setVisibility(View.INVISIBLE);
     }
-
-    private String extractUserIdFromApiKey(String apiKey) {
-
-        apiKey = sharedPref.getString("jwtToken", "");
-
-        try {
-            if (apiKey == null || apiKey.isEmpty()) {
-                Log.e(LOG_TAG, "API key is null or empty.");
-                return null;
-            }
-
-            String[] splitString = apiKey.split("\\.");
-            if (splitString.length != 3) {
-                Log.e(LOG_TAG, "Invalid JWT token structure.");
-                return null;
-            }
-
-            String base64EncodedBody = splitString[1];
-            Log.d(LOG_TAG, "Encoded Body: " + base64EncodedBody);
-
-            String body = new String(Base64.decode(base64EncodedBody, Base64.DEFAULT));
-            Log.d(LOG_TAG, "Decoded Body: " + body);
-
-            JSONObject jsonObject = new JSONObject(body);
-            return jsonObject.getString("UserId");
-        } catch (Exception e) {
-            Log.e(LOG_TAG, "Failed to parse API key: " + e.getMessage());
-            return null;
-        }
-    }
-
-    private void fetchAndDisplayUserName(String userId) {
-        Log.d(LOG_TAG, "Fetching name for user ID: " + userId); // Log for debugging
-
-        nameRepository.getName(userId, new NameRepository.NameCallback() {
-            @Override
-            public void onNameFetched(String name) {
-                Log.d(LOG_TAG, "Fetched name: " + name); // Log for debugging
-                usernameTv.setText(name);
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                Log.e(LOG_TAG, "Failed to fetch user name: " + errorMessage); // Log for debugging
-                Toast.makeText(MainActivity.this, "Failed to fetch user name: " + errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }
-
