@@ -131,10 +131,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
 
     private void setupCloseButton() {
         Button close = findViewById(R.id.results_close);
-        close.setOnClickListener(v -> startActivity(new Intent(ResultsActivity.this, MainActivity.class))); // Switches
-                                                                                                            // the page
-                                                                                                            // to
-                                                                                                            // MainActivity
+        close.setOnClickListener(v -> startActivity(new Intent(ResultsActivity.this, MainActivity.class))); // Switches the page to MainActivity
     }
 
     private void setupGoalsButton() {
