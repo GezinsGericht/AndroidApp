@@ -1,6 +1,7 @@
 package com.jochemtb.gezinsgericht.GUI;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -59,7 +60,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
         confirmButton.setOnClickListener(v -> handleConfirmButtonClick());
 
         confirmText.setText(
-                "Dit is het afsluitscherm van de vragenlijst. Enige onbeantwoorde vragen zullen worden weergegeven op het scherm. U kunt ernaartoe navigeren door op de knop te klikken.");
+                R.string.dit_is_het_afsluitscherm_van_de_vragenlijst_enige_onbeantwoorde_vragen_zullen_worden_weergegeven_op_het_scherm_u_kunt_ernaartoe_navigeren_door_op_de_knop_te_klikken);
     }
 
     private void initViews() {
@@ -152,7 +153,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
 
             List<Integer> unansweredQuestionIndices = quizManager.getUnansweredQuestionIndices(selectedAnswers);
             if (unansweredQuestionIndices.isEmpty()) {
-                confirmText.setText("U heeft alle vragen beantwoord. Klik op 'BEVESTIGEN' om door te gaan.");
+                confirmText.setText(R.string.u_heeft_alle_vragen_beantwoord_klik_op_bevestigen_om_door_te_gaan);
                 confirmButton.setVisibility(View.VISIBLE);
             } else {
                 displayUnansweredQuestions(unansweredQuestionIndices);
@@ -171,6 +172,9 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
         for (int index : unansweredQuestions) {
             Button questionButton = new Button(this);
             questionButton.setText(String.format("Vraag %d", index + 1));
+//            questionButton.setBackgroundColor(getResources().getColor(R.color.aqua));
+            questionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.aqua)));
+
             questionButton.setOnClickListener(v -> {
                         navigateToQuestion(index);
                         unansweredQuestionsLayout.setVisibility(View.GONE);
