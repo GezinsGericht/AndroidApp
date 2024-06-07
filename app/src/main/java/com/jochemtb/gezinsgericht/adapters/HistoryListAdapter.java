@@ -51,7 +51,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
 
         HistoryItem item = historyList.get(position);
         holder.tvHistoryDate.setText(item.getDate());
-        holder.tvHistoryProfName.setText(item.getProfessional_Name());
+        holder.tvHistoryProfName.setText(holder.itemView.getContext().getString(R.string.behandelaar) + item.getProfessional_Name());
 
         Log.i(LOG_TAG, "onBindViewHolder");
     }

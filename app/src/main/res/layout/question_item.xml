@@ -18,8 +18,7 @@
         android:id="@+id/b_answer_given"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
+        android:layout_marginHorizontal="10dp"
         android:layout_marginBottom="10dp"
         android:backgroundTint="#1C0099FF"
 
