@@ -131,44 +131,44 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
-        <CheckBox
-            android:id="@+id/CB_homepage_1"
+        <RadioButton
+            android:id="@+id/RB_homepage_1"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text="@string/habitat_1" />
 
-        <CheckBox
-            android:id="@+id/CB_homepage_2"
+        <RadioButton
+            android:id="@+id/RB_homepage_2"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text="@string/habitat_6" />
 
-        <CheckBox
-            android:id="@+id/CB_homepage_3"
+        <RadioButton
+            android:id="@+id/RB_homepage_3"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text="@string/habitat_3" />
 
-        <CheckBox
-            android:id="@+id/CB_homepage_4"
+        <RadioButton
+            android:id="@+id/RB_homepage_4"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text="@string/habitat_7" />
 
-        <CheckBox
-            android:id="@+id/CB_homepage_5"
+        <RadioButton
+            android:id="@+id/RB_homepage_5"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text="@string/habitat_2" />
 
-        <CheckBox
-            android:id="@+id/CB_homepage_6"
+        <RadioButton
+            android:id="@+id/RB_homepage_6"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text="@string/habitat_5" />
 
-        <CheckBox
-            android:id="@+id/CB_homepage_7"
+        <RadioButton
+            android:id="@+id/RB_homepage_7"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginEnd="25dp"

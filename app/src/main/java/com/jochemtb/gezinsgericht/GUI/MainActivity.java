@@ -13,11 +13,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.jochemtb.gezinsgericht.R;
 import com.jochemtb.gezinsgericht.domain.LineChartEntry;
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
     private ImageView settingsLogo;
     private LineChartRepository lineChartRepository;
     private List<LineChartEntry> allEntries = new ArrayList<>();
-    private Map<CheckBox, String> checkBoxHabitatMap = new HashMap<>();
+    private Map<RadioButton, String> radioButtonHabitatMap = new HashMap<>();
     private TextView TV_Welcome, TV_WelcomeGG, usernameTv;
 
     private SharedPreferences sharedPref;
@@ -94,21 +96,21 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
     }
 
     private void initViewComponents() {
-        CheckBox checkbox_1 = findViewById(R.id.CB_homepage_1);
-        CheckBox checkbox_2 = findViewById(R.id.CB_homepage_2);
-        CheckBox checkbox_3 = findViewById(R.id.CB_homepage_3);
-        CheckBox checkbox_4 = findViewById(R.id.CB_homepage_4);
-        CheckBox checkbox_5 = findViewById(R.id.CB_homepage_5);
-        CheckBox checkbox_6 = findViewById(R.id.CB_homepage_6);
-        CheckBox checkbox_7 = findViewById(R.id.CB_homepage_7);
+        RadioButton radiobutton_1 = findViewById(R.id.RB_homepage_1);
+        RadioButton radiobutton_2 = findViewById(R.id.RB_homepage_2);
+        RadioButton radiobutton_3 = findViewById(R.id.RB_homepage_3);
+        RadioButton radiobutton_4 = findViewById(R.id.RB_homepage_4);
+        RadioButton radiobutton_5 = findViewById(R.id.RB_homepage_5);
+        RadioButton radiobutton_6 = findViewById(R.id.RB_homepage_6);
+        RadioButton radiobutton_7 = findViewById(R.id.RB_homepage_7);
 
-        checkBoxHabitatMap.put(checkbox_1, "Zingeving");
-        checkBoxHabitatMap.put(checkbox_2, "Werk & Activiteiten");
-        checkBoxHabitatMap.put(checkbox_3, "Financiën");
-        checkBoxHabitatMap.put(checkbox_4, "Psychische gezondheid");
-        checkBoxHabitatMap.put(checkbox_5, "Wonen");
-        checkBoxHabitatMap.put(checkbox_6, "Lichamelijke gezondheid");
-        checkBoxHabitatMap.put(checkbox_7, "Sociale relaties");
+        radioButtonHabitatMap.put(radiobutton_1, "Zingeving");
+        radioButtonHabitatMap.put(radiobutton_2, "Werk & Activiteiten");
+        radioButtonHabitatMap.put(radiobutton_3, "Financiën");
+        radioButtonHabitatMap.put(radiobutton_4, "Psychische gezondheid");
+        radioButtonHabitatMap.put(radiobutton_5, "Wonen");
+        radioButtonHabitatMap.put(radiobutton_6, "Lichamelijke gezondheid");
+        radioButtonHabitatMap.put(radiobutton_7, "Sociale relaties");
 
         settingsLogo = findViewById(R.id.IV_main_settings);
 
@@ -117,21 +119,21 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
     }
 
     private void setupCheckboxListeners() {
-        for (final CheckBox checkBox : checkBoxHabitatMap.keySet()) {
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        for (final RadioButton radioButton : radioButtonHabitatMap.keySet()) {
+            radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        for (CheckBox cb : checkBoxHabitatMap.keySet()) {
-                            if (cb != checkBox) {
-                                cb.setChecked(false);
+                        for (RadioButton rb : radioButtonHabitatMap.keySet()) {
+                            if (rb != radioButton) {
+                                rb.setChecked(false);
                             }
                         }
                         updateChartBasedOnSelectedHabitat();
                     } else {
                         boolean anyChecked = false;
-                        for (CheckBox cb : checkBoxHabitatMap.keySet()) {
-                            if (cb.isChecked()) {
+                        for (RadioButton rb : radioButtonHabitatMap.keySet()) {
+                            if (rb.isChecked()) {
                                 anyChecked = true;
                                 break;
                             }
@@ -147,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
 
     private void updateChartBasedOnSelectedHabitat() {
         boolean anyChecked = false;
-        for (Map.Entry<CheckBox, String> entry : checkBoxHabitatMap.entrySet()) {
+        for (Map.Entry<RadioButton, String> entry : radioButtonHabitatMap.entrySet()) {
             if (entry.getKey().isChecked()) {
                 updateChart(entry.getValue());
                 anyChecked = true;
