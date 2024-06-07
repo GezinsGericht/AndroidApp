@@ -57,6 +57,7 @@ public class LineChartHelper {
 
     public void addDataSet(String label, int color, float width) {
         dataSet = new LineDataSet(entries, label);
+        dataSet.setValueTextSize(15F);
         dataSet.setColor(color);
         dataSet.setLineWidth(width);
         LineData lineData = new LineData(dataSet);
