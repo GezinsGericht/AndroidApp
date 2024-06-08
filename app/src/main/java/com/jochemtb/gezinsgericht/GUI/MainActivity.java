@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
 
         // Initialize checkboxes
         initViewComponents();
-        setupCheckboxListeners();
+        setupRadioButtonListeners();
 
         // Fetch data when the activity is created
         lineChartRepository.getLineChart(this);
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
         navbar_3 = findViewById(R.id.BTN_navbar3);
     }
 
-    private void setupCheckboxListeners() {
+    private void setupRadioButtonListeners() {
         for (final RadioButton radioButton : radioButtonHabitatMap.keySet()) {
             radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
