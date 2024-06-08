@@ -74,7 +74,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/results_close"
         app:layout_constraintHorizontal_bias="0.15"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+        android:textSize="18sp"/>
 
     <Button
         android:id="@+id/results_close"
@@ -85,7 +87,9 @@
         android:backgroundTint="@color/black"
         android:text="@string/close_results"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+        android:textSize="18sp"/>
 
     <Button
         android:id="@+id/results_goals"

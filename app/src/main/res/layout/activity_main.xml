@@ -193,6 +193,8 @@
             android:layout_weight="1"
             android:background="@color/aqua"
             android:text="@string/navbar_1"
+            android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+            android:textSize="18sp"
             android:theme="@style/Button.Aqua" />
 
         <Button
@@ -201,6 +203,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/black"
+            android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+            android:textSize="18sp"
             android:text="@string/navbar_2" />
 
         <Button
@@ -209,6 +213,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/black"
+            android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+            android:textSize="18sp"
             android:text="@string/navbar_3" />
     </LinearLayout>
 

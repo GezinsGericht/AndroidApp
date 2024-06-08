@@ -134,7 +134,9 @@
         android:text="@string/quiz_button_confirm"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+        android:textSize="18sp"/>
 
     <Button
         android:id="@+id/BT_quiz_prev"
@@ -146,7 +148,9 @@
         android:text="@string/quiz_button_previous"
         android:textColor="@color/grey"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+        android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/TV_quiz_questionNumber"
