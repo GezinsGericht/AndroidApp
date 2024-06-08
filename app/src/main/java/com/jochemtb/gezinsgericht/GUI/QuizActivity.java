@@ -127,6 +127,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
                 nextButton.setVisibility(View.VISIBLE);
                 confirmButton.setVisibility(View.INVISIBLE);
                 unansweredQuestionsLayout.setVisibility(View.GONE);
+                questionNumber.setVisibility(View.VISIBLE);
             }
         } else {
             Toast.makeText(this, "Quiz is not yet loaded. Please wait.", Toast.LENGTH_SHORT).show();
