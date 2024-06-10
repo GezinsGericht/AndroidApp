@@ -14,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
 
     private LineChartHelper lineChartHelper;
     private Button navbar_2, navbar_3;
+    private RadioGroup radioGroup;
 
     private ImageView settingsLogo;
     private LineChartRepository lineChartRepository;
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
 
         // Initialize checkboxes
         initViewComponents();
-        setupRadioButtonListeners();
+        setupRadioButtonListeners(radioGroup);
 
         // Fetch data when the activity is created
         lineChartRepository.getLineChart(this);
@@ -96,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
     }
 
     private void initViewComponents() {
+        radioGroup = findViewById(R.id.RG_homepage);
         RadioButton radiobutton_1 = findViewById(R.id.RB_homepage_1);
         RadioButton radiobutton_2 = findViewById(R.id.RB_homepage_2);
         RadioButton radiobutton_3 = findViewById(R.id.RB_homepage_3);
@@ -117,35 +120,29 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
         navbar_2 = findViewById(R.id.BTN_navbar2);
         navbar_3 = findViewById(R.id.BTN_navbar3);
     }
+    private RadioButton lastCheckedRadioButton = null;
 
-    private void setupRadioButtonListeners() {
-        for (final RadioButton radioButton : radioButtonHabitatMap.keySet()) {
-            radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    private void setupRadioButtonListeners(RadioGroup radioGroup) {
+        for (final Map.Entry<RadioButton, String> entry : radioButtonHabitatMap.entrySet()) {
+            entry.getKey().setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        for (RadioButton rb : radioButtonHabitatMap.keySet()) {
-                            if (rb != radioButton) {
-                                rb.setChecked(false);
-                            }
-                        }
-                        updateChartBasedOnSelectedHabitat();
+                public void onClick(View v) {
+                    RadioButton clickedRadioButton = (RadioButton) v;
+                    if (clickedRadioButton.equals(lastCheckedRadioButton)) {
+                        // If the clicked radio button is already checked, uncheck it and show welcome text
+                        lastCheckedRadioButton = null;
+                        clickedRadioButton.setChecked(false);
+                        showWelcomeText();
                     } else {
-                        boolean anyChecked = false;
-                        for (RadioButton rb : radioButtonHabitatMap.keySet()) {
-                            if (rb.isChecked()) {
-                                anyChecked = true;
-                                break;
-                            }
-                        }
-                        if (!anyChecked) {
-                            showWelcomeText();
-                        }
+                        // If the clicked radio button is not checked, check it and update the chart
+                        lastCheckedRadioButton = clickedRadioButton;
+                        updateChartBasedOnSelectedHabitat();
                     }
                 }
             });
         }
     }
+
 
     private void updateChartBasedOnSelectedHabitat() {
         boolean anyChecked = false;
@@ -236,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
         lineChartHelper.getLineChart().setVisibility(View.INVISIBLE);
     }
 
+
     private String extractUserIdFromApiKey(String apiKey) {
 
         apiKey = sharedPref.getString("jwtToken", "");
@@ -265,6 +263,7 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
             return null;
         }
     }
+
 
     private void fetchAndDisplayUserName(String userId) {
         Log.d(LOG_TAG, "Fetching name for user ID: " + userId); // Log for debugging

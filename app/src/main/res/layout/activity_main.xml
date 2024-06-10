@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="450dp"
         android:layout_margin="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/checkboxes_homepage"
+        app:layout_constraintBottom_toTopOf="@+id/RG_homepage"
         app:layout_constraintTop_toBottomOf="@+id/dividerTop"
         tools:layout_editor_absoluteX="5dp" >
 
@@ -110,71 +110,79 @@
         android:layout_marginStart="15dp"
         android:textSize="17sp"
         android:text="@string/persoonlijke_progressie"
-        app:layout_constraintBottom_toTopOf="@+id/checkboxes_homepage"
+        app:layout_constraintBottom_toTopOf="@+id/RG_homepage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chart_homepage"
         app:layout_constraintVertical_bias="1.0" />
 
-    <GridLayout
-        android:id="@+id/checkboxes_homepage"
-        android:layout_width="0dp"
+    <RadioGroup
+        android:id="@+id/RG_homepage"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:padding="8dp"
-        android:paddingBottom="16dp"
-        android:paddingHorizontal="16dp"
-        android:rowCount="4"
-        app:layout_constraintBottom_toTopOf="@+id/navbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/chart_homepage"
+        app:layout_constraintBottom_toTopOf="@id/navbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <RadioButton
-            android:id="@+id/RB_homepage_1"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="@string/habitat_1" />
+        <GridLayout
+            android:id="@+id/checkboxes_homepage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:rowCount="4"
+            android:padding="8dp"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="16dp">
 
-        <RadioButton
-            android:id="@+id/RB_homepage_2"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="@string/habitat_6" />
+            <!-- Your RadioButton components here -->
+            <RadioButton
+                android:id="@+id/RB_homepage_1"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="@string/habitat_1" />
 
-        <RadioButton
-            android:id="@+id/RB_homepage_3"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="@string/habitat_3" />
+            <RadioButton
+                android:id="@+id/RB_homepage_2"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="@string/habitat_6" />
 
-        <RadioButton
-            android:id="@+id/RB_homepage_4"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="@string/habitat_7" />
+            <RadioButton
+                android:id="@+id/RB_homepage_3"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="@string/habitat_3" />
 
-        <RadioButton
-            android:id="@+id/RB_homepage_5"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="@string/habitat_2" />
+            <RadioButton
+                android:id="@+id/RB_homepage_4"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="@string/habitat_7" />
 
-        <RadioButton
-            android:id="@+id/RB_homepage_6"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="@string/habitat_5" />
+            <RadioButton
+                android:id="@+id/RB_homepage_5"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="@string/habitat_2" />
 
-        <RadioButton
-            android:id="@+id/RB_homepage_7"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginEnd="25dp"
-            android:text="@string/habitat_4" />
+            <RadioButton
+                android:id="@+id/RB_homepage_6"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="@string/habitat_5" />
 
-    </GridLayout>
+            <RadioButton
+                android:id="@+id/RB_homepage_7"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginEnd="25dp"
+                android:text="@string/habitat_4" />
+
+        </GridLayout>
+    </RadioGroup>
+
 
     <!-- Navigation bar -->
     <LinearLayout
