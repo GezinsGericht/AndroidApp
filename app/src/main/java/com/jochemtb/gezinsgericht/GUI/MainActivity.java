@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -38,14 +39,17 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements LineChartRepository.LineChartCallback {
 
     private LineChartHelper lineChartHelper;
-    private Button navbar_2, navbar_3;
+    private Button navbar_1, navbar_2, navbar_3;
     private RadioGroup radioGroup;
 
     private ImageView settingsLogo;
     private LineChartRepository lineChartRepository;
     private List<LineChartEntry> allEntries = new ArrayList<>();
     private Map<RadioButton, String> radioButtonHabitatMap = new HashMap<>();
-    private TextView TV_Welcome, TV_WelcomeGG, usernameTv;
+    private TextView TV_Welcome, TV_WelcomeGG, usernameTv, titleRadioGroup;
+    private ProgressBar loadingScreen;
+    private View dividerBottom, dividerTop;
+    private LineChart lineChart;
 
     private SharedPreferences sharedPref;
     private NameRepository nameRepository;
@@ -57,15 +61,25 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
         setContentView(R.layout.activity_main);
 
         // Initialize components
+        loadingScreen = findViewById(R.id.PB_main_loadingIcon);
         lineChartHelper = new LineChartHelper((LineChart) findViewById(R.id.chart_homepage));
         lineChartRepository = new LineChartRepository(this);
         TV_Welcome = findViewById(R.id.TV_welkom_message);
         TV_WelcomeGG = findViewById(R.id.TV_welkom_message_gg);
         usernameTv = findViewById(R.id.TV_homepage_username);
         settingsLogo = findViewById(R.id.IV_main_settings);
+        navbar_1 = findViewById(R.id.BTN_navbar1);
         navbar_2 = findViewById(R.id.BTN_navbar2);
         navbar_3 = findViewById(R.id.BTN_navbar3);
+        radioGroup = findViewById(R.id.RG_homepage);
+        titleRadioGroup = findViewById(R.id.tv_PersoonlijkeProgressie);
+        dividerBottom = findViewById(R.id.dividerBtm);
+        dividerTop = findViewById(R.id.dividerTop);
+        lineChart = findViewById(R.id.chart_homepage);
         sharedPref = getSharedPreferences("sharedPref", MODE_PRIVATE);
+
+        //setLoadingScreen
+        setLoadingScreen(true);
 
         // Set up navigation
         navToSession();
@@ -87,7 +101,41 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
         if (userId != null) {
             fetchAndDisplayUserName(userId);
         } else {
-            Toast.makeText(this, "Invalid API key", Toast.LENGTH_SHORT).show();
+            Log.d(LOG_TAG, "Invalid API key"); // Log for debugging
+//            Toast.makeText(this, "Invalid API key", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setLoadingScreen(boolean bool) {
+        if (bool){
+            TV_Welcome.setVisibility(View.GONE);
+            TV_WelcomeGG .setVisibility(View.GONE);
+            usernameTv.setVisibility(View.GONE);
+            settingsLogo.setVisibility(View.GONE);
+            navbar_1.setVisibility(View.GONE);
+            navbar_2.setVisibility(View.GONE);
+            navbar_3.setVisibility(View.GONE);
+            radioGroup.setVisibility(View.GONE);
+            titleRadioGroup.setVisibility(View.GONE);
+            dividerBottom.setVisibility(View.GONE);
+            dividerTop.setVisibility(View.GONE);
+            lineChart.setVisibility(View.GONE);
+            loadingScreen.setVisibility(View.VISIBLE);
+        } else {
+            TV_Welcome.setVisibility(View.VISIBLE);
+            TV_WelcomeGG .setVisibility(View.VISIBLE);
+            usernameTv.setVisibility(View.VISIBLE);
+            settingsLogo.setVisibility(View.VISIBLE);
+            navbar_1.setVisibility(View.VISIBLE);
+            navbar_2.setVisibility(View.VISIBLE);
+            navbar_3.setVisibility(View.VISIBLE);
+            radioGroup.setVisibility(View.VISIBLE);
+            titleRadioGroup.setVisibility(View.VISIBLE);
+            dividerBottom.setVisibility(View.VISIBLE);
+            dividerTop.setVisibility(View.VISIBLE);
+            lineChart.setVisibility(View.INVISIBLE);
+            lineChart.setVisibility(View.INVISIBLE);
+            loadingScreen.setVisibility(View.GONE);
         }
     }
 
@@ -95,6 +143,15 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
     public void onLineChartFetched(List<LineChartEntry> entries) {
         allEntries = entries; // Save all entries
         updateChartBasedOnSelectedHabitat();
+        setLoadingScreen(false);
+    }
+
+    @Override
+    public void onLineChartError(String errorMessage) {
+        Log.d(LOG_TAG, "onLineChartError");
+        Log.e(LOG_TAG, errorMessage);
+        setLoadingScreen(false);
+        Toast.makeText(this, R.string.somethingWentWrongToast,Toast.LENGTH_SHORT).show();
     }
 
     private void initViewComponents() {
@@ -115,10 +172,6 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
         radioButtonHabitatMap.put(radiobutton_6, "Lichamelijke gezondheid");
         radioButtonHabitatMap.put(radiobutton_7, "Sociale relaties");
 
-        settingsLogo = findViewById(R.id.IV_main_settings);
-
-        navbar_2 = findViewById(R.id.BTN_navbar2);
-        navbar_3 = findViewById(R.id.BTN_navbar3);
     }
     private RadioButton lastCheckedRadioButton = null;
 
@@ -281,7 +334,6 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
             @Override
             public void onError(String errorMessage) {
                 Log.e(LOG_TAG, "Failed to fetch user name: " + errorMessage); // Log for debugging
-                Toast.makeText(MainActivity.this, "Failed to fetch user name: " + errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
     }

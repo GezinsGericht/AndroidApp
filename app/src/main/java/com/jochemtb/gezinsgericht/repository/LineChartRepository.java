@@ -60,22 +60,24 @@ public class LineChartRepository {
                         lineChartDao.setLineChartlist(new ArrayList<>(lineChartEntries));
                         callback.onLineChartFetched(lineChartEntries);  // Pass the data to the callback
                     } else {
-                        Toast.makeText(context, "No data received", Toast.LENGTH_LONG).show();
+                        callback.onLineChartError("No data received");
                     }
                 } else {
-                    Toast.makeText(context, "Failed to fetch data", Toast.LENGTH_LONG).show();
+                    callback.onLineChartError("Failed to fetch data");
                 }
             }
 
             @Override
             public void onFailure(Call<List<LineChartEntry>> call, Throwable t) {
-                Toast.makeText(context, "API call failed: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.d(LOG_TAG, "onFailure");
+                callback.onLineChartError("API call failed: " + t.getMessage());
             }
         });
     }
 
     public interface LineChartCallback{
         void onLineChartFetched(List<LineChartEntry> entries);
+        void onLineChartError(String errorMessage);
     }
 
 }
