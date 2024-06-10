@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,19 +28,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MyAnswerActivity extends AppCompatActivity implements HistoryAnswerRepository.HistoryCallback {
+public class MyAnswerActivity extends AppCompatActivity implements HistoryAnswerRepository.HistoryAnswersCallback {
 
     private int mSessionId;
     private Session mSession;
     private HistoryAnswerRepository historyAnswerRepository;
     private HistoryAnswerAdapter adapter;
     private List<GroupedHistoryAnswer> groupedHistoryAnswers;
+    private final String LOG_TAG = "MyAnswerActivity";
+    private ProgressBar loadingScreen;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
         setContentView(R.layout.activity_myanswers);
+        loadingScreen = findViewById(R.id.PB_myAnswers_loadingIcon);
+        setLoadingScreen(true);
 
         Intent intent = getIntent();
         mSessionId = intent.getIntExtra("session", mSessionId);
@@ -55,10 +61,21 @@ public class MyAnswerActivity extends AppCompatActivity implements HistoryAnswer
         // Initialize the repository and fetch the data
         historyAnswerRepository = new HistoryAnswerRepository(this);
         historyAnswerRepository.getHistory(this, intent); // Pass the Intent here
+
+    }
+
+    private void setLoadingScreen(boolean bool) {
+
+        if(bool){
+            loadingScreen.setVisibility(ProgressBar.VISIBLE);
+        } else {
+            loadingScreen.setVisibility(ProgressBar.GONE);
+        }
     }
 
     @Override
-    public void onHistoryFetched() {
+    public void onHistoryAnswersFetched(String message) {
+        Log.i(LOG_TAG, "onHistoryAnswersFetched: " + message);
         List<HistoryAnswerResponse> historyAnswers = historyAnswerRepository.getDao().getHistoryAnswerList();
 
         // Group the historyAnswers by Habitat_Name
@@ -77,6 +94,14 @@ public class MyAnswerActivity extends AppCompatActivity implements HistoryAnswer
 
         // Notify adapter about data changes
         adapter.notifyDataSetChanged();
+        setLoadingScreen(false);
+    }
+
+    @Override
+    public void onHistoryAnswersError(String errorMessage) {
+        Log.e(TAG, "onHistoryAnswersError: " + errorMessage);
+        Toast.makeText(this, R.string.somethingWentWrongToast, Toast.LENGTH_LONG).show();
+        startActivity(new Intent(MyAnswerActivity.this, ResultsActivity.class).putExtra("session", mSessionId));
     }
 
 
