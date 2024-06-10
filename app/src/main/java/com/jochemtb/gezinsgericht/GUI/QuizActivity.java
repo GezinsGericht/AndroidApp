@@ -34,7 +34,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
     private Button previousButton;
     private Button confirmButton;
     private TextView questionNumber;
-    private ProgressBar progressBar;
+    private ProgressBar progressBar, loadingScreen;
     private LinearLayout unansweredQuestionsLayout;
     private ScrollView scrollView;
 
@@ -52,6 +52,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
         setContentView(R.layout.activity_quiz);
 
         initViews();
+        setLoadingScreen(true);
         initQuiz();
 
         nextButton.setOnClickListener(v -> handleNextButtonClick());
@@ -73,6 +74,28 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
         progressBar = findViewById(R.id.PB_quiz_quizProgress);
         unansweredQuestionsLayout = findViewById(R.id.LL_quiz_unansweredQuestions);
         scrollView = findViewById(R.id.SV_quiz_scrollView);
+        loadingScreen = findViewById(R.id.PB_quiz_loadingIcon);
+    }
+
+    private void setLoadingScreen(Boolean bool){
+        if(bool){
+            questionText.setVisibility(View.GONE);
+            confirmText.setVisibility(View.GONE);
+            answersGroup.setVisibility(View.GONE);
+            nextButton.setVisibility(View.GONE);
+            previousButton.setVisibility(View.GONE);
+            questionNumber.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            loadingScreen.setVisibility(View.VISIBLE);
+        } else {
+            questionText.setVisibility(View.VISIBLE);
+            answersGroup.setVisibility(View.VISIBLE);
+            nextButton.setVisibility(View.VISIBLE);
+            previousButton.setVisibility(View.VISIBLE);
+            questionNumber.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
+            loadingScreen.setVisibility(View.GONE);
+        }
     }
 
     private void initQuiz() {
@@ -87,6 +110,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
     public void onQuizGenerated() {
         this.quiz = quizManager.getCurrentQuiz();
         if (quiz != null) {
+            setLoadingScreen(false);
             selectedAnswers = new ArrayList<>(quiz.getTotalQuestions());
             for (int i = 0; i < quiz.getTotalQuestions(); i++) {
                 selectedAnswers.add(-1); // Initialize all answers with -1 (indicating no answer selected)
@@ -96,6 +120,8 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
             questionView.displayQuestion(currentQuestionIndex); // Display the first question
         } else {
             Log.e("QuizActivity", "Quiz is null after generation");
+            Toast.makeText(this, R.string.somethingWentWrongToast, Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(QuizActivity.this, MainActivity.class));
         }
     }
 

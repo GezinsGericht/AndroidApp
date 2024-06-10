@@ -71,24 +71,25 @@ public class QuestionRepository {
                         callback.onQuestionsRetrieved(questionsList);
                     } else {
                         Log.e(LOG_TAG, "Opgehaalde vragenlijst empty");
-                        callback.onQuestionsRetrieved(new ArrayList<>());  // Return an empty list if null or empty
+                        callback.onQuestionsFailed("Opgehaalde vragenlijst empty");  // Return an empty list if null or empty
                     }
                 } else {
                     Log.e(LOG_TAG, "Ophalen vragen failed: " + response.message());
-                    callback.onQuestionsRetrieved(new ArrayList<>());
+                    callback.onQuestionsFailed("Ophalen vragen failed: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<List<Question>> call, Throwable t) {
                 Log.e(LOG_TAG, "getQuestions failed: " + t.getMessage());
-                callback.onQuestionsRetrieved(new ArrayList<>());  // Return an empty list on failure
+                callback.onQuestionsFailed("getQuestions failed: " + t.getMessage());  // Return an empty list on failure
             }
         });
     }
 
     public interface OnQuestionsRetrievedCallback {
         void onQuestionsRetrieved(List<Question> questions);
+        void onQuestionsFailed(String errorMessage);
     }
 }
 

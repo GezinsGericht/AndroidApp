@@ -26,8 +26,10 @@ public final class QuizManager {
 
     private List<Integer> questionIds;
     private final String LOG_TAG = "QuizManager";
+    private final int MAX_TRIES = 3;
     private Context context;
     private int ant;
+    private int timesTried;
 
     public static QuizManager getInstance() {
         if (instance == null) {
@@ -41,6 +43,7 @@ public final class QuizManager {
         possibleAnswers = new ArrayList<>();
         questionList = new ArrayList<>();
         questionIds = new ArrayList<>();
+        timesTried = 0;
         // Dummy data questionIds
         questionIds.add(1);
         questionIds.add(2);
@@ -56,6 +59,8 @@ public final class QuizManager {
     }
 
     public void generateQuiz() {
+        timesTried++;
+
         if (questionIds == null) {
             Log.e(LOG_TAG, "QuestionIds is null");
             return;
@@ -85,6 +90,19 @@ public final class QuizManager {
                     }
                 } else {
                     Log.e(LOG_TAG, "No questions retrieved, or questions list is empty.");
+                }
+            }
+
+            @Override
+            public void onQuestionsFailed(String errorMessage) {
+                Log.e(LOG_TAG, "onQuestionsFailed: " + errorMessage);
+                if(timesTried < MAX_TRIES) {
+                    Log.i(LOG_TAG, "Trying to generate quiz again. Attempt: " + timesTried);
+                    generateQuiz();
+                } else {
+                    Log.e(LOG_TAG, "Max tries reached, stopping quiz generation");
+                    currentQuiz=null;
+                    quizGenerationListener.onQuizGenerated();
                 }
             }
         });

@@ -1,7 +1,6 @@
 package com.jochemtb.gezinsgericht.repository;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -9,11 +8,7 @@ import com.jochemtb.gezinsgericht.API.AuthInterceptor;
 import com.jochemtb.gezinsgericht.API.Name.NameResponse;
 import com.jochemtb.gezinsgericht.API.Name.NameService;
 
-import java.io.IOException;
-
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -53,13 +48,13 @@ public class NameRepository {
                     String name = nameResponse.getName();
                     callback.onNameFetched(name);
                 } else {
-                    callback.onError("Failed to fetch name");
+                    callback.onNameError("Failed to fetch name");
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<NameResponse> call, @NonNull Throwable t) {
-                callback.onError(t.getMessage());
+                callback.onNameError(t.getMessage());
             }
         });
     }
@@ -67,6 +62,6 @@ public class NameRepository {
     public interface NameCallback {
         void onNameFetched(String name);
 
-        void onError(String errorMessage);
+        void onNameError(String errorMessage);
     }
 }

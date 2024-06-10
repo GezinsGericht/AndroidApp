@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
             fetchAndDisplayUserName(userId);
         } else {
             Log.d(LOG_TAG, "Invalid API key"); // Log for debugging
-//            Toast.makeText(this, "Invalid API key", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -332,7 +331,7 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
             }
 
             @Override
-            public void onError(String errorMessage) {
+            public void onNameError(String errorMessage) {
                 Log.e(LOG_TAG, "Failed to fetch user name: " + errorMessage); // Log for debugging
             }
         });
