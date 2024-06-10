@@ -135,6 +135,9 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
                         showWelcomeText();
                     } else {
                         // If the clicked radio button is not checked, check it and update the chart
+                        if (lastCheckedRadioButton != null) {
+                            lastCheckedRadioButton.setChecked(false);
+                        }
                         lastCheckedRadioButton = clickedRadioButton;
                         updateChartBasedOnSelectedHabitat();
                     }
