@@ -26,6 +26,8 @@ public class ResultsRepository {
     private SharedPreferences sharedPref;
     private ResultsDao resultsDao;
     private Context context;
+    private int timesTried = 0;
+    private static final int MAX_TRIES = 3;
 
     public ResultsRepository(Context context) {
         this.context = context;
@@ -38,6 +40,8 @@ public class ResultsRepository {
     }
 
     public void getResults(ResultsCallback callback, String sessionId) {
+        timesTried++;
+
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(context))
                 .build();
@@ -64,26 +68,36 @@ public class ResultsRepository {
                     if (results != null) {
                         resultsDao.setResults(new ArrayList<>(results));
                         callback.onResultsFetched(results);
-                        Toast.makeText(context, "API CALL SUCCESS RESULTS", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(context, "API CALL RESPONSE NOT CORRECT", Toast.LENGTH_LONG).show();
+                        tryAgain();
+//                        callback.onResultsError("API CALL RESPONSE NOT CORRECT");
                     }
                 } else {
-                    Toast.makeText(context, "API CALL FAILED RESULTS", Toast.LENGTH_LONG).show();
+                    tryAgain();
+//                    callback.onResultsError("API CALL FAILED RESULTS");
                 }
             }
 
             @Override
             public void onFailure(Call<List<ResultsItem>> call, Throwable t) {
-                Log.d(LOG_TAG, "onFailure");
-                Log.e(LOG_TAG, "API CALL FAILED RESULTS, error: " + t.getMessage());
-                Toast.makeText(context, "API CALL FAILED RESULTS, error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e(LOG_TAG, "onFailure: " + t.getMessage());
+                tryAgain();
             }
+
+            private void tryAgain(){
+                Log.i(LOG_TAG, "Trying again attempt: " + timesTried);
+                if(timesTried < MAX_TRIES){
+                    getResults(callback, sessionId);
+                } else {
+                    Log.e(LOG_TAG, "Failed to get results after " + MAX_TRIES + " attempts");
+                    callback.onResultsError("Failed to get results after " + MAX_TRIES + " attempts");
+            }}
         });
     }
 
     public interface ResultsCallback {
         void onResultsFetched(List<ResultsItem> results);
+        void onResultsError(String errorMessage);
     }
 
 }

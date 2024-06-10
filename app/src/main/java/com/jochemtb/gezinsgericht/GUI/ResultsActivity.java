@@ -5,9 +5,13 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,6 +37,11 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
     private ResultsDao resultsDao;
     private HashMap<String, HashMap<Integer, Double>> userHabitatAverageValues;
     private GridLayout mResultsCheckboxes;
+    private TextView title, description;
+    private Button myAnswer, goals, close;
+    private View mainChart;
+    private ProgressBar loadingScreen;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +56,51 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
         setupMyAnswerButton(); // Sets up the "mijn antwoorden" button
         setupGoalsButton(); // Sets up the "goals" button
         initViewComponents(); // Sets the checkboxes by id
+        setLoadingScreen(true); // Sets the loading screen
 
         resultsRepository = new ResultsRepository(this);
         resultsRepository.getResults(this, String.valueOf(mSessionId));
         this.resultsDao = resultsRepository.getDao();
 
     }
-
     private void initViewComponents() {
-        radarChartHelper = new RadarChart(findViewById(R.id.Radarchart));
+        radarChartHelper = new RadarChart(findViewById(R.id.RC_result_mainChart));
         mResultsCheckboxes = findViewById(R.id.GL_results_checkboxes);
+
+        title = findViewById(R.id.results_title);
+        description = findViewById(R.id.results_text);
+
+        myAnswer = findViewById(R.id.BT_results_show); // Button to show my answers
+        goals = findViewById(R.id.BT_results_goals); // Button to show goals
+        close = findViewById(R.id.BT_results_close); // Button to close the results
+
+        loadingScreen = findViewById(R.id.PB_results_loading);
+        mainChart = findViewById(R.id.RC_result_mainChart);
     }
+
+    private void setLoadingScreen(boolean bool) {
+        if(bool){
+            mResultsCheckboxes.setVisibility(GridLayout.GONE);
+            title.setVisibility(TextView.GONE);
+            description.setVisibility(TextView.GONE);
+            myAnswer.setVisibility(Button.GONE);
+            goals.setVisibility(Button.GONE);
+            close.setVisibility(Button.GONE);
+            mainChart.setVisibility(View.GONE);
+            loadingScreen.setVisibility(ProgressBar.VISIBLE);
+        } else {
+            mResultsCheckboxes.setVisibility(GridLayout.VISIBLE);
+            title.setVisibility(TextView.VISIBLE);
+            description.setVisibility(TextView.VISIBLE);
+            myAnswer.setVisibility(Button.VISIBLE);
+            goals.setVisibility(Button.VISIBLE);
+            close.setVisibility(Button.VISIBLE);
+            mainChart.setVisibility(View.VISIBLE);
+            loadingScreen.setVisibility(ProgressBar.GONE);
+        }
+    }
+
+
 
     private void createCheckboxes(HashMap<String, HashMap<Integer, Double>> userHabitatAverageValues) {
         Log.d(LOG_TAG, "UserHabitatAverageValues: " + userHabitatAverageValues);
@@ -134,7 +177,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
     }
 
     private void setupMyAnswerButton() {
-        Button myAnswer = findViewById(R.id.results_show);
+        Button myAnswer = findViewById(R.id.BT_results_show);
         myAnswer.setOnClickListener(v -> {
             Intent intent = new Intent(ResultsActivity.this, MyAnswerActivity.class);
             intent.putExtra("session", mSessionId);
@@ -143,12 +186,12 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
     }
 
     private void setupCloseButton() {
-        Button close = findViewById(R.id.results_close);
+        Button close = findViewById(R.id.BT_results_close);
         close.setOnClickListener(v -> startActivity(new Intent(ResultsActivity.this, MainActivity.class))); // Switches the page to MainActivity
     }
 
     private void setupGoalsButton() {
-        Button goals = findViewById(R.id.results_goals);
+        Button goals = findViewById(R.id.BT_results_goals);
         goals.setOnClickListener(v -> {
             Intent intent = new Intent(ResultsActivity.this, GoalsActivity.class);
             intent.putExtra("session", mSessionId);
@@ -208,7 +251,15 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
         createCheckboxes(userHabitatAverageValues);
         setupCheckBoxListeners(); // Sets the functionality for the checkboxes
         Log.i(LOG_TAG, "Results data updated");
+        setLoadingScreen(false);
 
+    }
+
+    @Override
+    public void onResultsError(String errorMessage) {
+        Log.e(LOG_TAG, "onResultsError: " + errorMessage);
+        Toast.makeText(this, R.string.somethingWentWrongToast, Toast.LENGTH_LONG).show();
+        startActivity(new Intent(ResultsActivity.this, HistoryActivity.class));
     }
 
 }

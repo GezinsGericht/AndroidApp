@@ -8,6 +8,16 @@
     android:background="@drawable/account_geactiveerd"
     >
 
+    <ProgressBar
+        android:id="@+id/PB_results_loading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/results_title"
         android:layout_width="wrap_content"
@@ -36,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/results_title" />
 
     <com.github.mikephil.charting.charts.RadarChart
-        android:id="@+id/Radarchart"
+        android:id="@+id/RC_result_mainChart"
         android:layout_width="382dp"
         android:layout_height="343dp"
         android:layout_marginTop="16dp"
@@ -57,13 +67,13 @@
         android:alignmentMode="alignMargins"
         android:columnOrderPreserved="false"
         android:rowOrderPreserved="false"
-        app:layout_constraintBottom_toTopOf="@+id/results_show"
+        app:layout_constraintBottom_toTopOf="@+id/BT_results_show"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Radarchart"/>
+        app:layout_constraintTop_toBottomOf="@+id/RC_result_mainChart"/>
 
     <Button
-        android:id="@+id/results_show"
+        android:id="@+id/BT_results_show"
         android:layout_width="162dp"
         android:layout_height="48dp"
         android:layout_marginStart="20dp"
@@ -72,14 +82,14 @@
         android:text="@string/my_answers"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/results_close"
+        app:layout_constraintEnd_toStartOf="@+id/BT_results_close"
         app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
         android:fontFamily="@font/sofia_sans_extra_condensed_bold"
         android:textSize="18sp"/>
 
     <Button
-        android:id="@+id/results_close"
+        android:id="@+id/BT_results_close"
         android:layout_width="173dp"
         android:layout_height="48dp"
         android:layout_marginEnd="20dp"
@@ -92,7 +102,7 @@
         android:textSize="18sp"/>
 
     <Button
-        android:id="@+id/results_goals"
+        android:id="@+id/BT_results_goals"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginTop="24dp"

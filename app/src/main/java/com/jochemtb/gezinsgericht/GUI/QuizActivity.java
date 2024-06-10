@@ -44,6 +44,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
     private QuizManager quizManager;
     private QuestionView questionView;
     private QuizResult quizResult;
+    private final String LOG_TAG = "QuizActivity";
     
 
     @Override
@@ -135,7 +136,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
             }
             quizManager.updateProgressBar(selectedAnswers, progressBar, quiz);
         } else {
-            Toast.makeText(this, "Quiz is not yet loaded. Please wait.", Toast.LENGTH_SHORT).show();
+            Log.e(LOG_TAG, "Quiz is not yet loaded.");
         }
     }
 
