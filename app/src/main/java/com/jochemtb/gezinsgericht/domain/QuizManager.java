@@ -103,7 +103,8 @@ public final class QuizManager {
             Log.d("Selected answer", Integer.toString(index));
             quizResult.setQuestionList((ArrayList<Question>) questionList);
             selectedAnswers.set(currentQuestionIndex, index);
-            quizResult.addToAntSelected(index);
+            Log.d(quizResult.getQuestionList().get(currentQuestionIndex).getQuestion(),String.valueOf(quizResult.getQuestionList().get(currentQuestionIndex).getQuestionid()));
+            quizResult.addToAntSelected(index + 1);
             Log.d(quizResult.getQuestionList().get(currentQuestionIndex).getQuestion(), quizResult.getAntselected().toString());
         } else {
             selectedAnswers.set(currentQuestionIndex, -1);

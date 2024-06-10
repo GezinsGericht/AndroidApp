@@ -44,8 +44,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
     private QuizManager quizManager;
     private QuestionView questionView;
     private QuizResult quizResult;
-
-    private int progressCounter = 0;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
