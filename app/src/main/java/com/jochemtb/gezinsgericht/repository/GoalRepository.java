@@ -74,13 +74,12 @@ public class GoalRepository {
                     List<GoalResponse> goalItems = response.body();
                     if (goalItems != null && !goalItems.isEmpty()) {
                         goalDao.setGoalList(new ArrayList<>(goalItems));
-                        Toast.makeText(context, "API CALL SUCCESS GOAL", Toast.LENGTH_LONG).show();
-                        callback.onGoalFetched();
+                        callback.onGoalFetched("API CALL SUCCESS GOAL");
                     } else {
-                        Toast.makeText(context, "API CALL RESPONSE NOT CORRECT", Toast.LENGTH_LONG).show();
+                        callback.onGoalError("API CALL RESPONSE NOT CORRECT");
                     }
                 } else {
-                    Toast.makeText(context, "API CALL FAILED GOAL", Toast.LENGTH_LONG).show();
+                    callback.onGoalError("API CALL FAILED GOAL") ;
                 }
             }
 
@@ -88,12 +87,13 @@ public class GoalRepository {
             public void onFailure(Call<List<GoalResponse>> call, Throwable t) {
                 Log.d(LOG_TAG, "onFailure");
                 Log.e(LOG_TAG, "API CALL FAILED GOAL, error: " + t.getMessage());
-                Toast.makeText(context, "API CALL FAILED GOAL, error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                callback.onGoalError(t.getMessage());
             }
         });
     }
 
     public interface GoalCallback {
-        void onGoalFetched();
+        void onGoalFetched(String message);
+        void onGoalError(String errorMessage);
     }
 }

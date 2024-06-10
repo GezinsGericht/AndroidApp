@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.jochemtb.gezinsgericht.API.Goal.GoalResponse;
 import com.jochemtb.gezinsgericht.API.HistoryAnswers.HistoryAnswerResponse;
@@ -33,17 +35,20 @@ public class GoalsActivity extends AppCompatActivity implements GoalRepository.G
     private GoalRepository goalRepository;
     private final String LOG_TAG = "GoalsActivity";
     private List<Goal> goalList;
+    private ProgressBar loadingScreen;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goals);
 
+
         Intent intent = getIntent();
         mSessionId = intent.getIntExtra("session", mSessionId);
         Log.d(LOG_TAG, "Given intent:" + mSessionId);
 
         initViewComponents(intent);
+        setLoadingScreen(true);
     }
 
     private void initViewComponents(Intent intent){
@@ -60,9 +65,23 @@ public class GoalsActivity extends AppCompatActivity implements GoalRepository.G
 
         goalRepository = new GoalRepository(this);
         goalRepository.getGoal(this, intent);
+
+        loadingScreen = findViewById(R.id.PB_goals_loadingBar);
     }
 
-    public void onGoalFetched(){
+    private void setLoadingScreen(Boolean bool){
+        Log.d(LOG_TAG, "setLoadingScreen called");
+        if(bool){
+            recyclerView.setVisibility(RecyclerView.GONE);
+            loadingScreen.setVisibility(ProgressBar.VISIBLE);
+        } else {
+            recyclerView.setVisibility(RecyclerView.VISIBLE);
+            loadingScreen.setVisibility(ProgressBar.GONE);
+        }
+    }
+
+    public void onGoalFetched(String message){
+        Log.i(LOG_TAG, message);
         List<GoalResponse> goalAnswers = GoalRepository.getDao().getGoalList();
 
         // Group the goalAnswers by Habitat_Name
@@ -81,6 +100,15 @@ public class GoalsActivity extends AppCompatActivity implements GoalRepository.G
 
         // Notify adapter about data changes
         goalListAdapter.notifyDataSetChanged();
+        setLoadingScreen(false);
+    }
+
+    @Override
+    public void onGoalError(String errorMessage) {
+        Log.d(LOG_TAG, "onGoalError called");
+        Log.e(LOG_TAG, errorMessage);
+        Toast.makeText(this, R.string.somethingWentWrongToast, Toast.LENGTH_LONG).show();
+        startActivity(new Intent(GoalsActivity.this, ResultsActivity.class).putExtra("session", mSessionId));
     }
     private void backButton(){
         Log.d(LOG_TAG, "backButton called");
