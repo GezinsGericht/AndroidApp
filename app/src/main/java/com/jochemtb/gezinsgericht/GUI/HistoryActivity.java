@@ -1,5 +1,6 @@
 package com.jochemtb.gezinsgericht.GUI;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +38,11 @@ public class HistoryActivity extends AppCompatActivity implements HistoryReposit
 
     private HistoryDao historyDao;
 
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        // Do nothing
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

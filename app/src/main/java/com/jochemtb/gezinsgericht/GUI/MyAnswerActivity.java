@@ -3,6 +3,7 @@ package com.jochemtb.gezinsgericht.GUI;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +39,11 @@ public class MyAnswerActivity extends AppCompatActivity implements HistoryAnswer
     private final String LOG_TAG = "MyAnswerActivity";
     private ProgressBar loadingScreen;
 
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        // Do nothing
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

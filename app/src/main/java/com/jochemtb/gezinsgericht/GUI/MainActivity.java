@@ -2,6 +2,7 @@ package com.jochemtb.gezinsgericht.GUI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -54,6 +55,12 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
     private SharedPreferences sharedPref;
     private NameRepository nameRepository;
     private final String LOG_TAG = "HomepageActivity";
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        // Do nothing
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

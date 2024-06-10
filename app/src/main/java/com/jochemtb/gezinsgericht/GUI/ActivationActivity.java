@@ -1,5 +1,6 @@
 package com.jochemtb.gezinsgericht.GUI;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -31,6 +32,12 @@ public class ActivationActivity extends AppCompatActivity {
     private static final String RESET_EMAIL = "resetEmail";
 
     private static final String LOG_TAG = "ActivationActivity";
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        // Do nothing
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,5 +1,6 @@
 package com.jochemtb.gezinsgericht.GUI;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -45,6 +46,12 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
     private QuestionView questionView;
     private QuizResult quizResult;
     private final String LOG_TAG = "QuizActivity";
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        // Do nothing
+    }
     
 
     @Override

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +37,12 @@ public class GoalsActivity extends AppCompatActivity implements GoalRepository.G
     private final String LOG_TAG = "GoalsActivity";
     private List<Goal> goalList;
     private ProgressBar loadingScreen;
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        // Do nothing
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

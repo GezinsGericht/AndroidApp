@@ -1,5 +1,6 @@
 package com.jochemtb.gezinsgericht.GUI;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -41,6 +42,12 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
     private Button myAnswer, goals, close;
     private View mainChart;
     private ProgressBar loadingScreen;
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onBackPressed() {
+        // Do nothing
+    }
 
 
     @Override
