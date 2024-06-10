@@ -86,8 +86,7 @@ public class GoalRepository {
             @Override
             public void onFailure(Call<List<GoalResponse>> call, Throwable t) {
                 Log.d(LOG_TAG, "onFailure");
-                Log.e(LOG_TAG, "API CALL FAILED GOAL, error: " + t.getMessage());
-                callback.onGoalError(t.getMessage());
+                callback.onGoalError("API CALL FAILED GOAL, error: " + t.getMessage());
             }
         });
     }

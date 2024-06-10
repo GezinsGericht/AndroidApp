@@ -94,7 +94,7 @@ public class HistoryAnswerRepository {
             @Override
             public void onFailure(Call<List<HistoryAnswerResponse>> call, Throwable t) {
                 Log.d(LOG_TAG, "onFailure");
-                Log.e(LOG_TAG, "API CALL FAILED HISTORY, error: " + t.getMessage());
+                callback.onHistoryAnswersError("API CALL FAILED HISTORY, error: " + t.getMessage());
             }
         });
     }
