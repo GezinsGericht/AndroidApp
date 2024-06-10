@@ -69,14 +69,12 @@ public class HistoryRepository {
                     List<HistoryItem> historyItems = response.body();
                     if (historyItems != null && !historyItems.isEmpty()) {
                         historyDao.setHistoryList(new ArrayList<>(historyItems));
-
-                        Toast.makeText(context, "API CALL SUCCESS HISTORY", Toast.LENGTH_LONG).show();
-                        callback.onHistoryFetched();
+                        callback.onHistoryFetched("API CALL SUCCESS HISTORY");
                     } else {
-                        Toast.makeText(context, "API CALL RESPONSE NOT CORRECT", Toast.LENGTH_LONG).show();
+                        callback.onHistoryError("API CALL RESPONSE NOT CORRECT");
                     }
                 } else {
-                    Toast.makeText(context, "API CALL FAILED HISTORY", Toast.LENGTH_LONG).show();
+                    callback.onHistoryError("API CALL FAILED HISTORY");
                 }
             }
 
@@ -90,7 +88,8 @@ public class HistoryRepository {
     }
 
     public interface HistoryCallback {
-        void onHistoryFetched();
+        void onHistoryFetched(String message);
+        void onHistoryError(String errorMessage);
     }
 
 }

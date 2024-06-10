@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -97,11 +98,20 @@ public class HistoryActivity extends AppCompatActivity implements HistoryReposit
     }
 
     @Override
-    public void onHistoryFetched() {
+    public void onHistoryFetched(String message) {
         setLoadingScreen(false);
         mAdapter.setHistoryList(historyDao.getHistoryList());
         mAdapter.notifyDataSetChanged();
         Log.i(LOG_TAG, "History data updated in adapter");
+    }
+
+    @Override
+    public void onHistoryError(String errorMessage){
+//        setLoadingScreen(false);
+        Toast.makeText(this, R.string.somethingWentWrongToast, Toast.LENGTH_LONG).show();
+        Log.i(LOG_TAG, "onHistoryError");
+        Log.e(LOG_TAG, errorMessage);
+        startActivity(new Intent(HistoryActivity.this, MainActivity.class));
     }
 
 //    //TEMP DATA

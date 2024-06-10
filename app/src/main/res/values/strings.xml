@@ -52,4 +52,5 @@
     <string name="behandelaar">"Behandelaar: "</string>
     <string name="dit_is_het_afsluitscherm_van_de_vragenlijst_enige_onbeantwoorde_vragen_zullen_worden_weergegeven_op_het_scherm_u_kunt_ernaartoe_navigeren_door_op_de_knop_te_klikken">Dit is het afsluitscherm van de vragenlijst. Enige onbeantwoorde vragen zullen worden weergegeven op het scherm. U kunt ernaartoe navigeren door op de knop te klikken.</string>
     <string name="u_heeft_alle_vragen_beantwoord_klik_op_bevestigen_om_door_te_gaan">U heeft alle vragen beantwoord. Klik op \'BEVESTIGEN\' om door te gaan.</string>
+    <string name="somethingWentWrongToast">Er is iets verkeerd gegaan..</string>
 </resources>
