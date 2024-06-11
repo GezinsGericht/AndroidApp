@@ -4,7 +4,7 @@ public class ResultsItem {
 
     private int weight;
     private int HabitatId;
-    private int UserId;
+    private Integer UserId;
     private int AnswerValue;
     private String Name;
 
@@ -32,7 +32,7 @@ public class ResultsItem {
         HabitatId = habitatId;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return UserId;
     }
 

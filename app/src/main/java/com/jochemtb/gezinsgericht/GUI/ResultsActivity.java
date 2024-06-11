@@ -1,17 +1,15 @@
 package com.jochemtb.gezinsgericht.GUI;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,14 +17,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.jochemtb.gezinsgericht.R;
 import com.jochemtb.gezinsgericht.dao.ResultsDao;
+import com.jochemtb.gezinsgericht.domain.Professional;
 import com.jochemtb.gezinsgericht.domain.RadarChart;
 import com.jochemtb.gezinsgericht.domain.ResultsItem;
+import com.jochemtb.gezinsgericht.repository.NameRepository;
 import com.jochemtb.gezinsgericht.repository.ResultsRepository;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 public class ResultsActivity extends AppCompatActivity implements ResultsRepository.ResultsCallback {
@@ -35,20 +39,11 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
     private RadarChart radarChartHelper;
     private int mSessionId;
     private ResultsRepository resultsRepository;
+    private NameRepository nameRepository;
+    private SharedPreferences sharedPref;
     private ResultsDao resultsDao;
     private HashMap<String, HashMap<Integer, Double>> userHabitatAverageValues;
     private GridLayout mResultsCheckboxes;
-    private TextView title, description;
-    private Button myAnswer, goals, close;
-    private View mainChart;
-    private ProgressBar loadingScreen;
-
-    @SuppressLint("MissingSuperCall")
-    @Override
-    public void onBackPressed() {
-        // Do nothing
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,119 +53,130 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
         Intent intent = getIntent();
         mSessionId = intent.getIntExtra("session", 0);
         Log.i(LOG_TAG, "Session: " + mSessionId);
+        sharedPref = getSharedPreferences("sharedPref", MODE_PRIVATE);
 
         setupCloseButton(); // Sets up the "afsluiten" button
         setupMyAnswerButton(); // Sets up the "mijn antwoorden" button
         setupGoalsButton(); // Sets up the "goals" button
         initViewComponents(); // Sets the checkboxes by id
-        setLoadingScreen(true); // Sets the loading screen
 
+
+        nameRepository = new NameRepository(this);
         resultsRepository = new ResultsRepository(this);
         resultsRepository.getResults(this, String.valueOf(mSessionId));
         this.resultsDao = resultsRepository.getDao();
 
     }
+
     private void initViewComponents() {
         radarChartHelper = new RadarChart(findViewById(R.id.RC_result_mainChart));
         mResultsCheckboxes = findViewById(R.id.GL_results_checkboxes);
-
-        title = findViewById(R.id.results_title);
-        description = findViewById(R.id.results_text);
-
-        myAnswer = findViewById(R.id.BT_results_show); // Button to show my answers
-        goals = findViewById(R.id.BT_results_goals); // Button to show goals
-        close = findViewById(R.id.BT_results_close); // Button to close the results
-
-        loadingScreen = findViewById(R.id.PB_results_loading);
-        mainChart = findViewById(R.id.RC_result_mainChart);
     }
-
-    private void setLoadingScreen(boolean bool) {
-        if(bool){
-            mResultsCheckboxes.setVisibility(GridLayout.GONE);
-            title.setVisibility(TextView.GONE);
-            description.setVisibility(TextView.GONE);
-            myAnswer.setVisibility(Button.GONE);
-            goals.setVisibility(Button.GONE);
-            close.setVisibility(Button.GONE);
-            mainChart.setVisibility(View.GONE);
-            loadingScreen.setVisibility(ProgressBar.VISIBLE);
-        } else {
-            mResultsCheckboxes.setVisibility(GridLayout.VISIBLE);
-            title.setVisibility(TextView.VISIBLE);
-            description.setVisibility(TextView.VISIBLE);
-            myAnswer.setVisibility(Button.VISIBLE);
-            goals.setVisibility(Button.VISIBLE);
-            close.setVisibility(Button.VISIBLE);
-            mainChart.setVisibility(View.VISIBLE);
-            loadingScreen.setVisibility(ProgressBar.GONE);
-        }
-    }
-
-
 
     private void createCheckboxes(HashMap<String, HashMap<Integer, Double>> userHabitatAverageValues) {
-        Log.d(LOG_TAG, "UserHabitatAverageValues: " + userHabitatAverageValues);
+        Log.d(LOG_TAG, "Creating checkboxes");
 
-        Set<String> userNames = userHabitatAverageValues.keySet();
-        int[] colors = { Color.RED, Color.BLUE, Color.GREEN, Color.DKGRAY, Color.YELLOW, Color.MAGENTA };
+        String apiKey = sharedPref.getString("jwtToken", "");
+        Log.d(LOG_TAG, "API Key: " + apiKey); // Log the API key for debugging
+        String userId = extractUserIdFromApiKey(apiKey);
 
-        int colorIndex = 0;
-        int row = 0;
-        int col = 0;
-        int columnCount = 3; // Aantal kolommen
+        nameRepository.getName(userId, new NameRepository.NameCallback() {
+            @Override
+            public void onNameFetched(String loggedInUserName) {
+                Log.d(LOG_TAG, "Name: " + loggedInUserName);
 
-        for (String userName : userNames) {
-            CheckBox checkBox = new CheckBox(this);
-            checkBox.setText(userName);
-            checkBox.setChecked(false);
+                Set<String> userNames = userHabitatAverageValues.keySet();
+                Log.d(LOG_TAG, "Usernames: " + userNames);
+                int[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.DKGRAY, Color.YELLOW, Color.MAGENTA};
 
-            int color = colors[colorIndex % colors.length];
-            ColorStateList colorStateList = new ColorStateList(
-                    new int[][] {
-                            new int[] { -android.R.attr.state_checked }, // unchecked
-                            new int[] { android.R.attr.state_checked } // checked
-                    },
-                    new int[] {
-                            Color.BLACK,
-                            color
-                    });
-            checkBox.setButtonTintList(colorStateList);
+                int colorIndex = 0;
+                int row = 0;
+                int col = 0;
+                int columnCount = 3; // Aantal kolommen
 
-            // Stel de positie van de checkbox in
-            GridLayout.LayoutParams params = new GridLayout.LayoutParams();
-            params.columnSpec = GridLayout.spec(col, 1, 1f);
-            params.rowSpec = GridLayout.spec(row, 1, 1f);
-            checkBox.setLayoutParams(params);
 
-            mResultsCheckboxes.addView(checkBox);
+                String[] userNamePart = loggedInUserName.split(" ");
+                loggedInUserName = userNamePart[0];
+                userNames.remove(loggedInUserName);
 
-            if (colorIndex == 0) {
-                checkBox.setChecked(true);
-                checkBox.setTextColor(color);
-                RadarDataSet dataSet = radarChartHelper.getDataSet(0);
-                radarChartHelper.toggleDataSetVisibility(dataSet, true);
+                // Start the loop with the logged-in user's userName
+                createCheckboxForUser(loggedInUserName, colors, colorIndex, row, col, columnCount);
+                colorIndex++;
+                col++;
+                if (col == columnCount) {
+                    col = 0;
+                    row++;
+                }
+
+                // Continue with the rest of the userNames
+                for (String userName : userNames) {
+                    createCheckboxForUser(userName, colors, colorIndex, row, col, columnCount);
+                    colorIndex++;
+                    col++;
+                    if (col == columnCount) {
+                        col = 0;
+                        row++;
+                    }
+                }
+                setupCheckBoxListeners(); // Sets the functionality for the checkboxes
             }
 
-            colorIndex++;
-            col++;
-            if (col == columnCount) {
-                col = 0;
-                row++;
+            @Override
+            public void onNameError(String errorMessage) {
+                Log.e(LOG_TAG, "Failed to fetch name: " + errorMessage);
             }
+        });
+    }
+
+    private void createCheckboxForUser(String userName, int[] colors, int colorIndex, int row, int col, int columnCount) {
+        CheckBox checkBox = new CheckBox(ResultsActivity.this);
+        checkBox.setText(userName);
+        checkBox.setChecked(false);
+
+        //mooie kleurtjes
+        int color = colors[colorIndex % colors.length];
+        ColorStateList colorStateList = new ColorStateList(
+                new int[][]{
+                        new int[]{-android.R.attr.state_checked}, // unchecked
+                        new int[]{android.R.attr.state_checked} // checked
+                },
+                new int[]{
+                        Color.BLACK,
+                        color
+                });
+        checkBox.setButtonTintList(colorStateList);
+
+        // Stel de positie van de checkbox in
+        GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+        params.columnSpec = GridLayout.spec(col, 1, 1f);
+        params.rowSpec = GridLayout.spec(row, 1, 1f);
+        checkBox.setLayoutParams(params);
+
+        mResultsCheckboxes.addView(checkBox);
+
+// Eerste checkbox aanvinken
+        if (colorIndex == 0) {
+            checkBox.setChecked(true);
+            checkBox.setTextColor(color);
+            RadarDataSet dataSet = radarChartHelper.getDataSet(0);
+            radarChartHelper.toggleDataSetVisibility(dataSet, true);
         }
     }
 
     private void setupCheckBoxListeners() {
+        Log.d(LOG_TAG, "Setting up checkbox listeners");
         int checkboxCount = mResultsCheckboxes.getChildCount();
+
         // Define the colors for the datasets
-        int[] colors = { Color.RED, Color.BLUE, Color.GREEN, Color.DKGRAY, Color.YELLOW, Color.MAGENTA };
+        int[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.DKGRAY, Color.YELLOW, Color.MAGENTA};
+
         // Set up a listener for each checkbox
         for (int i = 0; i < checkboxCount; i++) {
             CheckBox checkBox = (CheckBox) mResultsCheckboxes.getChildAt(i);
             RadarDataSet dataSet = radarChartHelper.getDataSet(i);
             int color = colors[i % colors.length];
 
+            //aan en uit zetten
             checkBox.setOnClickListener(v -> {
                 if (checkBox.isChecked()) {
                     checkBox.setTextColor(color);
@@ -208,22 +214,16 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
 
     @Override
     public void onResultsFetched(List<ResultsItem> results) {
-        Set<String> users = new HashSet<>();
-        for (ResultsItem item : results) {
-            users.add(item.getName());
-            Log.d(LOG_TAG, "User: " + item.getName());
-        }
-
         // Create a map to store the AnswerValues for each HabitatId per user
         HashMap<String, HashMap<Integer, List<Integer>>> userHabitatAnswerValues = new HashMap<>();
 
-        // Populate the map
+        // Continue populating the map for other users
         for (ResultsItem item : results) {
+            //Only get first name
             String[] userNamePart = item.getName().split(" ");
             String userName = userNamePart[0];
             int habitatId = item.getHabitatId();
             int answerValue = item.getAnswerValue();
-            Log.d(LOG_TAG, "User: " + userName + " Habitat: " + habitatId + " Answer: " + answerValue);
 
             // If the user is not in the map, add them
             if (!userHabitatAnswerValues.containsKey(userName)) {
@@ -237,29 +237,57 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
 
             // Add the answer value to the list for this user and habitat
             userHabitatAnswerValues.get(userName).get(habitatId).add(answerValue);
-        }
 
-        // Create a map to store the average AnswerValue for each HabitatId per user
-        userHabitatAverageValues = new HashMap<>();
 
-        // Calculate the averages
-        for (String userName : userHabitatAnswerValues.keySet()) {
-            userHabitatAverageValues.put(userName, new HashMap<>());
-            for (int habitatId : userHabitatAnswerValues.get(userName).keySet()) {
-                List<Integer> answerValues = userHabitatAnswerValues.get(userName).get(habitatId);
-                double average = answerValues.stream().mapToInt(val -> val).average().orElse(0.0);
-                userHabitatAverageValues.get(userName).put(habitatId, average);
-                Log.d(LOG_TAG, "User " + userName + " Habitat " + habitatId + " Average " + average);
+            // Create a map to store the average AnswerValue for each HabitatId per user
+            userHabitatAverageValues = new HashMap<>();
+
+            // Calculate the averages
+            for (String name : userHabitatAnswerValues.keySet()) {
+                userHabitatAverageValues.put(name, new HashMap<>());
+                for (int habitatID : userHabitatAnswerValues.get(name).keySet()) {
+                    List<Integer> answerValues = userHabitatAnswerValues.get(name).get(habitatID);
+                    double average = answerValues.stream().mapToInt(val -> val).average().orElse(0.0);
+                    userHabitatAverageValues.get(name).put(habitatID, average);
+                }
             }
         }
-
-        Log.d(LOG_TAG, "UserHabitatAverageValues: " + userHabitatAverageValues);
-        radarChartHelper.createDataSetFromSession(userHabitatAverageValues); // Sets the dummy data with help from RadarChartHelper
-        createCheckboxes(userHabitatAverageValues);
-        setupCheckBoxListeners(); // Sets the functionality for the checkboxes
-        Log.i(LOG_TAG, "Results data updated");
+        radarChartHelper.createDataSetFromSession(userHabitatAverageValues); // Sets the data for the radar chart
+        createCheckboxes(userHabitatAverageValues); // Creates the checkboxes for the users
         setLoadingScreen(false);
+        Log.i(LOG_TAG, "Results data updated");
+    }
 
+
+    private String extractUserIdFromApiKey(String apiKey) {
+
+        apiKey = sharedPref.getString("jwtToken", "");
+
+        try {
+            if (apiKey == null || apiKey.isEmpty()) {
+                Log.e(LOG_TAG, "API key is null or empty.");
+                return null;
+            }
+
+            String[] splitString = apiKey.split("\\.");
+            if (splitString.length != 3) {
+                Log.e(LOG_TAG, "Invalid JWT token structure.");
+                return null;
+            }
+
+            String base64EncodedBody = splitString[1];
+            Log.d(LOG_TAG, "Encoded Body: " + base64EncodedBody);
+
+            String body = new String(Base64.decode(base64EncodedBody, Base64.DEFAULT));
+            Log.d(LOG_TAG, "Decoded Body: " + body);
+
+            JSONObject jsonObject = new JSONObject(body);
+            return jsonObject.getString("UserId");
+
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Failed to parse API key: " + e.getMessage());
+            return null;
+        }
     }
 
     @Override
@@ -267,6 +295,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
         Log.e(LOG_TAG, "onResultsError: " + errorMessage);
         Toast.makeText(this, R.string.somethingWentWrongToast, Toast.LENGTH_LONG).show();
         startActivity(new Intent(ResultsActivity.this, HistoryActivity.class));
+
     }
 
 }
