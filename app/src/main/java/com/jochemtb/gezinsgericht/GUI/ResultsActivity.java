@@ -7,9 +7,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.jochemtb.gezinsgericht.R;
 import com.jochemtb.gezinsgericht.dao.ResultsDao;
-import com.jochemtb.gezinsgericht.domain.Professional;
 import com.jochemtb.gezinsgericht.domain.RadarChart;
 import com.jochemtb.gezinsgericht.domain.ResultsItem;
 import com.jochemtb.gezinsgericht.repository.NameRepository;
@@ -27,10 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 public class ResultsActivity extends AppCompatActivity implements ResultsRepository.ResultsCallback {
@@ -44,6 +43,10 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
     private ResultsDao resultsDao;
     private HashMap<String, HashMap<Integer, Double>> userHabitatAverageValues;
     private GridLayout mResultsCheckboxes;
+    private TextView title, description;
+    private Button myAnswer, goals, close;
+    private View mainChart;
+    private ProgressBar loadingScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
         setupMyAnswerButton(); // Sets up the "mijn antwoorden" button
         setupGoalsButton(); // Sets up the "goals" button
         initViewComponents(); // Sets the checkboxes by id
+        setLoadingScreen(true); // Sets the loading screen
 
 
         nameRepository = new NameRepository(this);
@@ -71,6 +75,16 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
     private void initViewComponents() {
         radarChartHelper = new RadarChart(findViewById(R.id.RC_result_mainChart));
         mResultsCheckboxes = findViewById(R.id.GL_results_checkboxes);
+
+        title = findViewById(R.id.results_title);
+        description = findViewById(R.id.results_text);
+
+        myAnswer = findViewById(R.id.BT_results_show); // Button to show my answers
+        goals = findViewById(R.id.BT_results_goals); // Button to show goals
+        close = findViewById(R.id.BT_results_close); // Button to close the results
+
+        loadingScreen = findViewById(R.id.PB_results_loading);
+        mainChart = findViewById(R.id.RC_result_mainChart);
     }
 
     private void createCheckboxes(HashMap<String, HashMap<Integer, Double>> userHabitatAverageValues) {
@@ -186,6 +200,28 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
                     radarChartHelper.toggleDataSetVisibility(dataSet, false);
                 }
             });
+        }
+    }
+
+    private void setLoadingScreen(boolean bool) {
+        if(bool){
+            mResultsCheckboxes.setVisibility(GridLayout.GONE);
+            title.setVisibility(TextView.GONE);
+            description.setVisibility(TextView.GONE);
+            myAnswer.setVisibility(Button.GONE);
+            goals.setVisibility(Button.GONE);
+            close.setVisibility(Button.GONE);
+            mainChart.setVisibility(View.GONE);
+            loadingScreen.setVisibility(ProgressBar.VISIBLE);
+        } else {
+            mResultsCheckboxes.setVisibility(GridLayout.VISIBLE);
+            title.setVisibility(TextView.VISIBLE);
+            description.setVisibility(TextView.VISIBLE);
+            myAnswer.setVisibility(Button.VISIBLE);
+            goals.setVisibility(Button.VISIBLE);
+            close.setVisibility(Button.VISIBLE);
+            mainChart.setVisibility(View.VISIBLE);
+            loadingScreen.setVisibility(ProgressBar.GONE);
         }
     }
 
