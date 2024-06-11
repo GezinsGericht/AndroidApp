@@ -25,6 +25,7 @@ public final class QuizManager {
     private QuizGenerationListener quizGenerationListener;
 
     private List<Integer> questionIds;
+    private List<Integer> questionIdsResult;
     private final String LOG_TAG = "QuizManager";
     private final int MAX_TRIES = 3;
     private Context context;
@@ -43,6 +44,7 @@ public final class QuizManager {
         possibleAnswers = new ArrayList<>();
         questionList = new ArrayList<>();
         questionIds = new ArrayList<>();
+        questionIdsResult = new ArrayList<>();
         timesTried = 0;
         // Dummy data questionIds
         questionIds.add(1);
@@ -118,12 +120,15 @@ public final class QuizManager {
         if (selectedId != -1) {
             View radioButton = answersGroup.findViewById(selectedId);
             int index = answersGroup.indexOfChild(radioButton);
-            Log.d("Selected answer", Integer.toString(index));
+            Log.d(LOG_TAG, "Selected answer" + Integer.toString(index));
             quizResult.setQuestionList((ArrayList<Question>) questionList);
             selectedAnswers.set(currentQuestionIndex, index);
-            Log.d(quizResult.getQuestionList().get(currentQuestionIndex).getQuestion(),String.valueOf(quizResult.getQuestionList().get(currentQuestionIndex).getQuestionid()));
+            Log.d(LOG_TAG,String.valueOf(quizResult.getQuestionList().get(currentQuestionIndex).getQuestionid()));
+            questionIdsResult.add(quizResult.getQuestionList().get(currentQuestionIndex).getQuestionid());
+            Log.d(LOG_TAG,String.valueOf(questionIdsResult));
+            quizResult.setQuestionId((ArrayList<Integer>) questionIdsResult);
             quizResult.addToAntSelected(index + 1);
-            Log.d(quizResult.getQuestionList().get(currentQuestionIndex).getQuestion(), quizResult.getAntselected().toString());
+            Log.d(LOG_TAG, quizResult.getAntselected().toString());
         } else {
             selectedAnswers.set(currentQuestionIndex, -1);
         }

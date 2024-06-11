@@ -5,7 +5,16 @@ import java.util.ArrayList;
 public class QuizResult {
 
     private ArrayList<Question> questionList;
-    private ArrayList<Integer> antselected;
+    private ArrayList<Integer> AnswerValue;
+    private ArrayList<Integer> QuestionId;
+
+    public ArrayList<Integer> getQuestionId() {
+        return QuestionId;
+    }
+
+    public void setQuestionId(ArrayList<Integer> questionId) {
+        QuestionId = questionId;
+    }
 
     public ArrayList<Question> getQuestionList() {
         return questionList;
@@ -18,19 +27,19 @@ public class QuizResult {
 
 
     public void setAntselected(ArrayList<Integer> antselected) {
-        this.antselected = antselected;
+        this.AnswerValue = antselected;
     }
 
     public ArrayList<Integer> getAntselected() {
-        return antselected;
+        return AnswerValue;
     }
 
     public QuizResult(ArrayList<Question> questionList, ArrayList<Integer> antselected) {
         this.questionList = questionList;
-        this.antselected = antselected;
+        this.AnswerValue = antselected;
     }
 
     public void addToAntSelected(int ant) {
-        antselected.add(ant);
+        AnswerValue.add(ant);
     }
 }

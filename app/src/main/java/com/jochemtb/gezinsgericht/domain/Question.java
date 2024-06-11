@@ -1,7 +1,7 @@
 package com.jochemtb.gezinsgericht.domain;
 
 public class Question {
-    private int Questionid;
+    private int QuestionId;
     private String Question;
     private int Weight;
     private String Answer1;
@@ -13,7 +13,7 @@ public class Question {
 
     public Question(int questionid, String question, int weight, String answer1, String answer2, String answer3,
             String answer4, String answer5) {
-        this.Questionid = questionid;
+        this.QuestionId = questionid;
         this.Question = question;
         this.Weight = weight;
         this.Answer1 = answer1;
@@ -24,11 +24,11 @@ public class Question {
     }
 
     public int getQuestionid() {
-        return Questionid;
+        return QuestionId;
     }
 
     public void setQuestionid(int questionid) {
-        this.Questionid = questionid;
+        this.QuestionId = questionid;
     }
 
     public String getQuestion() {
