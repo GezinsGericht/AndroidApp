@@ -8,12 +8,13 @@ import android.widget.RadioGroup;
 
 import com.jochemtb.gezinsgericht.GUI.QuizActivity;
 import com.jochemtb.gezinsgericht.repository.QuestionRepository;
+import com.jochemtb.gezinsgericht.repository.QuizRepository;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class QuizManager {
+public final class QuizManager implements QuizRepository.OnQuizSubmitedCallback {
 
     private static QuizManager instance;
     private List<String> questionstring;
@@ -21,6 +22,8 @@ public final class QuizManager {
 
     private List<Question> questionList;
     private Quiz currentQuiz;
+    private QuizRepository quizRepository;
+    private QuizResult quizResult;
 
     private QuizGenerationListener quizGenerationListener;
 
@@ -56,6 +59,8 @@ public final class QuizManager {
         this.quizGenerationListener = listener;
     }
 
+
+
     public interface QuizGenerationListener {
         void onQuizGenerated();
     }
@@ -86,6 +91,7 @@ public final class QuizManager {
                     questionList = randomizeQuestions((ArrayList<Question>) questionList);
                     currentQuiz.setQuestionList((ArrayList<Question>) questionList);
                     currentQuiz.setTotalQuestions(questionList.size());
+                    Log.d(LOG_TAG, "1th Total questions: " + currentQuiz.getTotalQuestions() + " Question list: " + currentQuiz.getQuestionList().size() + " Question list: " + currentQuiz.getQuestionList().toString());
 
                     if (quizGenerationListener != null) {
                         quizGenerationListener.onQuizGenerated();
@@ -116,19 +122,24 @@ public final class QuizManager {
     }
 
     public void saveSelectedAnswer(List<Integer> selectedAnswers, RadioGroup answersGroup, int currentQuestionIndex, QuizResult quizResult) {
+        this.quizResult = quizResult;
         int selectedId = answersGroup.getCheckedRadioButtonId();
         if (selectedId != -1) {
             View radioButton = answersGroup.findViewById(selectedId);
             int index = answersGroup.indexOfChild(radioButton);
             Log.d(LOG_TAG, "Selected answer" + Integer.toString(index));
+
             quizResult.setQuestionList((ArrayList<Question>) questionList);
             selectedAnswers.set(currentQuestionIndex, index);
-            Log.d(LOG_TAG,String.valueOf(quizResult.getQuestionList().get(currentQuestionIndex).getQuestionid()));
+            Log.d(LOG_TAG,"QuestionId: "+String.valueOf(quizResult.getQuestionList().get(currentQuestionIndex).getQuestionid()));
+
             questionIdsResult.add(quizResult.getQuestionList().get(currentQuestionIndex).getQuestionid());
             Log.d(LOG_TAG,String.valueOf(questionIdsResult));
+
             quizResult.setQuestionId((ArrayList<Integer>) questionIdsResult);
             quizResult.addToAntSelected(index + 1);
             Log.d(LOG_TAG, quizResult.getAntselected().toString());
+
         } else {
             selectedAnswers.set(currentQuestionIndex, -1);
         }
@@ -152,10 +163,32 @@ public final class QuizManager {
     }
 
     public void submitData(List<Integer> selectedAnswers, Quiz quiz) {
-        for (int i = 0; i < quiz.getTotalQuestions(); i++) {
-            String answer = selectedAnswers.get(i) == -1 ? "No answer selected" : Integer.toString(selectedAnswers.get(i));
+        quizRepository.submitQuizAnswers(quizResult.getQuestionId(), quizResult.getAntselected(), this);
+//        for (int i = 0; i < quiz.getTotalQuestions(); i++) {
+//            String answer = selectedAnswers.get(i) == -1 ? "No answer selected" : Integer.toString(selectedAnswers.get(i));
             // Perform submission logic here
-        }
+
+//        }
+    }
+
+    @Override
+    public void onQuizSucces(String message) {
+        Log.i(LOG_TAG, "Quiz submitted successfully");
+        clearData();
+    }
+
+    @Override
+    public void onQuizError(String errorMessage) {
+        Log.e(LOG_TAG, "Quiz submission failed: " + errorMessage);
+        clearData();
+    }
+
+    private void clearData() {
+        quizResult.setQuestionId(new ArrayList<>());
+        quizResult.setAntselected(new ArrayList<>());
+        quizResult.setQuestionList(new ArrayList<Question>());
+        questionIdsResult.clear();
+        Log.i(LOG_TAG, "Quiz result cleared");
     }
 
     public void updateProgressBar(List<Integer> selectedAnswers, ProgressBar progressBar, Quiz quiz) {
@@ -218,6 +251,7 @@ public final class QuizManager {
 
     public void setContext(Context context) {
         this.context = context;
+        quizRepository = new QuizRepository(context);
     }
 
     public int getAnt() {
