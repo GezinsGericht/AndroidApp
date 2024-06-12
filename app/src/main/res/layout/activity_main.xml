@@ -43,7 +43,7 @@
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/settings" />
+            android:src="@drawable/baseline_logout_24" />
     </RelativeLayout>
 
     <!-- Divider -->
@@ -75,6 +75,7 @@
     <!-- Checkboxes -->
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:theme="@style/Button.LightBlack"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
