@@ -22,7 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ResultsRepository {
     private static final String LOG_TAG = "ResultsRepository";
-    private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
+//    private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
+    private static final String API_URL = "http://81.206.200.166:3000/api/";
     private SharedPreferences sharedPref;
     private ResultsDao resultsDao;
     private Context context;

@@ -110,8 +110,12 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
         quizManager = QuizManager.getInstance();
         quizManager.setContext(this);
         quizManager.setQuizGenerationListener(this);
-        quizManager.generateQuiz();
+        quizManager.getSessionQuiz();
     }
+
+
+
+
 
 
     @Override
@@ -131,6 +135,13 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
             Toast.makeText(this, R.string.somethingWentWrongToast, Toast.LENGTH_SHORT).show();
             startActivity(new Intent(QuizActivity.this, MainActivity.class));
         }
+    }
+
+    @Override
+    public void onQuizAbort() {
+        Log.e("QuizActivity", "Error occurred while generating quiz");
+        Toast.makeText(this, R.string.somethingWentWrongToast, Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(QuizActivity.this, MainActivity.class));
     }
 
     private void handleNextButtonClick() {
@@ -171,7 +182,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
     private void handleConfirmButtonClick() {
         if (quiz != null) {
             quizManager.submitData(selectedAnswers, quiz);
-            startActivity(new Intent(QuizActivity.this, ResultsActivity.class));
+            startActivity(new Intent(QuizActivity.this, ResultsActivity.class).putExtra("session", quizManager.getSessionId()));
 
         } else {
             Toast.makeText(this, "Quiz is not yet loaded. Please wait.", Toast.LENGTH_SHORT).show();

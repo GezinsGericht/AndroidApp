@@ -9,6 +9,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.jochemtb.gezinsgericht.API.AuthInterceptor;
 import com.jochemtb.gezinsgericht.API.Questions.ApiQuestionService;
+import com.jochemtb.gezinsgericht.API.Questions.RetrievedSession;
 import com.jochemtb.gezinsgericht.domain.Question;
 
 import java.util.ArrayList;
@@ -24,7 +25,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class QuestionRepository {
     private Context context;
     private SharedPreferences sharedPref;
-        private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
+//        private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
+        private static final String API_URL = "http://81.206.200.166:3000/api/";
     private static final String LOG_TAG = "QuestionRepository";
     private List<Question> retrievedQuestions;
 
@@ -87,9 +89,61 @@ public class QuestionRepository {
         });
     }
 
+    public void getSessionQuiz(OnSessionQuizRetrievedCallback callback){
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new AuthInterceptor(context))
+                .build();
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(API_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiQuestionService apiQuestionService = retrofit.create(ApiQuestionService.class);
+        apiQuestionService.getSessionQuiz().enqueue(new Callback<List<RetrievedSession>>() {
+            @Override
+            public void onResponse(Call<List<RetrievedSession>> call, Response<List<RetrievedSession>> response) {
+                Log.d(LOG_TAG, "Results response: " + response.body());
+                Log.d(LOG_TAG, "Results response: " + response);
+                Log.d(LOG_TAG, "Results response body: " + response.body());
+                Log.d(LOG_TAG, "Results response code: " + response.code());
+                Log.d(LOG_TAG, "Results response message: " + response.message());
+                Log.d(LOG_TAG, "Results response error body: " + response.errorBody());
+                if (response.isSuccessful()) {
+                    List<RetrievedSession> responseList = response.body();
+                    if (responseList != null && !responseList.isEmpty()) {
+                        RetrievedSession responseSession = responseList.get(0);
+                        callback.OnSessionQuizRetrieved(responseSession);
+                    } else {
+                        Log.e(LOG_TAG, "Opgehaalde SessionQuiz empty");
+                        callback.OnSessionQuizFailed("Opgehaalde SessionQuiz empty");  // Return an empty list if null or empty
+                    }
+                } else {
+                    Log.e(LOG_TAG, "Ophalen SessionQuiz failed: " + response.message());
+                    callback.OnSessionQuizFailed("Ophalen SessionQuiz failed: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<RetrievedSession>> call, Throwable t) {
+                Log.e(LOG_TAG, "getSessionQuiz failed: " + t.getMessage());
+                callback.OnSessionQuizFailed("getSessionQuiz failed: " + t.getMessage());  // Return an empty list on failure
+            }
+        });
+
+    }
+
     public interface OnQuestionsRetrievedCallback {
         void onQuestionsRetrieved(List<Question> questions);
         void onQuestionsFailed(String errorMessage);
+    }
+
+    public interface OnSessionQuizRetrievedCallback{
+        void OnSessionQuizRetrieved(RetrievedSession retrievedSession);
+        void OnSessionQuizFailed(String errorMessage);
     }
 }
 

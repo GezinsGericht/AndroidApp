@@ -35,7 +35,8 @@ public class UserRepository {
     private LoginDao loginDao;
     private Context context;
     private SharedPreferences sharedPref;
-    private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
+//    private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
+    private static final String API_URL = "http://81.206.200.166:3000/api/";
     private static final String LOG_TAG = "UserRepository";
     private static final String RESET_TOKEN = "resetToken";
     private static final String RESET_EMAIL = "resetEmail";

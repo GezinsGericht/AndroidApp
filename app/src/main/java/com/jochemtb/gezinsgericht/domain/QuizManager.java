@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 
+import com.jochemtb.gezinsgericht.API.Questions.RetrievedSession;
 import com.jochemtb.gezinsgericht.GUI.QuizActivity;
 import com.jochemtb.gezinsgericht.repository.QuestionRepository;
 import com.jochemtb.gezinsgericht.repository.QuizRepository;
@@ -17,6 +18,7 @@ import java.util.List;
 public final class QuizManager implements QuizRepository.OnQuizSubmitedCallback {
 
     private static QuizManager instance;
+    private int sessionId;
     private List<String> questionstring;
     private List<String[]> possibleAnswers;
 
@@ -26,6 +28,7 @@ public final class QuizManager implements QuizRepository.OnQuizSubmitedCallback 
     private QuizResult quizResult;
 
     private QuizGenerationListener quizGenerationListener;
+    private QuestionRepository questionRepository;
 
     private List<Integer> questionIds;
     private List<Integer> questionIdsResult;
@@ -49,10 +52,6 @@ public final class QuizManager implements QuizRepository.OnQuizSubmitedCallback 
         questionIds = new ArrayList<>();
         questionIdsResult = new ArrayList<>();
         timesTried = 0;
-        // Dummy data questionIds
-        questionIds.add(1);
-        questionIds.add(2);
-        questionIds.add(3);
     }
 
     public void setQuizGenerationListener(QuizGenerationListener listener) {
@@ -63,9 +62,32 @@ public final class QuizManager implements QuizRepository.OnQuizSubmitedCallback 
 
     public interface QuizGenerationListener {
         void onQuizGenerated();
+        void onQuizAbort();
+    }
+    private boolean result=false;
+
+    public void getSessionQuiz(){
+
+        questionRepository.getSessionQuiz(new QuestionRepository.OnSessionQuizRetrievedCallback() {
+            @Override
+            public void OnSessionQuizRetrieved(RetrievedSession retrievedSession) {
+                Log.d(LOG_TAG, "OnSessionQuizRetrieved");
+                questionIds.clear();
+                questionIds.addAll(retrievedSession.getQuestionList());
+                sessionId = retrievedSession.getSessionId();
+                Log.i(LOG_TAG, "questionIds list: "+questionIds+" SessionId= "+sessionId);
+                generateQuiz();
+            }
+
+            @Override
+            public void OnSessionQuizFailed(String errorMessage) {
+                Log.d(LOG_TAG, "OnSessionQuizFailed: "+errorMessage);
+                quizGenerationListener.onQuizAbort();
+            }
+        });
     }
 
-    public void generateQuiz() {
+    private void generateQuiz() {
         timesTried++;
 
         if (questionIds == null) {
@@ -78,7 +100,8 @@ public final class QuizManager implements QuizRepository.OnQuizSubmitedCallback 
             return;
         }
 
-        QuestionRepository questionRepository = new QuestionRepository(context);
+
+
         questionRepository.getQuestions(questionIds, new QuestionRepository.OnQuestionsRetrievedCallback() {
             @Override
             public void onQuestionsRetrieved(List<Question> questions) {
@@ -163,12 +186,8 @@ public final class QuizManager implements QuizRepository.OnQuizSubmitedCallback 
     }
 
     public void submitData(List<Integer> selectedAnswers, Quiz quiz) {
+        Log.d(LOG_TAG, "Submitting quiz answers");
         quizRepository.submitQuizAnswers(quizResult.getQuestionId(), quizResult.getAntselected(), this);
-//        for (int i = 0; i < quiz.getTotalQuestions(); i++) {
-//            String answer = selectedAnswers.get(i) == -1 ? "No answer selected" : Integer.toString(selectedAnswers.get(i));
-            // Perform submission logic here
-
-//        }
     }
 
     @Override
@@ -252,6 +271,7 @@ public final class QuizManager implements QuizRepository.OnQuizSubmitedCallback 
     public void setContext(Context context) {
         this.context = context;
         quizRepository = new QuizRepository(context);
+        questionRepository = new QuestionRepository(context);
     }
 
     public int getAnt() {
@@ -260,5 +280,13 @@ public final class QuizManager implements QuizRepository.OnQuizSubmitedCallback 
 
     public void setAnt(int ant) {
         this.ant = ant;
+    }
+
+    public int getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(int sessionId) {
+        this.sessionId = sessionId;
     }
 }

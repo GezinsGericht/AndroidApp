@@ -12,6 +12,7 @@ import com.jochemtb.gezinsgericht.API.AuthInterceptor;
 import com.jochemtb.gezinsgericht.API.Login.BaseResponse;
 import com.jochemtb.gezinsgericht.API.Questions.ApiQuestionService;
 import com.jochemtb.gezinsgericht.domain.Question;
+import com.jochemtb.gezinsgericht.domain.QuizManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +70,7 @@ public class QuizRepository {
 
             // Create a JsonObject with AnswerValue
             requestBody.add("AnswerValue", questionAnswerValues);
+            requestBody.addProperty("SessionId", QuizManager.getInstance().getSessionId());
 
             // Convert JsonObject to string for logging
             String requestBodyString = new Gson().toJson(requestBody);

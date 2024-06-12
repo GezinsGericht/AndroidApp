@@ -24,7 +24,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GoalRepository {
 
-    private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
+//    private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
+    private static final String API_URL = "http://81.206.200.166:3000/api/";
     private static final String LOG_TAG = "GoalRepository";
     private static GoalDao goalDao;
     private Context context;

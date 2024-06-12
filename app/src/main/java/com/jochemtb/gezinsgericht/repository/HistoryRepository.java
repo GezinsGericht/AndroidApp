@@ -26,7 +26,8 @@ public class HistoryRepository {
     private HistoryDao historyDao;
     private Context context;
     private SharedPreferences sharedPref;
-    private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
+//    private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
+    private static final String API_URL = "http://81.206.200.166:3000/api/";
     private static final String LOG_TAG = "HistoryRepository";
 
     public HistoryRepository(Context context) {
