@@ -247,7 +247,12 @@ public class MainActivity extends AppCompatActivity implements LineChartReposito
         lineChartHelper.getLineChart().getXAxis().setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                return dates.size() > (int) value ? dates.get((int) value) : "";
+                int index = (int) value;
+                if (index >= 0 && index < dates.size()) {
+                    return dates.get(index);
+                } else {
+                    return ""; // Return an empty string for out-of-bounds indices
+                }
             }
         });
     }
