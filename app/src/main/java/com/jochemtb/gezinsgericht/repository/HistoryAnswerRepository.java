@@ -8,6 +8,7 @@ import android.util.Log;
 import com.jochemtb.gezinsgericht.API.AuthInterceptor;
 import com.jochemtb.gezinsgericht.API.HistoryAnswers.HistoryAnswerResponse;
 import com.jochemtb.gezinsgericht.API.HistoryAnswers.HistoryAnswerService;
+import com.jochemtb.gezinsgericht.API.URL;
 import com.jochemtb.gezinsgericht.dao.HistoryAnswerDao;
 
 import java.util.ArrayList;
@@ -25,11 +26,13 @@ public class HistoryAnswerRepository {
     private HistoryAnswerDao historyAnswerDao;
     private Context context;
     private SharedPreferences sharedPref;
-//    private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
-    private static final String API_URL = "http://81.206.200.166:3000/api/";
+    private static String API_URL;
     private static final String LOG_TAG = "HistoryAnswerRepository";
 
     public HistoryAnswerRepository(Context context) {
+        URL url = new URL();
+        API_URL = url.getApiUrl();
+
         this.context = context;
         this.historyAnswerDao = new HistoryAnswerDao();
         sharedPref = context.getSharedPreferences("sharedPref", Context.MODE_PRIVATE);

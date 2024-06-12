@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.jochemtb.gezinsgericht.API.AuthInterceptor;
 import com.jochemtb.gezinsgericht.API.Goal.GoalResponse;
+import com.jochemtb.gezinsgericht.API.URL;
 import com.jochemtb.gezinsgericht.dao.GoalDao;
 import com.jochemtb.gezinsgericht.API.Goal.GoalService;
 
@@ -24,14 +25,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GoalRepository {
 
-//    private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
-    private static final String API_URL = "http://81.206.200.166:3000/api/";
+    private static String API_URL;
     private static final String LOG_TAG = "GoalRepository";
     private static GoalDao goalDao;
     private Context context;
     private SharedPreferences sharedPref;
 
     public GoalRepository(Context context){
+        URL url = new URL();
+        API_URL = url.getApiUrl();
+
         this.context = context;
         this.goalDao = new GoalDao();
         sharedPref = context.getSharedPreferences("sharedPref", Context.MODE_PRIVATE);

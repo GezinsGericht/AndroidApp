@@ -17,6 +17,7 @@ import com.jochemtb.gezinsgericht.API.Login.LoginRequest;
 import com.jochemtb.gezinsgericht.API.Login.LoginResponse;
 import com.jochemtb.gezinsgericht.API.Login.TokenRequest;
 import com.jochemtb.gezinsgericht.API.Login.TokenResponse;
+import com.jochemtb.gezinsgericht.API.URL;
 import com.jochemtb.gezinsgericht.GUI.MainActivity;
 
 import com.jochemtb.gezinsgericht.R;
@@ -35,8 +36,7 @@ public class UserRepository {
     private LoginDao loginDao;
     private Context context;
     private SharedPreferences sharedPref;
-//    private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
-    private static final String API_URL = "http://81.206.200.166:3000/api/";
+    private static String API_URL;
     private static final String LOG_TAG = "UserRepository";
     private static final String RESET_TOKEN = "resetToken";
     private static final String RESET_EMAIL = "resetEmail";
@@ -45,6 +45,9 @@ public class UserRepository {
     private boolean returnBool;
 
     public UserRepository(Context context) {
+        URL url = new URL();
+        API_URL = url.getApiUrl();
+
         this.context = context;
         this.loginDao = new LoginDao(context);
         sharedPref = context.getSharedPreferences("sharedPref", Context.MODE_PRIVATE);

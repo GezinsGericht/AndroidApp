@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.jochemtb.gezinsgericht.API.AuthInterceptor;
 import com.jochemtb.gezinsgericht.API.LineChart.ApiLineChartService;
+import com.jochemtb.gezinsgericht.API.URL;
 import com.jochemtb.gezinsgericht.dao.LineChartDao;
 import com.jochemtb.gezinsgericht.domain.HistoryItem;
 import com.jochemtb.gezinsgericht.domain.LineChartEntry;
@@ -27,11 +28,13 @@ public class LineChartRepository {
     private LineChartDao lineChartDao;
     private Context context;
     private SharedPreferences sharedPref;
-//    private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
-    private static final String API_URL = "http://81.206.200.166:3000/api/";
+    private static String API_URL;
     private static final String LOG_TAG = "LineChartRepository";
 
     public LineChartRepository(Context context) {
+        URL url = new URL();
+        API_URL = url.getApiUrl();
+
         lineChartDao = new LineChartDao();
         this.context = context;
         sharedPref = context.getSharedPreferences("sharedPref", Context.MODE_PRIVATE);

@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.jochemtb.gezinsgericht.API.AuthInterceptor;
 import com.jochemtb.gezinsgericht.API.ApiResultsService;
+import com.jochemtb.gezinsgericht.API.URL;
 import com.jochemtb.gezinsgericht.dao.ResultsDao;
 import com.jochemtb.gezinsgericht.domain.ResultsItem;
 
@@ -22,8 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ResultsRepository {
     private static final String LOG_TAG = "ResultsRepository";
-//    private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
-    private static final String API_URL = "http://81.206.200.166:3000/api/";
+    private static String API_URL;
     private SharedPreferences sharedPref;
     private ResultsDao resultsDao;
     private Context context;
@@ -31,6 +31,9 @@ public class ResultsRepository {
     private static final int MAX_TRIES = 3;
 
     public ResultsRepository(Context context) {
+        URL url = new URL();
+        API_URL = url.getApiUrl();
+
         this.context = context;
         this.resultsDao = new ResultsDao();
         sharedPref = context.getSharedPreferences("sharedPref", Context.MODE_PRIVATE);

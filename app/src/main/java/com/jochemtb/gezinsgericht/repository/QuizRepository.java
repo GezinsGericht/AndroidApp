@@ -11,6 +11,7 @@ import com.jochemtb.gezinsgericht.API.ApiQuizService;
 import com.jochemtb.gezinsgericht.API.AuthInterceptor;
 import com.jochemtb.gezinsgericht.API.Login.BaseResponse;
 import com.jochemtb.gezinsgericht.API.Questions.ApiQuestionService;
+import com.jochemtb.gezinsgericht.API.URL;
 import com.jochemtb.gezinsgericht.domain.Question;
 import com.jochemtb.gezinsgericht.domain.QuizManager;
 
@@ -26,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class QuizRepository {
         private Context context;
         private SharedPreferences sharedPref;
-        private static final String API_URL = "http://81.206.200.166:3000/api/";
+        private static String API_URL;
         private static final String LOG_TAG = "QuizRepository";
 
 
@@ -34,6 +35,9 @@ public class QuizRepository {
          private List<Integer> questionIdsResult;
 
         public QuizRepository(Context context) {
+            URL url = new URL();
+            API_URL = url.getApiUrl();
+
             this.context = context;
             sharedPref = context.getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
         }

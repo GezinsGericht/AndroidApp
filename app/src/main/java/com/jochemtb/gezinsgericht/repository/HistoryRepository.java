@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.jochemtb.gezinsgericht.API.ApiHistoryService;
+import com.jochemtb.gezinsgericht.API.URL;
 import com.jochemtb.gezinsgericht.dao.HistoryDao;
 
 import okhttp3.OkHttpClient;
@@ -26,11 +27,13 @@ public class HistoryRepository {
     private HistoryDao historyDao;
     private Context context;
     private SharedPreferences sharedPref;
-//    private static final String API_URL = "https://getlab-gezinsgericht.azurewebsites.net/api/";
-    private static final String API_URL = "http://81.206.200.166:3000/api/";
+    private static String API_URL;
     private static final String LOG_TAG = "HistoryRepository";
 
     public HistoryRepository(Context context) {
+        URL url = new URL();
+        API_URL = url.getApiUrl();
+
         this.context = context;
         this.historyDao = new HistoryDao();
         sharedPref = context.getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
