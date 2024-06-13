@@ -103,6 +103,8 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
             questionNumber.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.VISIBLE);
             loadingScreen.setVisibility(View.GONE);
+            scrollView.setVisibility(View.GONE);
+            unansweredQuestionsLayout.setVisibility(View.GONE);
         }
     }
 
@@ -192,6 +194,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
     public void prepareForQuizSubmission() {
         if (quiz != null) {
             answersGroup.setVisibility(View.GONE);
+            scrollView.setVisibility(View.VISIBLE);
             questionText.setVisibility(View.INVISIBLE);
             questionNumber.setVisibility(View.INVISIBLE);
             nextButton.setVisibility(View.INVISIBLE);
@@ -223,6 +226,7 @@ public class QuizActivity extends AppCompatActivity implements QuizManager.QuizG
             questionButton.setOnClickListener(v -> {
                         navigateToQuestion(index);
                         unansweredQuestionsLayout.setVisibility(View.GONE);
+                        scrollView.setVisibility(View.GONE);
                     }
             );
             unansweredQuestionsLayout.addView(questionButton);

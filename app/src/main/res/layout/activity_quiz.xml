@@ -109,16 +109,17 @@
 
     <ScrollView
         android:id="@+id/SV_quiz_scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="373dp"
+        android:layout_height="248dp"
         android:layout_above="@id/PB_quiz_quizProgress"
         android:layout_below="@id/TV_quiz_confirm"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
+        android:layout_marginBottom="50dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/TV_quiz_questionNumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TV_quiz_confirm">
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:id="@+id/LL_quiz_unansweredQuestions"
