@@ -57,20 +57,20 @@
 
     <GridLayout
         android:id="@+id/GL_results_checkboxes"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:columnCount="3"
-        android:rowCount="2"
-        android:orientation="horizontal"
-        android:layout_marginHorizontal="20dp"
+        android:layout_width="365dp"
+        android:layout_height="82dp"
         android:layout_gravity="center"
+        android:layout_marginHorizontal="20dp"
         android:alignmentMode="alignMargins"
-        android:columnOrderPreserved="false"
-        android:rowOrderPreserved="false"
+        android:columnCount="3"
+        android:columnOrderPreserved="true"
+        android:orientation="horizontal"
+        android:rowCount="2"
+        android:rowOrderPreserved="true"
         app:layout_constraintBottom_toTopOf="@+id/BT_results_show"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RC_result_mainChart"/>
+        app:layout_constraintTop_toBottomOf="@+id/RC_result_mainChart" />
 
     <Button
         android:id="@+id/BT_results_show"

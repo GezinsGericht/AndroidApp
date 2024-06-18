@@ -37,6 +37,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
     private final String LOG_TAG = "ResultsActivity";
     private RadarChart radarChartHelper;
     private int mSessionId;
+    private String mLoggedUserName;
     private ResultsRepository resultsRepository;
     private NameRepository nameRepository;
     private SharedPreferences sharedPref;
@@ -47,6 +48,11 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
     private Button myAnswer, goals, close;
     private View mainChart;
     private ProgressBar loadingScreen;
+
+    private int colorIndex = 0;
+    private int row = 0;
+    private int col = 1;
+    private int columnCount = 3; // Aantal kolommen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +90,15 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
         close = findViewById(R.id.BT_results_close); // Button to close the results
 
         loadingScreen = findViewById(R.id.PB_results_loading);
-        mainChart = findViewById(R.id.RC_result_mainChart);
+//        mainChart = findViewById(R.id.RC_result_mainChart);
+    }
+
+    private void upCol(){
+        col++;
+        if (col == columnCount) {
+            col = 0;
+            row++;
+        }
     }
 
     private void createCheckboxes(HashMap<String, HashMap<Integer, Double>> userHabitatAverageValues) {
@@ -103,24 +117,21 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
                 Log.d(LOG_TAG, "Usernames: " + userNames);
                 int[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.DKGRAY, Color.YELLOW, Color.MAGENTA};
 
-                int colorIndex = 0;
-                int row = 0;
-                int col = 0;
-                int columnCount = 3; // Aantal kolommen
+
 
 
                 String[] userNamePart = loggedInUserName.split(" ");
-                loggedInUserName = userNamePart[0];
-                userNames.remove(loggedInUserName);
-
-                // Start the loop with the logged-in user's userName
-                createCheckboxForUser(loggedInUserName, colors, colorIndex, row, col, columnCount);
-                colorIndex++;
-                col++;
-                if (col == columnCount) {
-                    col = 0;
-                    row++;
-                }
+                mLoggedUserName = userNamePart[0];
+//                userNames.remove(loggedInUserName);
+//
+//                // Start the loop with the logged-in user's userName
+//                createCheckboxForUser(loggedInUserName, colors, colorIndex, row, col, columnCount);
+//                colorIndex++;
+//                col++;
+//                if (col == columnCount) {
+//                    col = 0;
+//                    row++;
+//                }
 
                 // Continue with the rest of the userNames
                 for (String userName : userNames) {
@@ -166,15 +177,21 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
         params.rowSpec = GridLayout.spec(row, 1, 1f);
         checkBox.setLayoutParams(params);
 
-        mResultsCheckboxes.addView(checkBox);
 
-// Eerste checkbox aanvinken
-        if (colorIndex == 0) {
+
+        // Eerste checkbox aanvinken
+        if (userName.equals(mLoggedUserName)) {
+            Log.d(LOG_TAG, "Checkbox for logged in user: " + userName);
             checkBox.setChecked(true);
             checkBox.setTextColor(color);
-            RadarDataSet dataSet = radarChartHelper.getDataSet(0);
+            params.rowSpec = GridLayout.spec(0, 1, 1f);
+            params.columnSpec = GridLayout.spec(0, 1, 1f);
+            checkBox.setLayoutParams(params);
+            RadarDataSet dataSet = radarChartHelper.getDataSet(colorIndex);
             radarChartHelper.toggleDataSetVisibility(dataSet, true);
         }
+        mResultsCheckboxes.addView(checkBox);
+        Log.d(LOG_TAG, "Checkbox created for user: " + userName);
     }
 
     private void setupCheckBoxListeners() {
@@ -187,7 +204,9 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
         // Set up a listener for each checkbox
         for (int i = 0; i < checkboxCount; i++) {
             CheckBox checkBox = (CheckBox) mResultsCheckboxes.getChildAt(i);
+            Log.d(LOG_TAG, "Checkbox: " + checkBox.getText());
             RadarDataSet dataSet = radarChartHelper.getDataSet(i);
+            Log.d(LOG_TAG, "DataSet: " + radarChartHelper.getDataSet(i));
             int color = colors[i % colors.length];
 
             //aan en uit zetten
@@ -211,7 +230,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
             myAnswer.setVisibility(Button.GONE);
             goals.setVisibility(Button.GONE);
             close.setVisibility(Button.GONE);
-            mainChart.setVisibility(View.GONE);
+//            mainChart.setVisibility(View.GONE);
             loadingScreen.setVisibility(ProgressBar.VISIBLE);
         } else {
             mResultsCheckboxes.setVisibility(GridLayout.VISIBLE);
@@ -220,7 +239,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
             myAnswer.setVisibility(Button.VISIBLE);
             goals.setVisibility(Button.VISIBLE);
             close.setVisibility(Button.VISIBLE);
-            mainChart.setVisibility(View.VISIBLE);
+//            mainChart.setVisibility(View.VISIBLE);
             loadingScreen.setVisibility(ProgressBar.GONE);
         }
     }
@@ -252,9 +271,11 @@ public class ResultsActivity extends AppCompatActivity implements ResultsReposit
     public void onResultsFetched(List<ResultsItem> results) {
         // Create a map to store the AnswerValues for each HabitatId per user
         HashMap<String, HashMap<Integer, List<Integer>>> userHabitatAnswerValues = new HashMap<>();
+        Log.d(LOG_TAG, "Results fetched: " + results.size() + " items: "+results);
 
         // Continue populating the map for other users
         for (ResultsItem item : results) {
+            Log.d(LOG_TAG, "ResultsItem: " + item.getName() + " " + item.getHabitatId() + " " + item.getAnswerValue());
             //Only get first name
             String[] userNamePart = item.getName().split(" ");
             String userName = userNamePart[0];
