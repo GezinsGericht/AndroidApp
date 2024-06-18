@@ -34,7 +34,7 @@
 
     <TextView
         android:id="@+id/TV_quiz_questionText"
-        android:layout_width="285dp"
+        android:layout_width="329dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:fontFamily="@font/sofia_sans_extra_condensed_bold"
