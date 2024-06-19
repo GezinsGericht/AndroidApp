@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:visibility="visible"
+    android:background="@drawable/account_geactiveerd">
+
+    <TextView
+        android:id="@+id/TV_login_title"
+        android:layout_width="252dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="84dp"
+        android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+        android:text="@string/activation_title"
+        android:textSize="60sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/BT_activation_submit"
+        android:layout_width="310dp"
+        android:layout_height="53dp"
+        android:layout_marginBottom="50dp"
+        android:backgroundTint="@color/black"
+        android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+        android:text="@string/activation_button"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/ET_activation_password_repeat"
+        android:layout_width="311dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="120dp"
+        android:ems="10"
+        android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+        android:hint="@string/activation_input_password_repeat"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/BT_activation_submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/ET_activation_password"
+        android:layout_width="311dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="15dp"
+        android:ems="10"
+        android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+        android:hint="@string/activation_input_password"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/ET_activation_password_repeat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

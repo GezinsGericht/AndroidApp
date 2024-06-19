@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/account_geactiveerd"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/TV_history_title"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginStart="13dp"
+        android:paddingTop="15dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+        android:text="@string/geschiedenis"
+        android:textSize="54sp"
+        app:layout_constraintBottom_toTopOf="@+id/divider"/>
+
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@+id/RV_history_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RV_history_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingHorizontal="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/navbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TV_history_title"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <LinearLayout
+        android:id="@+id/navbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/BTN_navbar1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+            android:textSize="18sp"
+            android:text="@string/navbar_1" />
+
+        <Button
+            android:id="@+id/BTN_navbar2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/aqua"
+            android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+            android:textSize="18sp"
+            android:text="@string/navbar_2"
+            android:theme="@style/Button.Aqua" />
+
+        <Button
+            android:id="@+id/BTN_navbar3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/sofia_sans_extra_condensed_bold"
+            android:textSize="18sp"
+            android:background="@color/black"
+            android:text="@string/navbar_3" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/PB_History_loading"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.48" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

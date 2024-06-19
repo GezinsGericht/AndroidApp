@@ -1,0 +1,56 @@
+<resources>
+    //Login
+    <string name="app_name">GezinsGericht</string>
+    <string name="login_button">Inloggen</string>
+    <string name="password_forgot_button">Wachtwoord vergeten?</string>
+    <string name="input_email">Email</string>
+    <string name="input_password">Wachtwoord</string>
+    <string name="succes_pass_change">Wachtwoord succesvol aangepast</string>
+
+    //Main
+    <string name="title_main">Homescreen</string>
+
+
+    //Quiz
+    <string name="quiz_button_previous">VORIGE</string>
+    <string name="quiz_button_next">VOLGENDE</string>
+    <string name="quiz_button_confirm">BEVESTIGEN</string>
+
+    //Activation
+    <string name="activation_title">Verander uw wachtwoord</string>
+    <string name="activation_input_password_repeat">Herhaal wachtwoord</string>
+    <string name="activation_input_password">Nieuw wachtwoord</string>
+    <string name="activation_button">Bevestigen</string>
+    //Results
+    <string name="results_title">Resultaten</string>
+    <string name="results_text">De vragenlijst die u zojuist heeft ingevuld is gebaseerd op de zeven leefgebieden. Per leefgebied is een gemiddelde berekend en dit is gevisualiseerd per gezinslid</string>
+    <string name="my_answers">Mijn antwoorden</string>
+    <string name="close_results">Afsluiten</string>
+    <string name="gezinslid_1">Gezinslid 1</string>
+    <string name="gezinslid_2">Gezinslid 2</string>
+    <string name="gezinslid_3">Gezinslid 3</string>
+    <string name="gezinslid_4">Gezinslid 4</string>
+    <string name="gezinslid_5">Gezinslid 5</string>
+    <string name="gezinslid_6">Gezinslid 6</string>
+    <string name="habitat_1">Zingeving</string>
+    <string name="habitat_2">Wonen</string>
+    <string name="habitat_3">Financiën</string>
+    <string name="habitat_4">Sociale relaties</string>
+    <string name="habitat_5">Lichamelijke gezondheid</string>
+    <string name="habitat_6"><![CDATA[Werk & activiteiten]]></string>
+    <string name="habitat_7">Psychische gezondheid</string>
+    <string name="navbar_1">Overzicht</string>
+    <string name="navbar_2">History</string>
+    <string name="navbar_3">Sessie</string>
+    <string name="question">Hier komt de beantwoorde vraag.</string>
+    <string name="answer">Hier komt het gegeven antwoord</string>
+    <string name="geschiedenis">Geschiedenis</string>
+    <string name="persoonlijke_progressie">Persoonlijke progressie:</string>
+    <string name="welkom_bij">Welkom bij</string>
+    <string name="gezinsgericht">GezinsGericht</string>
+    <string name="goal_title"><![CDATA[Doelen & Acties]]></string>
+    <string name="behandelaar">"Behandelaar: "</string>
+    <string name="dit_is_het_afsluitscherm_van_de_vragenlijst_enige_onbeantwoorde_vragen_zullen_worden_weergegeven_op_het_scherm_u_kunt_ernaartoe_navigeren_door_op_de_knop_te_klikken">Dit is het afsluitscherm van de vragenlijst. Enige onbeantwoorde vragen zullen worden weergegeven op het scherm. U kunt ernaartoe navigeren door op de knop te klikken.</string>
+    <string name="u_heeft_alle_vragen_beantwoord_klik_op_bevestigen_om_door_te_gaan">U heeft alle vragen beantwoord. Klik op \'BEVESTIGEN\' om door te gaan.</string>
+    <string name="somethingWentWrongToast">Er is iets verkeerd gegaan..</string>
+</resources>
